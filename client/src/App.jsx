@@ -4,7 +4,7 @@ import { withRouter, Redirect, Route, Switch } from "react-router-dom";
 import Home from "./components/Home/Home";
 import Login from "./components/Login/Login";
 const App = () => {
-  let [login, setLogin]= useState(false);
+  let [login, setLogin]= useState(localStorage.getItem("user")?true:false);
   return (
     <div className="App container-fluid m-0 p-0">
       <Switch>
