@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Button, TextField } from "@material-ui/core";
-import { withStyles } from "@material-ui/core";
+import { Button, TextField, withStyles } from "@material-ui/core";
+
 import "./Login.css";
 
 const styles = (theme) => ({
@@ -39,18 +39,19 @@ const styles = (theme) => ({
       boxShadow: `inset 0px 0px 3px #ebebeb,inset 0px 0px 4px #ebebeb`,
     },
     width: 260,
-  },
+  }
 });
 
 const Login = (props) => {
   const { classes } = props;
+
   const [toggle, setToggle] = useState(false);
   
   let [name, setName] = useState("");
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
   let [conPassword, setConPassword] = useState("");
-  
+
   const inputHandler = (e) => {
     if(e.target.name === "name") setName(e.target.value);
     else if (e.target.name === "email") setEmail(e.target.value);
@@ -70,16 +71,18 @@ const Login = (props) => {
     let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if(toggle) {
       if (!(name.length > 3 && name.length < 20)) {
-        alert("Invalid username");
+        if(name.length < 3)props.snackBar("Name should have atleast 3 characters!", "error")
+        else props.snackBar("Name should have atmost 20 characters!", "error")
         return;
       } else if (!emailRegex.test(email)) {
-        alert("Invalid email");
+        props.snackBar("Invalid email", "error");
         return;
       } else if (!(password.length > 3 && password.length < 10)) {
-        alert("Invalid password");
+        if(password.length < 3)props.snackBar("Password should have atleast 3 characters!", "error")
+        else props.snackBar("Password should have atmost 10 characters!", "error")
         return;
       } else if (!(password === conPassword)) {
-        alert("Password does not match");
+        props.snackBar("Password does not match", "error");
         return;
       } else {
         const url = "http://localhost:5000/signup";
@@ -94,16 +97,20 @@ const Login = (props) => {
             "Content-type": "application/json",
           },
         });
-        if (res.status === 201) emptyInputValue()
-        else if (res.status === 403) alert("user already exists");
-        else alert("Error in creating user");
+        if (res.status === 201) {
+          props.snackBar("Signed up successfully!", "success")
+          emptyInputValue()
+        }
+        else if (res.status === 403) props.snackBar("user already exists", "info");
+        else props.snackBar("Error in creating user", "error");
       }
     } else{
       if (!emailRegex.test(email)) {
-        alert("Invalid email");
+        props.snackBar("Invalid email", "error");
         return;
       } else if (!(password.length > 3 && password.length < 10)) {
-        alert("Invalid password");
+        if(password.length < 3)props.snackBar("Password should have atleast 3 characters!", "error")
+        else props.snackBar("Password should have atmost 10 characters!", "error")
         return;
       } else {
         const url = "http://localhost:5000/login";
@@ -118,13 +125,14 @@ const Login = (props) => {
           },
         });
         if (res.status === 200) {
+          props.snackBar("Logged in successfully!", "success")
           props.setLogin(true)
           let userDetails = await res.json();
           localStorage.setItem("user", userDetails.email)
         } 
-        else if (res.status === 404) alert("user not found");
-        else if (res.status === 401) alert("Incorrect password");
-        else alert("Error in creating user");
+        else if (res.status === 404) props.snackBar("user not found", "info");
+        else if (res.status === 401) props.snackBar("Incorrect password", "error");
+        else props.snackBar("Error in creating user", "error");
       }
     }
   }
