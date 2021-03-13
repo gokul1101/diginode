@@ -13,7 +13,7 @@ const Navbar = () => {
     <div>
       <div className="container-fluid p-0 nav-div">
         <nav className="navbar navbar-expand-lg  bg-transparent d-flex align-items-center justify-content-space-around">
-          <a className="navbar-brand mt-2" href="#">
+          <a className="navbar-brand mt-2" >
             DIGINODE
           </a>
           <button
@@ -123,10 +123,10 @@ const Navbar = () => {
                     className="dropdown-menu"
                     aria-labelledby="dropdownMenuButton"
                   >
-                    <a className="dropdown-item" href="#">
+                    <a className="dropdown-item" >
                       Logout
                     </a>
-                    <a className="dropdown-item" href="#">
+                    <a className="dropdown-item" >
                       Edit Profile
                     </a>
                   </div>

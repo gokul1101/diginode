@@ -1,9 +1,6 @@
 .fa-bars{
     color: whitesmoke;
 }
-#pills-home{
-    height: 100vh;
-}
 .nav-pills .nav-link.active {
     color: white !important;
     background: none;

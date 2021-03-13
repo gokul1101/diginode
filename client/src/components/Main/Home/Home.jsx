@@ -1,26 +1,38 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Home.css";
 const Home = () => {
-  // const getData = async () => {
-  //   const API_KEY = "AIzaSyBsAyZ97pvZLsFrIdwiYhDCR5ag9aXvQuQ";
-  //   const url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=react&maxResults=1&key=${API_KEY}`;
-  //   const res = await fetch(url, {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-type": "application/json",
-  //     },
-  //   });
-  //   const data = await res.json();
-  //   console.log(data);
-  // };
-  // useEffect(() => {
-  //   getData();
-  // }, []);
+  const [fetchData, setFetchData] = useState([]);
+  const getData = async () => {
+    const API_KEY = "AIzaSyBsAyZ97pvZLsFrIdwiYhDCR5ag9aXvQuQ";
+    const url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=vaathicoming&maxResults=1&key=${API_KEY}`;
+    const res = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    const data = await res.json();
+    console.log(data);
+    setFetchData(data.items.map((item) => {
+      // if (!item.id.videoId) return;
+      return {
+        id: item.id.videoId,
+        channelTitle: item.snippet.channelTitle,
+        description: item.snippet.description,
+        thumbnails: item.snippet.thumbnails.high.url,
+      };
+    })
+    )
+  }
+    
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <>
       {/* Banner Content */}
-      <div className="trending-area mt-3 mb-4">
+      <div className="trending-area mt-3 mb-5">
         <div className="container">
           <div className="trending-main">
             <div className="row">
@@ -33,7 +45,7 @@ const Home = () => {
                     />
                     <div className="top-banner-text position-absolute">
                       <h2>
-                        <a href="#">
+                        <a>
                           Anna Lora Stuns In White At Her Australian Premiere
                         </a>
                       </h2>
@@ -53,7 +65,7 @@ const Home = () => {
                         />
                         <div className="top-banner-text top-banner-text2 position-absolute">
                           <h2>
-                            <a href="#">
+                            <a>
                               Secretart for Economic Air plane that looks like
                             </a>
                           </h2>
@@ -70,7 +82,7 @@ const Home = () => {
                         />
                         <div className="top-banner-text top-banner-text2 position-absolute">
                           <h2>
-                            <a href="#">
+                            <a>
                               Secretart for Economic Air plane that looks like
                             </a>
                           </h2>
@@ -86,7 +98,7 @@ const Home = () => {
       </div>
       {/* Horizontal Scrolling Div (Continue Watching) */}
       <div className="continue-watch">
-        <div className="continue-text">
+        <div className="continue-text mb-5">
           <h5 className="float-left mb-3">Continue Watching</h5>
           <h5 className="float-right">Clear</h5>
           <div className="container-fluid continue-scroll">
@@ -169,7 +181,44 @@ const Home = () => {
       </div>
       {/* Video Cards */}
       <div className="container">
-        <div className="d-flex flex-wrap"></div>
+        <div className="d-flex flex-wrap">
+          {fetchData.map((item,index) => {
+            return (
+              <div className="col-md-4" key={index}>
+                <img
+                  className="img-fluid"
+                  src={item.thumbnails}
+                  height="480"
+                  width="360"
+                />
+                <div className="d-flex">
+                  <div className="rounded-img mt-3 mr-4">
+                    <img
+                      className="rounded-circle"
+                      src={item.thumbnails}
+                      height="50"
+                      width="50"
+                    />
+                  </div>
+                  <div className="flex-column mt-3">
+                    <h6
+                      className="mb-2"
+                      style={{ fontSize: "16px", fontWeight: "bolder" }}
+                    >
+                      {item.description}
+                    </h6>
+                    <h6 className="mb-1" style={{ fontSize: "14px" }}>
+                      {item.channelTitle}
+                    </h6>
+                    <h6 className="mb-2" style={{ fontSize: "14px" }}>
+                      53M &bull; 5 years ago
+                    </h6>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </>
   );
