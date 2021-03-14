@@ -13,6 +13,7 @@ const App = () => {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [severity, setSeverity] = useState("");
+  const [user, setUser] = useState({})
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") return;
@@ -33,13 +34,13 @@ const App = () => {
       <Switch>
         <Route path="/login">
           {!login ? (
-            <Login snackBar={snackBar} setLogin={setLogin} />
+            <Login setUser={setUser} snackBar={snackBar} setLogin={setLogin} />
           ) : (
             <Redirect exact to="/" />
           )}
         </Route>
         <Route exact path="/">
-          {login ? <Main /> : <Redirect exact to="/login" />}
+          {login ? <Main user={user} setLogin={setLogin} snackBar={snackBar} /> : <Redirect exact to="/login" />}
         </Route>
       </Switch>
     </div>

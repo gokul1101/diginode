@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Home.css";
-const Home = () => {
+const Home = (props) => {
   const [fetchData, setFetchData] = useState([]);
   const getData = async () => {
     const API_KEY = "AIzaSyBsAyZ97pvZLsFrIdwiYhDCR5ag9aXvQuQ";
@@ -12,9 +12,8 @@ const Home = () => {
       },
     });
     const data = await res.json();
-    console.log(data);
     setFetchData(data.items.map((item) => {
-      // if (!item.id.videoId) return;
+      if (!item.id.videoId) continue;
       return {
         id: item.id.videoId,
         channelTitle: item.snippet.channelTitle,
@@ -23,6 +22,7 @@ const Home = () => {
       };
     })
     )
+    console.log(fetchData);
   }
     
   useEffect(() => {
@@ -45,9 +45,9 @@ const Home = () => {
                     />
                     <div className="top-banner-text position-absolute">
                       <h2>
-                        <a>
+                        
                           Anna Lora Stuns In White At Her Australian Premiere
-                        </a>
+                        
                       </h2>
                     </div>
                   </div>
@@ -65,9 +65,9 @@ const Home = () => {
                         />
                         <div className="top-banner-text top-banner-text2 position-absolute">
                           <h2>
-                            <a>
+                            
                               Secretart for Economic Air plane that looks like
-                            </a>
+                        
                           </h2>
                         </div>
                       </div>
@@ -82,9 +82,9 @@ const Home = () => {
                         />
                         <div className="top-banner-text top-banner-text2 position-absolute">
                           <h2>
-                            <a>
+                            
                               Secretart for Economic Air plane that looks like
-                            </a>
+                            
                           </h2>
                         </div>
                       </div>
@@ -111,6 +111,7 @@ const Home = () => {
                       src="https://i.pinimg.com/originals/75/4b/ac/754bac39e8cbb873ea4939bf83b182c4.jpg"
                       height="150"
                       width="150"
+                      alt="img"
                     />
                   </div>
                   <div className="col-md-6">
@@ -129,6 +130,7 @@ const Home = () => {
                       src="https://cdnb.artstation.com/p/assets/images/images/019/151/793/large/p-m-highlanders-strangerthings3-fanart-xxs.jpg?1562233903"
                       height="150"
                       width="150"
+                      alt="img"
                     />
                   </div>
                   <div className="col-md-6">
@@ -147,6 +149,7 @@ const Home = () => {
                       src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKx-weqDKoqf3RJ9uk1ac-WknfW48-CZLgww&usqp=CAU"
                       height="150"
                       width="150"
+                      alt="img"
                     />
                   </div>
                   <div className="col-md-6">
@@ -165,6 +168,7 @@ const Home = () => {
                       src="https://starsgab.com/wp-content/uploads/2020/05/Money-Heist-Cover.jpg"
                       height="150"
                       width="150"
+                      alt="img"
                     />
                   </div>
                   <div className="col-md-6">
@@ -190,6 +194,7 @@ const Home = () => {
                   src={item.thumbnails}
                   height="480"
                   width="360"
+                  alt="img"
                 />
                 <div className="d-flex">
                   <div className="rounded-img mt-3 mr-4">
@@ -198,6 +203,7 @@ const Home = () => {
                       src={item.thumbnails}
                       height="50"
                       width="50"
+                      alt="img"
                     />
                   </div>
                   <div className="flex-column mt-3">

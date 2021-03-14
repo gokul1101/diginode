@@ -4,18 +4,25 @@ import Home from "../Home/Home";
 import Playlist from "../Playlist/Playlist";
 import Trending from "../Trending/Trending";
 import "./Navbar.css";
-const Navbar = () => {
+import {Link} from "react-router-dom";
+const Navbar = (props) => {
+  
   let color = "#xxxxxx".replace(/x/g, (y) =>
     ((Math.random() * 16) | 0).toString(16)
   );
+  const logout = () => {
+    localStorage.removeItem("user");
+    props.setLogin(false);
+    props.snackBar("Logged out successfully!!!", "success")
+  }
 
   return (
     <div>
       <div className="container-fluid p-0 nav-div">
         <nav className="navbar navbar-expand-lg  bg-transparent d-flex align-items-center justify-content-space-around">
-          <a className="navbar-brand mt-2" >
+          <Link to="/" className="navbar-brand mt-2" >
             DIGINODE
-          </a>
+          </Link>
           <button
             className="navbar-toggler"
             type="button"
@@ -123,12 +130,12 @@ const Navbar = () => {
                     className="dropdown-menu"
                     aria-labelledby="dropdownMenuButton"
                   >
-                    <a className="dropdown-item" >
+                    <Link to="/login" onClick={logout} className="dropdown-item" >
                       Logout
-                    </a>
-                    <a className="dropdown-item" >
+                    </Link>
+                    <Link to="/" className="dropdown-item" >
                       Edit Profile
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </li>
@@ -145,7 +152,7 @@ const Navbar = () => {
             role="tabpanel"
             aria-labelledby="pills-home-tab"
           >
-            <Home />
+            <Home user={props.user}/>
           </div>
           <div
             className="tab-pane fade"
@@ -169,7 +176,7 @@ const Navbar = () => {
             role="tabpanel"
             aria-labelledby="pills-favorite-tab"
           >
-            <Favorite />
+            <Favorite user={props.user}/>
           </div>
         </div>
       </div>

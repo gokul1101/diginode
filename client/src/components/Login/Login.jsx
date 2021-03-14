@@ -128,6 +128,7 @@ const Login = (props) => {
           props.snackBar("Logged in successfully!", "success")
           props.setLogin(true)
           let userDetails = await res.json();
+          setUser(userDetails)
           localStorage.setItem("user", userDetails.email)
         } 
         else if (res.status === 404) props.snackBar("user not found", "info");
