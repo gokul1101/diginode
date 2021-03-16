@@ -13,7 +13,7 @@ const Home = (props) => {
     });
     const data = await res.json();
     setFetchData(data.items.map((item) => {
-      if (!item.id.videoId) continue;
+      // if (!item.id.videoId) continue;
       return {
         id: item.id.videoId,
         channelTitle: item.snippet.channelTitle,
