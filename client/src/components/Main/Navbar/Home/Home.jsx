@@ -188,13 +188,13 @@ const Home = (props) => {
             console.log(fetchData);
             return (
               <div className="col-md-6 col-lg-4 mb-5" key={index}>
-                <div class="item-card">
-                  <img src={item.thumbnails} class="img-fluid" alt="card-content"/>
-                  <div class="info">
-                    <Link id="play-video" class="video-play-button" >
+                <div className="item-card">
+                  <img src={item.thumbnails} className="img-fluid" alt="card-content"/>
+                  <div className="info">
+                    <Link id="play-video" className="video-play-button" >
                       <span></span>
                     </Link>
-                    <h6 class="text">{item.title}</h6>
+                    <h6 className="text">{item.title}</h6>
                   </div>
                 </div>
               </div>
