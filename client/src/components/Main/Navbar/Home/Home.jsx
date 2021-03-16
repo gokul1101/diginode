@@ -1,6 +1,6 @@
 import { Button } from "@material-ui/core";
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/DeleteOutlined";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Home.css";
@@ -101,14 +101,19 @@ const Home = (props) => {
       <div className="continue-watch">
         <div className="continue-text mb-5">
           <h5 className="float-left mb-3">Continue Watching</h5>
-          <Button variant="contained" color="secondary" className="float-right">
+          <Button variant="outlined" style={{color:"white",borderColor:"white"}} className="float-right" endIcon={<DeleteIcon />} size="small">
             Clear
           </Button>
           <div className="container-fluid continue-scroll">
             <div className="row flex-row flex-nowrap">
               <div className="col-12 col-sm-6 col-md-6 col-lg-4">
-                <div className="d-flex align-items-center justify-content-center">
-                  <div className="col-md-6 position-relative">
+                <div className="d-flex align-items-center justify-content-center position-relative" id="history">
+                  <div className="delete-button position-absolute">
+                    <IconButton aria-label="delete" style={{color:"white"}}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </div>
+                  <div className="col-md-6">
                     <img
                       className="img-fluid"
                       src="https://i.pinimg.com/originals/75/4b/ac/754bac39e8cbb873ea4939bf83b182c4.jpg"
@@ -116,13 +121,8 @@ const Home = (props) => {
                       width="150"
                       alt="img"
                     />
-                    <div className="delete-button position-absolute">
-                      <IconButton aria-label="delete" color="secondary">
-                        <DeleteIcon />
-                      </IconButton>
-                    </div>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-6 ">
                     <div className="flex-column">
                       <h6>Peaky Blinders</h6>
                       <h6>Season 1 Episode 2</h6>
