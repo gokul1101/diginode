@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "./Home.css";
 const Home = (props) => {
   const [fetchData, setFetchData] = useState([]);
@@ -188,11 +189,11 @@ const Home = (props) => {
             return (
               <div className="col-md-6 col-lg-4 mb-5" key={index}>
                 <div class="item-card">
-                  <img src={item.thumbnails} class="img-fluid" />
+                  <img src={item.thumbnails} class="img-fluid" alt="card-content"/>
                   <div class="info">
-                    <a id="play-video" class="video-play-button" href="#">
+                    <Link id="play-video" class="video-play-button" >
                       <span></span>
-                    </a>
+                    </Link>
                     <h6 class="text">{item.title}</h6>
                   </div>
                 </div>
