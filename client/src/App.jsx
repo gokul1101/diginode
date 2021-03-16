@@ -3,7 +3,7 @@ import "./App.css";
 import { withRouter, Redirect, Route, Switch } from "react-router-dom";
 import { Snackbar } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
-import Home from "./components/Home/Home";
+import Main from "./components/Main/Main";
 import Login from "./components/Login/Login";
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -13,6 +13,7 @@ const App = () => {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [severity, setSeverity] = useState("");
+  const [user, setUser] = useState({})
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") return;
@@ -33,13 +34,13 @@ const App = () => {
       <Switch>
         <Route path="/login">
           {!login ? (
-            <Login snackBar={snackBar} setLogin={setLogin} />
+            <Login setUser={setUser} snackBar={snackBar} setLogin={setLogin} />
           ) : (
             <Redirect exact to="/" />
           )}
         </Route>
         <Route exact path="/">
-          {login ? <Home /> : <Redirect exact to="/login" />}
+          {login ? <Main user={user} setLogin={setLogin} snackBar={snackBar} /> : <Redirect exact to="/login" />}
         </Route>
       </Switch>
     </div>
