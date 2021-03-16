@@ -1,8 +1,8 @@
 import React from "react";
-import Favorite from "../Favorites/Favorite";
-import Home from "../Home/Home";
-import Playlist from "../Playlist/Playlist";
-import Trending from "../Trending/Trending";
+import Favorite from "./Favorites/Favorite";
+import Home from "./Home/Home";
+import Playlist from "./Playlist/Playlist";
+import Trending from "./Trending/Trending";
 import "./Navbar.css";
 import {Link} from "react-router-dom";
 const Navbar = (props) => {
