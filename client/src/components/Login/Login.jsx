@@ -46,7 +46,7 @@ const Login = (props) => {
   const { classes } = props;
 
   const [toggle, setToggle] = useState(false);
-  
+  const [user,setUser] = useState("")
   let [name, setName] = useState("");
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
