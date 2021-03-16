@@ -11,7 +11,7 @@ const signup = (req, res) => {
           .save()
           .then((data) => res.status(201).send(data))
           .catch((err) => res.status(502).send("error 1"));
-      } else{
+      } else {
         res.status(403).send({ message: "User already exists" });
       }
     })
@@ -32,16 +32,29 @@ const login = async (req, res) => {
   }
 };
 const favorites = async (req, res) => {
-  let videoId = req.params.id;
-  try{
-    let video = await Video.findOne({videoId});
-    if(!video)  {
-
+  let { channelTitle, description, thumbnails, title, videoId, email } = req.body;
+  try {
+    let user = await User.findOne({ email })
+    let data;
+    let videos = await Video.find({});
+    let currentVideo = videos.find((video) => video.videoId === videoId);
+    if (!currentVideo) {
+      const newVideo = new Video({
+        channelTitle,
+        description,
+        thumbnails,
+        title,
+        videoId,
+      });
+      data = await newVideo.save()
+    } else data = currentVideo
+    const userFav = user.favorites.find(id => JSON.stringify(data._id) == JSON.stringify(id))
+    if(!userFav) {
+      User.findByIdAndUpdate(user._id, { $push: { favorites: data._id } }).exec();
     }
-    console.log(video);
-    res.send(videoId);
+    res.send({favorites : user.favorites})
   } catch (e) {
     res.status(502).send({ message: "error" });
   }
-}
+};
 module.exports = { signup, login, favorites };

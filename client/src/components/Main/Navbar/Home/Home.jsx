@@ -101,7 +101,7 @@ const Home = (props) => {
       <div className="continue-watch">
         <div className="continue-text mb-5">
           <h5 className="float-left mb-3">Continue Watching</h5>
-          <Button variant="outlined" style={{color:"white",borderColor:"white"}} className="float-right" endIcon={<DeleteIcon />} size="small">
+          <Button variant="outlined" style={{color:"white",borderColor:"white"}} className="float-right" endIcon={<DeleteIcon />} >
             Clear
           </Button>
           <div className="container-fluid continue-scroll">
@@ -125,63 +125,6 @@ const Home = (props) => {
                   <div className="col-md-6 ">
                     <div className="flex-column">
                       <h6>Peaky Blinders</h6>
-                      <h6>Season 1 Episode 2</h6>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-12 col-sm-6 col-md-6 col-lg-4">
-                <div className="d-flex align-items-center justify-content-center">
-                  <div className="col-md-6">
-                    <img
-                      className="img-fluid"
-                      src="https://cdnb.artstation.com/p/assets/images/images/019/151/793/large/p-m-highlanders-strangerthings3-fanart-xxs.jpg?1562233903"
-                      height="150"
-                      width="150"
-                      alt="img"
-                    />
-                  </div>
-                  <div className="col-md-6">
-                    <div className="flex-column">
-                      <h6>Stranger Things</h6>
-                      <h6>Season 1 Episode 2</h6>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-12 col-sm-6 col-md-6 col-lg-4">
-                <div className="d-flex align-items-center justify-content-center">
-                  <div className="col-md-6">
-                    <img
-                      className="img-fluid"
-                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKx-weqDKoqf3RJ9uk1ac-WknfW48-CZLgww&usqp=CAU"
-                      height="150"
-                      width="150"
-                      alt="img"
-                    />
-                  </div>
-                  <div className="col-md-6">
-                    <div className="flex-column">
-                      <h6>Game of Thrones</h6>
-                      <h6>Season 1 Episode 2</h6>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-12 col-sm-6 col-md-6 col-lg-4">
-                <div className="d-flex align-items-center justify-content-center">
-                  <div className="col-md-6">
-                    <img
-                      className="img-fluid"
-                      src="https://starsgab.com/wp-content/uploads/2020/05/Money-Heist-Cover.jpg"
-                      height="150"
-                      width="150"
-                      alt="img"
-                    />
-                  </div>
-                  <div className="col-md-6">
-                    <div className="flex-column">
-                      <h6>Money Heist</h6>
                       <h6>Season 1 Episode 2</h6>
                     </div>
                   </div>
