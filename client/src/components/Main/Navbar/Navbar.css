@@ -1,0 +1,46 @@
+.fa-bars{
+    color: whitesmoke;
+}
+.nav-pills .nav-link.active {
+    color: white !important;
+    background: none;
+}
+.navbar{
+    background: rgba(255,255,255,0.04);
+    border-radius: 7px;
+}
+.nav .nav-item .nav-link{
+    color: #585050;
+}
+.form-inline .form-group .form-control {
+    background: rgba(255,255,255,0.04);
+    width:350px !important;
+    border: none;
+}
+.form-control-feedback{
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    right:40px;
+    color: #fff;
+}
+@media (max-width: 575px) {
+  .form-inline .form-group .form-control{
+    width: 100%!important;
+}
+.form-control-feedback{
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    color: #fff;
+    position: relative;
+    top: -35px;
+    right: 0;
+}
+}
