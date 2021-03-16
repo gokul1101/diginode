@@ -12,19 +12,21 @@ const Home = (props) => {
       },
     });
     const data = await res.json();
-    setFetchData(data.items.map((item) => {
-      if (!item.id.videoId) continue;
-      return {
-        id: item.id.videoId,
-        channelTitle: item.snippet.channelTitle,
-        description: item.snippet.description,
-        thumbnails: item.snippet.thumbnails.high.url,
-      };
-    })
-    )
-    console.log(fetchData);
-  }
+    setFetchData(
+      data.items
+        .filter((item) => item.id.videoId !== undefined)
+        .map((item) => {
+          return {
+            id: item.id.videoId,
+            channelTitle: item.snippet.channelTitle,
+            description: item.snippet.description,
+            thumbnails: item.snippet.thumbnails.high.url,
+          };
+        })
+    );
     
+  };
+
   useEffect(() => {
     getData();
   }, []);
@@ -45,9 +47,7 @@ const Home = (props) => {
                     />
                     <div className="top-banner-text position-absolute">
                       <h2>
-                        
-                          Anna Lora Stuns In White At Her Australian Premiere
-                        
+                        Anna Lora Stuns In White At Her Australian Premiere
                       </h2>
                     </div>
                   </div>
@@ -65,9 +65,7 @@ const Home = (props) => {
                         />
                         <div className="top-banner-text top-banner-text2 position-absolute">
                           <h2>
-                            
-                              Secretart for Economic Air plane that looks like
-                        
+                            Secretart for Economic Air plane that looks like
                           </h2>
                         </div>
                       </div>
@@ -82,9 +80,7 @@ const Home = (props) => {
                         />
                         <div className="top-banner-text top-banner-text2 position-absolute">
                           <h2>
-                            
-                              Secretart for Economic Air plane that looks like
-                            
+                            Secretart for Economic Air plane that looks like
                           </h2>
                         </div>
                       </div>
@@ -186,7 +182,8 @@ const Home = (props) => {
       {/* Video Cards */}
       <div className="container">
         <div className="d-flex flex-wrap">
-          {fetchData.map((item,index) => {
+          {fetchData.map((item, index) => {
+            console.log(fetchData);
             return (
               <div className="col-md-4" key={index}>
                 <img
