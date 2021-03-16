@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Video = require("../models/Video");
 
 const signup = (req, res) => {
   let { name, email, password } = req.body;
@@ -30,5 +31,17 @@ const login = async (req, res) => {
     res.status(502).send({ message: "error" });
   }
 };
+const favorites = async (req, res) => {
+  let videoId = req.params.id;
+  try{
+    let video = await Video.findOne({videoId});
+    if(!video)  {
 
-module.exports = { signup, login };
+    }
+    console.log(video);
+    res.send(videoId);
+  } catch (e) {
+    res.status(502).send({ message: "error" });
+  }
+}
+module.exports = { signup, login, favorites };
