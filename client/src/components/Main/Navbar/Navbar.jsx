@@ -12,6 +12,7 @@ const Navbar = (props) => {
   );
   const logout = () => {
     localStorage.removeItem("user");
+    localStorage.removeItem("password");
     props.setLogin(false);
     props.snackBar("Logged out successfully!!!", "success")
   }
@@ -152,7 +153,7 @@ const Navbar = (props) => {
             role="tabpanel"
             aria-labelledby="pills-home-tab"
           >
-            <Home user={props.user} setCurrentVideo = {props.setCurrentVideo} setToggle = {props.setToggle}/>
+            <Home user={props.user} setUser={props.setUser} snackBar={props.snackBar} setCurrentVideo = {props.setCurrentVideo} setToggle = {props.setToggle}/>
           </div>
           <div
             className="tab-pane fade"

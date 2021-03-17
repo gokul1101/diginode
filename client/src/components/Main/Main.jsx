@@ -10,6 +10,7 @@ const Main = (props) => {
     <div className="main h-100">
       <Navbar
         user={props.user}
+        setUser={props.setUser}
         setLogin={props.setLogin}
         snackBar={props.snackBar}
         setToggle={setToggle}
