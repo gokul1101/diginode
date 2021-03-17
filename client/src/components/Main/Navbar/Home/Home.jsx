@@ -9,14 +9,14 @@ const Home = (props) => {
   const getData = async () => {
     const API_KEY = "AIzaSyBsAyZ97pvZLsFrIdwiYhDCR5ag9aXvQuQ";
     const url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=vaathi&maxResults=3&key=${API_KEY}`;
-    const res = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-type": "application/json",
-      },
-    });
-    const data = await res.json();
-    console.log(data);
+      const res = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
+      const data = await res.json();
+      console.log(data);
     setFetchData(
       data.items
         .filter((item) => item.id.videoId !== undefined)
@@ -36,9 +36,27 @@ const Home = (props) => {
     getData();
   }, []);
 
-  const onloadFrame = (e) => {
-     props.setCurrentVideo(e.currentTarget.id);
+  const onloadFrame = async(e) => {
+    let videoId = e.currentTarget.id
+     props.setCurrentVideo(videoId);
      props.setToggle(true)
+     let {channelTitle,description,thumbnails,title} = fetchData.find((data) => data.videoId === videoId )
+     const res = await fetch(`http://localhost:5000/video/${videoId}/history`, {
+      method: "PATCH",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body:JSON.stringify({
+        email:localStorage.getItem("user"),
+        channelTitle,
+        description,
+        thumbnails,
+        title,
+        videoId
+      })
+    });
+    const data = await res.json();
+    console.log(data);
   };
   return (
     <>
