@@ -30,7 +30,7 @@ const App = () => {
         <Alert onClose={handleClose} severity={severity}>
           {message}
         </Alert>
-      </Snackbar>
+      </Snackbar> 
       <Switch>
         <Route path="/login">
           {!login ? (
