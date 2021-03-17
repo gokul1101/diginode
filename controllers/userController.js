@@ -23,6 +23,9 @@ const login = async (req, res) => {
     let currentUser = await User.findOne({ email }).populate({
       path: "favorites",
       model: "video",
+    }).populate({
+      path: "history",
+      model: "video",
     }).exec();
     if (!currentUser) res.status(404).send({ message: "user not found" });
     else if (currentUser.password !== password)

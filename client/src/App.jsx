@@ -30,7 +30,7 @@ const App = () => {
         <Alert onClose={handleClose} severity={severity}>
           {message}
         </Alert>
-      </Snackbar>
+      </Snackbar> 
       <Switch>
         <Route path="/login">
           {!login ? (
@@ -40,7 +40,7 @@ const App = () => {
           )}
         </Route>
         <Route exact path="/">
-          {login ? <Main user={user} setLogin={setLogin} snackBar={snackBar} /> : <Redirect exact to="/login" />}
+          {login ? <Main user={user} setUser={setUser} setLogin={setLogin} snackBar={snackBar} /> : <Redirect exact to="/login" />}
         </Route>
       </Switch>
     </div>

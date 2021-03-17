@@ -6,17 +6,39 @@ import { Link } from "react-router-dom";
 import "./Home.css";
 const Home = (props) => {
   const [fetchData, setFetchData] = useState([]);
+  const [history, setHistory] = useState(Object.keys(props.user).length === 0?[]: props.user.history);
   const getData = async () => {
-    const API_KEY = "AIzaSyBsAyZ97pvZLsFrIdwiYhDCR5ag9aXvQuQ";
-    const url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=kandavara&maxResults=1&key=${API_KEY}`;
+    if(Object.keys(props.user).length === 0) {
+      const url = "http://localhost:5000/login";
       const res = await fetch(url, {
-        method: "GET",
+        method: "POST",
+        body: JSON.stringify({
+          email: localStorage.getItem("user"),
+          password: localStorage.getItem("password"),
+        }),
         headers: {
           "Content-type": "application/json",
         },
       });
-      const data = await res.json();
-      console.log(data);
+      if (res.status === 200) {
+        let userDetails = await res.json();
+        props.setUser(userDetails)
+        props.snackBar("Welcome back!!!", "success")
+        setHistory(userDetails.history)
+      }
+      else if (res.status === 404) props.snackBar("user not found", "info");
+      else if (res.status === 401) props.snackBar("Incorrect password", "error");
+      else props.snackBar("Something wrong in the server", "error");
+    }
+    const API_KEY = "AIzaSyBsAyZ97pvZLsFrIdwiYhDCR5ag9aXvQuQ";
+    const url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=vaathi&maxResults=3&key=${API_KEY}`;
+    const res = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    const data = await res.json();
     setFetchData(
       data.items
         .filter((item) => item.id.videoId !== undefined)
@@ -36,24 +58,26 @@ const Home = (props) => {
     getData();
   }, []);
 
-  const onloadFrame = async(e) => {
-    let videoId = e.currentTarget.id
-     props.setCurrentVideo(videoId);
-     props.setToggle(true)
-     let {channelTitle,description,thumbnails,title} = fetchData.find((data) => data.videoId === videoId )
-     const res = await fetch(`http://localhost:5000/video/${videoId}/history`, {
+  const onloadFrame = async (e) => {
+    let videoId = e.currentTarget.id;
+    props.setCurrentVideo(videoId);
+    props.setToggle(true);
+    let { channelTitle, description, thumbnails, title } = fetchData.find(
+      (data) => data.videoId === videoId
+    );
+    const res = await fetch(`http://localhost:5000/video/${videoId}/history`, {
       method: "PATCH",
       headers: {
         "Content-type": "application/json",
       },
-      body:JSON.stringify({
-        email:localStorage.getItem("user"),
+      body: JSON.stringify({
+        email: localStorage.getItem("user"),
         channelTitle,
         description,
         thumbnails,
         title,
-        videoId
-      })
+        videoId,
+      }),
     });
     const data = await res.json();
     console.log(data);
@@ -134,33 +158,40 @@ const Home = (props) => {
           </Button>
           <div className="container-fluid continue-scroll">
             <div className="row flex-row flex-nowrap">
-              <div className="col-12 col-sm-6 col-md-6 col-lg-4">
-                <div
-                  className="d-flex align-items-center justify-content-center position-relative"
-                  id="history"
-                >
-                  <div className="delete-button position-absolute">
-                    <IconButton aria-label="delete" style={{ color: "white" }}>
-                      <DeleteIcon />
-                    </IconButton>
-                  </div>
-                  <div className="col-md-6">
-                    <img
-                      className="img-fluid"
-                      src="https://i.pinimg.com/originals/75/4b/ac/754bac39e8cbb873ea4939bf83b182c4.jpg"
-                      height="150"
-                      width="150"
-                      alt="img"
-                    />
-                  </div>
-                  <div className="col-md-6 ">
-                    <div className="flex-column">
-                      <h6>Peaky Blinders</h6>
-                      <h6>Season 1 Episode 2</h6>
+              {history.map((item, index) => {
+                return (
+                  <div className="col-12 col-sm-6 col-md-6 col-lg-4" key={index}>
+                    <div
+                      className="d-flex align-items-center justify-content-center position-relative"
+                      id="history"
+                    >
+                      <div className="delete-button position-absolute">
+                        <IconButton
+                          aria-label="delete"
+                          style={{ color: "white" }}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </div>
+                      <div className="col-md-6">
+                        <img
+                          className="img-fluid"
+                          src={item.thumbnails}
+                          height="150"
+                          width="150"
+                          alt="img"
+                        />
+                      </div>
+                      <div className="col-md-6 ">
+                        <div className="flex-column">
+                          <h6>{item.title.split("|").shift()}</h6>
+                          <h6>{item.channelTitle}</h6>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -169,12 +200,11 @@ const Home = (props) => {
       <div className="container p-0">
         <div className="d-flex flex-wrap">
           {fetchData.map((item, index) => {
-            console.log(fetchData);
             return (
               <div
                 className="col-md-6 col-lg-4 mb-5"
                 key={index}
-                id = {item.videoId}
+                id={item.videoId}
                 onClick={onloadFrame}
               >
                 <div className="item-card">
