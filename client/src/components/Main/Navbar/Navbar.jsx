@@ -152,7 +152,7 @@ const Navbar = (props) => {
             role="tabpanel"
             aria-labelledby="pills-home-tab"
           >
-            <Home user={props.user}/>
+            <Home user={props.user} setCurrentVideo = {props.setCurrentVideo} setToggle = {props.setToggle}/>
           </div>
           <div
             className="tab-pane fade"

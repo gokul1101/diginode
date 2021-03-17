@@ -36,6 +36,10 @@ const Home = (props) => {
     getData();
   }, []);
 
+  const onloadFrame = (e) => {
+     props.setCurrentVideo(e.currentTarget.id);
+     props.setToggle(true)
+  };
   return (
     <>
       {/* Banner Content */}
@@ -101,15 +105,24 @@ const Home = (props) => {
       <div className="continue-watch">
         <div className="continue-text mb-5">
           <h5 className="float-left mb-3">Continue Watching</h5>
-          <Button variant="outlined" style={{color:"white",borderColor:"white"}} className="float-right" endIcon={<DeleteIcon />} >
+          <Button
+            variant="outlined"
+            style={{ color: "white", borderColor: "white" }}
+            className="float-right"
+            endIcon={<DeleteIcon />}
+            size="small"
+          >
             Clear
           </Button>
           <div className="container-fluid continue-scroll">
             <div className="row flex-row flex-nowrap">
               <div className="col-12 col-sm-6 col-md-6 col-lg-4">
-                <div className="d-flex align-items-center justify-content-center position-relative" id="history">
+                <div
+                  className="d-flex align-items-center justify-content-center position-relative"
+                  id="history"
+                >
                   <div className="delete-button position-absolute">
-                    <IconButton aria-label="delete" style={{color:"white"}}>
+                    <IconButton aria-label="delete" style={{ color: "white" }}>
                       <DeleteIcon />
                     </IconButton>
                   </div>
@@ -140,7 +153,12 @@ const Home = (props) => {
           {fetchData.map((item, index) => {
             console.log(fetchData);
             return (
-              <div className="col-md-6 col-lg-4 mb-5" key={index}>
+              <div
+                className="col-md-6 col-lg-4 mb-5"
+                key={index}
+                id = {item.videoId}
+                onClick={onloadFrame}
+              >
                 <div className="item-card">
                   <img
                     src={item.thumbnails}
@@ -151,6 +169,7 @@ const Home = (props) => {
                     <Link id="play-video" className="video-play-button" to="/">
                       <span></span>
                     </Link>
+
                     <h6 className="text">{item.title}</h6>
                   </div>
                 </div>
