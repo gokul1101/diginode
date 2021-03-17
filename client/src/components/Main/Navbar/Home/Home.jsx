@@ -8,7 +8,7 @@ const Home = (props) => {
   const [fetchData, setFetchData] = useState([]);
   const getData = async () => {
     const API_KEY = "AIzaSyBsAyZ97pvZLsFrIdwiYhDCR5ag9aXvQuQ";
-    const url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=vaathi&maxResults=3&key=${API_KEY}`;
+    const url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=kandavara&maxResults=1&key=${API_KEY}`;
       const res = await fetch(url, {
         method: "GET",
         headers: {
