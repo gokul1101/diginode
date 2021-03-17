@@ -132,7 +132,7 @@ const Login = (props) => {
         } 
         else if (res.status === 404) props.snackBar("user not found", "info");
         else if (res.status === 401) props.snackBar("Incorrect password", "error");
-        else props.snackBar("Error in creating user", "error");
+        else props.snackBar("Something wrong in the server", "error");
       }
     }
   }
