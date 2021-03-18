@@ -70,9 +70,9 @@ const favorites = async (req, res) => {
         $push: { favorites: data._id },
       }).exec();
       res.send({ message: "liked" });
-    } else{
+    } else {
       await User.findByIdAndUpdate(user._id, {
-        $pull: { favorites: data._id }
+        $pull: { favorites: data._id },
       }).exec();
       res.send({ message: "unliked" });
     }
@@ -109,14 +109,69 @@ const history = async (req, res) => {
     );
     if (!userHis) {
       await User.findByIdAndUpdate(user._id, {
-        $push: { history: data._id }
-      }).exec((err, doc)=>{
-        if(err) console.log(err)
-        else res.status(200).send(doc)
+        $push: {
+          history: {
+            $each: [data._id],
+            $position: 0,
+          },
+        },
       });
-    } else res.status(200).send({ message: "done" });
+    } else {
+      await User.findByIdAndUpdate(
+        user._id,
+        {
+          $pull: { history: data._id },
+        },
+        { new: true }
+      );
+      await User.findByIdAndUpdate(user._id, {
+        $push: {
+          history: {
+            $each: [data._id],
+            $position: 0,
+          },
+        },
+      });
+    }
+    let history = await User.find({ email }).select("history").populate({
+      path: "history",
+      model: "video",
+    });
+    res.send(history[0].history);
   } catch (e) {
     res.status(502).send({ message: "error" });
   }
 };
-module.exports = { signup, login, favorites, history };
+const deleteVideo = async (req, res) => {
+  const { email, videoId } = req.body;
+  try {
+    let videos = await Video.find({});
+    let currentVideo = videos.find((video) => video.videoId === videoId);
+    await User.findOneAndUpdate(
+      { email },
+      {
+        $pull: { history: currentVideo._id },
+      },
+      { new: true }
+    );
+    let history = await User.find({ email }).select("history").populate({
+      path: "history",
+      model: "video",
+    });
+    res.send(history[0].history);
+  } catch (e) {
+    res.status(502).send({ message: "error" });
+  }
+};
+const clearHistory = async (req, res) => {
+  const { email } = req.body;
+  try{
+    await User.updateOne({email}, {
+      $set : {history : []}
+    })
+    res.status(200).send("success")
+  } catch(e) {
+    res.status(502).send({ message: "error" });
+  }
+}
+module.exports = { signup, login, favorites, history, deleteVideo, clearHistory };

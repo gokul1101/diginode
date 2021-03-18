@@ -61,15 +61,15 @@
   min-height: 140px;
   background: transparent;
 }
-.continue-scroll {
-  overflow: auto;  
-  overflow-y: hidden;  
+.continue-scroll { 
+  overflow-y: hidden;
 }
 .delete-button {
   top: 0;
   right: 0;
   display: none;
   transition: all 0.3s;
+  z-index: 1 !important;
 }
 #history:hover .delete-button {
   display: block;
