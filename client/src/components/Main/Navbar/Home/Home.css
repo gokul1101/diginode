@@ -61,8 +61,7 @@
   min-height: 140px;
   background: transparent;
 }
-.continue-scroll {
-  overflow: auto;  
+.continue-scroll { 
   overflow-y: hidden;  
 }
 .delete-button {

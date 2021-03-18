@@ -31,7 +31,7 @@ const Home = (props) => {
       else props.snackBar("Something wrong in the server", "error");
     }
     const API_KEY = "AIzaSyBsAyZ97pvZLsFrIdwiYhDCR5ag9aXvQuQ";
-    const url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=reactjs&maxResults=1&key=${API_KEY}`;
+    const url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=nightisdark&maxResults=1&key=${API_KEY}`;
     const res = await fetch(url, {
       method: "GET",
       headers: {
