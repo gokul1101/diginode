@@ -20,13 +20,16 @@ const signup = (req, res) => {
 const login = async (req, res) => {
   let { email, password } = req.body;
   try {
-    let currentUser = await User.findOne({ email }).populate({
-      path: "favorites",
-      model: "video",
-    }).populate({
-      path: "history",
-      model: "video",
-    }).exec();
+    let currentUser = await User.findOne({ email })
+      .populate({
+        path: "favorites",
+        model: "video",
+      })
+      .populate({
+        path: "history",
+        model: "video",
+      })
+      .exec();
     if (!currentUser) res.status(404).send({ message: "user not found" });
     else if (currentUser.password !== password)
       res.status(401).send({ message: "incorrect password" });
@@ -60,17 +63,19 @@ const favorites = async (req, res) => {
       data = await newVideo.save();
     } else data = currentVideo;
     const userFav = user.favorites.find(
-      (id) => JSON.stringify(data._id) == JSON.stringify(id)
+      (id) => JSON.stringify(data._id) === JSON.stringify(id)
     );
     if (!userFav) {
-      User.findByIdAndUpdate(user._id, {
+      await User.findByIdAndUpdate(user._id, {
         $push: { favorites: data._id },
       }).exec();
-    } else
-      User.findByIdAndUpdate(user._id, {
-        $pull: { favorites: data._id },
+      res.send({ message: "liked" });
+    } else{
+      await User.findByIdAndUpdate(user._id, {
+        $pull: { favorites: data._id }
       }).exec();
-    res.send({ message: "success" });
+      res.send({ message: "unliked" });
+    }
   } catch (e) {
     res.status(502).send({ message: "error" });
   }
@@ -100,14 +105,16 @@ const history = async (req, res) => {
       data = await newVideo.save();
     } else data = currentVideo;
     const userHis = user.history.find(
-      (id) => JSON.stringify(data._id) == JSON.stringify(id)
+      (id) => JSON.stringify(data._id) === JSON.stringify(id)
     );
     if (!userHis) {
-      User.findByIdAndUpdate(user._id, {
-        $push: { history: data._id },
-      }).exec();
-    }
-    res.send({ message: "success" });
+      await User.findByIdAndUpdate(user._id, {
+        $push: { history: data._id }
+      }).exec((err, doc)=>{
+        if(err) console.log(err)
+        else res.status(200).send(doc)
+      });
+    } else res.status(200).send({ message: "done" });
   } catch (e) {
     res.status(502).send({ message: "error" });
   }
