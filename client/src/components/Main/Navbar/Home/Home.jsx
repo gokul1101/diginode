@@ -31,7 +31,7 @@ const Home = (props) => {
       else props.snackBar("Something wrong in the server", "error");
     }
     const API_KEY = "AIzaSyBsAyZ97pvZLsFrIdwiYhDCR5ag9aXvQuQ";
-    const url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=nightisdark&maxResults=1&key=${API_KEY}`;
+    const url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=reactjs&maxResults=5&key=${API_KEY}`;
     const res = await fetch(url, {
       method: "GET",
       headers: {
@@ -53,7 +53,32 @@ const Home = (props) => {
         })
     );
   };
-
+  const deleteVideoHistory = async(video) => {
+    const res = await fetch(`http://localhost:5000/video/${video.videoId}/delete`, {
+      method: "PATCH",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        email: localStorage.getItem("user"),
+        videoId: video.videoId
+      }),
+    });
+    const data = await res.json();
+    setHistory(data);
+  }
+  const clearHistory = async() => {
+    await fetch(`http://localhost:5000/video/clearHistory`, {
+      method: "PATCH",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        email: localStorage.getItem("user"),
+      }),
+    });
+    setHistory([]);
+  }
   useEffect(() => {
     getData();
   }, []);
@@ -80,7 +105,7 @@ const Home = (props) => {
       }),
     });
     const data = await res.json();
-    console.log(data);
+    setHistory(data)
   };
   return (
     <>
@@ -149,6 +174,7 @@ const Home = (props) => {
           <h5 className="float-left mb-3">Continue Watching</h5>
           <Button
             variant="outlined"
+            onClick={clearHistory}
             style={{ color: "white", borderColor: "white" }}
             className="float-right"
             endIcon={<DeleteIcon />}
@@ -167,6 +193,7 @@ const Home = (props) => {
                     >
                       <div className="delete-button position-absolute">
                         <IconButton
+                          onClick={() => deleteVideoHistory(item)}
                           aria-label="delete"
                           style={{ color: "white" }}
                         >
