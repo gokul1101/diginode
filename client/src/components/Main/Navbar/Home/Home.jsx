@@ -31,7 +31,7 @@ const Home = (props) => {
       else props.snackBar("Something wrong in the server", "error");
     }
     const API_KEY = "AIzaSyBsAyZ97pvZLsFrIdwiYhDCR5ag9aXvQuQ";
-    const url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=vaathi&maxResults=3&key=${API_KEY}`;
+    const url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=reactjs&maxResults=1&key=${API_KEY}`;
     const res = await fetch(url, {
       method: "GET",
       headers: {
@@ -157,10 +157,10 @@ const Home = (props) => {
             Clear
           </Button>
           <div className="container-fluid continue-scroll">
-            <div className="row flex-row flex-nowrap">
+            <div className="row flex-nowrap watching">
               {history.map((item, index) => {
                 return (
-                  <div className="col-12 col-sm-6 col-md-6 col-lg-4" key={index}>
+                  <div className="col-12  col-sm-6 col-md-6 col-lg-4" key={index}>
                     <div
                       className="d-flex align-items-center justify-content-center position-relative"
                       id="history"

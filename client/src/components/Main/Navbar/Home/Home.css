@@ -62,7 +62,8 @@
   background: transparent;
 }
 .continue-scroll {
-  overflow-y: hidden;
+  overflow: auto;  
+  overflow-y: hidden;  
 }
 .delete-button {
   top: 0;

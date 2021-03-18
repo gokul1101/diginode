@@ -63,18 +63,19 @@ const favorites = async (req, res) => {
       data = await newVideo.save();
     } else data = currentVideo;
     const userFav = user.favorites.find(
-      (id) => JSON.stringify(data._id) == JSON.stringify(id)
+      (id) => JSON.stringify(data._id) === JSON.stringify(id)
     );
     if (!userFav) {
       await User.findByIdAndUpdate(user._id, {
         $push: { favorites: data._id },
       }).exec();
       res.send({ message: "liked" });
-    } else
-    await User.findByIdAndUpdate(user._id, {
-      $pull: { favorites: data._id }
-    }).exec();
-    res.send({ message: "unliked" });
+    } else{
+      await User.findByIdAndUpdate(user._id, {
+        $pull: { favorites: data._id }
+      }).exec();
+      res.send({ message: "unliked" });
+    }
   } catch (e) {
     res.status(502).send({ message: "error" });
   }
@@ -106,13 +107,14 @@ const history = async (req, res) => {
     const userHis = user.history.find(
       (id) => JSON.stringify(data._id) === JSON.stringify(id)
     );
-
     if (!userHis) {
       await User.findByIdAndUpdate(user._id, {
         $push: { history: data._id }
-      }).exec();
-      res.send({ message: "success" });
-    } else res.send({ message: "done" });
+      }).exec((err, doc)=>{
+        if(err) console.log(err)
+        else res.status(200).send(doc)
+      });
+    } else res.status(200).send({ message: "done" });
   } catch (e) {
     res.status(502).send({ message: "error" });
   }

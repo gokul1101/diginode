@@ -12,7 +12,8 @@ const {MONGOURI} = require("./config/index")
 mongoose.connect(MONGOURI, {
     useUnifiedTopology: true,
     useCreateIndex: true,
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useFindAndModify: false
 }, () => console.log("Connected to DB"))
 
 const router = require("./router/route")
