@@ -4,11 +4,14 @@ import "./Main.css";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import { IconButton } from "@material-ui/core";
 const Main = (props) => {
+  const [query, setQuery] = useState("")
   const [toggle, setToggle] = useState(false);
   const [currentVideo, setCurrentVideo] = useState("");
   return (
     <div className="main h-100">
       <Navbar
+        query={query}
+        setQuery={setQuery}
         user={props.user}
         setUser={props.setUser}
         setLogin={props.setLogin}

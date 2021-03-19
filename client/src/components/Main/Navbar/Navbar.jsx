@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import Favorite from "./Favorites/Favorite";
 import Home from "./Home/Home";
 import Playlist from "./Playlist/Playlist";
 import Trending from "./Trending/Trending";
 import "./Navbar.css";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 const Navbar = (props) => {
-  
+  const [fetchData, setFetchData] = useState([]);
   let color = "#xxxxxx".replace(/x/g, (y) =>
     ((Math.random() * 16) | 0).toString(16)
   );
@@ -14,14 +14,39 @@ const Navbar = (props) => {
     localStorage.removeItem("user");
     localStorage.removeItem("password");
     props.setLogin(false);
-    props.snackBar("Logged out successfully!!!", "success")
-  }
-
+    props.snackBar("Logged out successfully!!!", "success");
+  };
+  const searchVideos = async () => {
+    const API_KEY = "AIzaSyCdXjI8f3QWwf6HEWVYAPU4-ZVrn4kPoRw";
+    let url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&location=11.127123%2C78.656891&locationRadius=10mi&q=${props.query}&type=video&maxResults=3&key=${API_KEY}`
+    if(props.query != "") 
+      url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${props.query}&type=video&maxResults=3&key=${API_KEY}`
+    const res = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    const data = await res.json();
+    setFetchData(
+      data.items
+        .filter((item) => item.id.videoId !== undefined)
+        .map((item) => {
+          return {
+            videoId: item.id.videoId,
+            channelTitle: item.snippet.channelTitle,
+            description: item.snippet.description,
+            thumbnails: item.snippet.thumbnails.high.url,
+            title: item.snippet.title,
+          };
+        })
+    );
+  };
   return (
     <div>
       <div className="container-fluid p-0 nav-div">
         <nav className="navbar navbar-expand-lg  bg-transparent d-flex align-items-center justify-content-space-around">
-          <Link to="/" className="navbar-brand mt-2" >
+          <Link to="/" className="navbar-brand mt-2">
             DIGINODE
           </Link>
           <button
@@ -96,9 +121,20 @@ const Navbar = (props) => {
               </li>
             </ul>
             <div className="d-flex align-items-center justify-content-center">
-              <form className="form-inline">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  searchVideos();
+                }}
+                className="form-inline"
+              >
                 <div className="form-group">
-                  <input type="text" className="form-control" />
+                  <input
+                    type="text"
+                    value={props.query}
+                    onChange={(e) => props.setQuery(e.target.value)}
+                    className="form-control"
+                  />
                   <i className="fa fa-search form-control-feedback position-relative"></i>
                 </div>
               </form>
@@ -131,10 +167,14 @@ const Navbar = (props) => {
                     className="dropdown-menu"
                     aria-labelledby="dropdownMenuButton"
                   >
-                    <Link to="/login" onClick={logout} className="dropdown-item" >
+                    <Link
+                      to="/login"
+                      onClick={logout}
+                      className="dropdown-item"
+                    >
                       Logout
                     </Link>
-                    <Link to="/" className="dropdown-item" >
+                    <Link to="/" className="dropdown-item">
                       Edit Profile
                     </Link>
                   </div>
@@ -153,7 +193,15 @@ const Navbar = (props) => {
             role="tabpanel"
             aria-labelledby="pills-home-tab"
           >
-            <Home user={props.user} setUser={props.setUser} snackBar={props.snackBar} setCurrentVideo = {props.setCurrentVideo} setToggle = {props.setToggle}/>
+            <Home
+              searchVideos={searchVideos}
+              fetchData={fetchData}
+              user={props.user}
+              setUser={props.setUser}
+              snackBar={props.snackBar}
+              setCurrentVideo={props.setCurrentVideo}
+              setToggle={props.setToggle}
+            />
           </div>
           <div
             className="tab-pane fade"
@@ -177,7 +225,7 @@ const Navbar = (props) => {
             role="tabpanel"
             aria-labelledby="pills-favorite-tab"
           >
-            <Favorite user={props.user}/>
+            <Favorite user={props.user} />
           </div>
         </div>
       </div>
