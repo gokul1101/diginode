@@ -5,10 +5,15 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Home.css";
 const Home = (props) => {
+<<<<<<< HEAD
   const [fetchData, setFetchData] = useState([]);
   const [history, setHistory] = useState(
     Object.keys(props.user).length === 0 ? [] : props.user.history
   );
+=======
+  
+  const [history, setHistory] = useState(Object.keys(props.user).length === 0?[]: props.user.history);
+>>>>>>> d4f7b0976dccafa8b6d5acbfe1eb108d88695861
   const getData = async () => {
     if (Object.keys(props.user).length === 0) {
       const url = "http://localhost:5000/login";
@@ -32,6 +37,7 @@ const Home = (props) => {
         props.snackBar("Incorrect password", "error");
       else props.snackBar("Something wrong in the server", "error");
     }
+<<<<<<< HEAD
     const API_KEY = "AIzaSyCdXjI8f3QWwf6HEWVYAPU4-ZVrn4kPoRw";
     const url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=vaathi&maxResults=2&key=${API_KEY}`;
     const res = await fetch(url, {
@@ -54,6 +60,9 @@ const Home = (props) => {
           };
         })
     );
+=======
+    props.searchVideos()
+>>>>>>> d4f7b0976dccafa8b6d5acbfe1eb108d88695861
   };
   const deleteVideoHistory = async (video) => {
     const res = await fetch(
@@ -70,6 +79,7 @@ const Home = (props) => {
       }
     );
     const data = await res.json();
+    props.snackBar("Video deleted Successfully", "info")
     setHistory(data);
   };
   const clearHistory = async () => {
@@ -82,6 +92,7 @@ const Home = (props) => {
         email: localStorage.getItem("user"),
       }),
     });
+    if(history.length !== 0)props.snackBar("History cleared Successfully", "info")
     setHistory([]);
   };
   useEffect(() => {
@@ -92,7 +103,7 @@ const Home = (props) => {
     let videoId = e.currentTarget.id;
     props.setCurrentVideo(videoId);
     props.setToggle(true);
-    let { channelTitle, description, thumbnails, title } = fetchData.find(
+    let { channelTitle, description, thumbnails, title } = props.fetchData.find(
       (data) => data.videoId === videoId
     );
     const res = await fetch(`http://localhost:5000/video/${videoId}/history`, {
@@ -266,7 +277,7 @@ const Home = (props) => {
       {/* Video Cards */}
       <div className="container p-0">
         <div className="d-flex flex-wrap">
-          {fetchData.map((item, index) => {
+          {props.fetchData.map((item, index) => {
             return (
               <div
                 className="col-md-6 col-lg-4 mb-5"
