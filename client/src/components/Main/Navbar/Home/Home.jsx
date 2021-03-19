@@ -6,9 +6,11 @@ import { Link } from "react-router-dom";
 import "./Home.css";
 const Home = (props) => {
   const [fetchData, setFetchData] = useState([]);
-  const [history, setHistory] = useState(Object.keys(props.user).length === 0?[]: props.user.history);
+  const [history, setHistory] = useState(
+    Object.keys(props.user).length === 0 ? [] : props.user.history
+  );
   const getData = async () => {
-    if(Object.keys(props.user).length === 0) {
+    if (Object.keys(props.user).length === 0) {
       const url = "http://localhost:5000/login";
       const res = await fetch(url, {
         method: "POST",
@@ -22,16 +24,16 @@ const Home = (props) => {
       });
       if (res.status === 200) {
         let userDetails = await res.json();
-        props.setUser(userDetails)
-        props.snackBar("Welcome back!!!", "success")
-        setHistory(userDetails.history)
-      }
-      else if (res.status === 404) props.snackBar("user not found", "info");
-      else if (res.status === 401) props.snackBar("Incorrect password", "error");
+        props.setUser(userDetails);
+        props.snackBar("Welcome back!!!", "success");
+        setHistory(userDetails.history);
+      } else if (res.status === 404) props.snackBar("user not found", "info");
+      else if (res.status === 401)
+        props.snackBar("Incorrect password", "error");
       else props.snackBar("Something wrong in the server", "error");
     }
-    const API_KEY = "AIzaSyBsAyZ97pvZLsFrIdwiYhDCR5ag9aXvQuQ";
-    const url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=reactjs&maxResults=5&key=${API_KEY}`;
+    const API_KEY = "AIzaSyCdXjI8f3QWwf6HEWVYAPU4-ZVrn4kPoRw";
+    const url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=vaathi&maxResults=2&key=${API_KEY}`;
     const res = await fetch(url, {
       method: "GET",
       headers: {
@@ -53,21 +55,24 @@ const Home = (props) => {
         })
     );
   };
-  const deleteVideoHistory = async(video) => {
-    const res = await fetch(`http://localhost:5000/video/${video.videoId}/delete`, {
-      method: "PATCH",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        email: localStorage.getItem("user"),
-        videoId: video.videoId
-      }),
-    });
+  const deleteVideoHistory = async (video) => {
+    const res = await fetch(
+      `http://localhost:5000/video/${video.videoId}/delete`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          email: localStorage.getItem("user"),
+          videoId: video.videoId,
+        }),
+      }
+    );
     const data = await res.json();
     setHistory(data);
-  }
-  const clearHistory = async() => {
+  };
+  const clearHistory = async () => {
     await fetch(`http://localhost:5000/video/clearHistory`, {
       method: "PATCH",
       headers: {
@@ -78,7 +83,7 @@ const Home = (props) => {
       }),
     });
     setHistory([]);
-  }
+  };
   useEffect(() => {
     getData();
   }, []);
@@ -105,7 +110,7 @@ const Home = (props) => {
       }),
     });
     const data = await res.json();
-    setHistory(data)
+    // setHistory(data);
   };
   return (
     <>
@@ -172,7 +177,7 @@ const Home = (props) => {
       <div className="continue-watch">
         <div className="continue-text mb-5">
           <h5 className="float-left mb-3">Continue Watching</h5>
-          <Button
+          {/* <Button
             variant="outlined"
             onClick={clearHistory}
             style={{ color: "white", borderColor: "white" }}
@@ -181,12 +186,44 @@ const Home = (props) => {
             size="small"
           >
             Clear
-          </Button>
+          </Button> */}
+
+          <button
+            className="iconbutton float-right d-flex"
+            onClick={clearHistory}
+            style={{ color: "white", borderColor: "white" }}
+          >
+            <h6 className="mt-2 mr-2" style={{fontWeight:'700'}}>CLEAR</h6>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              version="1.1"
+              id="Layer_1"
+              x="0px"
+              y="0px"
+              viewBox="-2 -10 18 28"
+              className="delete-animation"
+            >
+              <path
+                d="M10.5,2.3V1.5c0,0,0-0.1,0-0.1C10.5,0.6,9.8,0,9,0H6c0,0-0.1,0-0.1,0C5.1,0,4.5,0.7,4.5,1.5v0.8H0v1.5h15V2.3H10.5z M9,2.2  H6V1.5h3V2.2z"
+                className="lid"
+              />
+              <g className="can">
+                <path d="M12.8,3.8v12c0,0,0,0,0,0.1c0,0.4-0.4,0.7-0.8,0.7H3c0,0,0,0-0.1,0c-0.4,0-0.7-0.4-0.7-0.8v-12H0.8v12   c0,0.6,0.2,1.2,0.7,1.6C1.8,17.8,2.4,18,3,18h9c0,0,0,0,0,0c1.2,0,2.2-1,2.2-2.2v-12H12.8z" />
+                <rect x="3.8" y="6" width="1.5" height="8.2" />
+                <rect x="6.8" y="6" width="1.5" height="8.2" />
+                <rect x="9.8" y="6" width="1.5" height="8.2" />
+              </g>
+            </svg>
+          </button>
+
           <div className="container-fluid continue-scroll">
-            <div className="row flex-nowrap watching">
+            <div className="row flex-nowrap watching mt-3">
               {history.map((item, index) => {
                 return (
-                  <div className="col-12  col-sm-6 col-md-6 col-lg-4" key={index}>
+                  <div
+                    className="col-12  col-sm-6 col-md-6 col-lg-4"
+                    key={index}
+                  >
                     <div
                       className="d-flex align-items-center justify-content-center position-relative"
                       id="history"
@@ -223,6 +260,9 @@ const Home = (props) => {
           </div>
         </div>
       </div>
+
+
+      
       {/* Video Cards */}
       <div className="container p-0">
         <div className="d-flex flex-wrap">
