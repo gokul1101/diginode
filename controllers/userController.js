@@ -69,13 +69,16 @@ const favorites = async (req, res) => {
       await User.findByIdAndUpdate(user._id, {
         $push: { favorites: data._id },
       }).exec();
-      res.send({ message: "liked" });
     } else {
       await User.findByIdAndUpdate(user._id, {
         $pull: { favorites: data._id },
       }).exec();
-      res.send({ message: "unliked" });
     }
+    let favorite = await User.find({ email }).select("favorite").populate({
+      path: "favorite",
+      model: "video",
+    });
+    res.send(favorite[0].favorite);
   } catch (e) {
     res.status(502).send({ message: "error" });
   }

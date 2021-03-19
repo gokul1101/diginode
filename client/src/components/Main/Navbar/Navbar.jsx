@@ -19,7 +19,7 @@ const Navbar = (props) => {
   const searchVideos = async () => {
     const API_KEY = "AIzaSyCdXjI8f3QWwf6HEWVYAPU4-ZVrn4kPoRw";
     let url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&location=11.127123%2C78.656891&locationRadius=10mi&q=${props.query}&type=video&maxResults=3&key=${API_KEY}`
-    if(props.query != "") 
+    if(props.query !== "") 
       url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${props.query}&type=video&maxResults=3&key=${API_KEY}`
     const res = await fetch(url, {
       method: "GET",
@@ -225,7 +225,8 @@ const Navbar = (props) => {
             role="tabpanel"
             aria-labelledby="pills-favorite-tab"
           >
-            <Favorite user={props.user} />
+            <Favorite user={props.user} setCurrentVideo={props.setCurrentVideo}
+              setToggle={props.setToggle} />
           </div>
         </div>
       </div>

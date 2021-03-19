@@ -1,12 +1,13 @@
-import { Button } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/DeleteOutlined";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+
+import VideoContainer from "../VideoContainer/VideoContainer";
 import "./Home.css";
 const Home = (props) => {
-  
-  const [history, setHistory] = useState(Object.keys(props.user).length === 0?[]: props.user.history);
+  const [history, setHistory] = useState(
+    Object.keys(props.user).length === 0 ? [] : props.user.history
+  );
   const getData = async () => {
     if (Object.keys(props.user).length === 0) {
       const url = "http://localhost:5000/login";
@@ -30,7 +31,7 @@ const Home = (props) => {
         props.snackBar("Incorrect password", "error");
       else props.snackBar("Something wrong in the server", "error");
     }
-    props.searchVideos()
+    props.searchVideos();
   };
   const deleteVideoHistory = async (video) => {
     const res = await fetch(
@@ -47,7 +48,7 @@ const Home = (props) => {
       }
     );
     const data = await res.json();
-    props.snackBar("Video deleted Successfully", "info")
+    props.snackBar("Video deleted Successfully", "info");
     setHistory(data);
   };
   const clearHistory = async () => {
@@ -60,7 +61,8 @@ const Home = (props) => {
         email: localStorage.getItem("user"),
       }),
     });
-    if(history.length !== 0)props.snackBar("History cleared Successfully", "info")
+    if (history.length !== 0)
+      props.snackBar("History cleared Successfully", "info");
     setHistory([]);
   };
   useEffect(() => {
@@ -69,11 +71,9 @@ const Home = (props) => {
 
   const onloadFrame = async (e) => {
     let videoId = e.currentTarget.id;
-    props.setCurrentVideo(videoId);
+    let vid = props.fetchData.find((data) => data.videoId === videoId)
+    props.setCurrentVideo(vid);
     props.setToggle(true);
-    let { channelTitle, description, thumbnails, title } = props.fetchData.find(
-      (data) => data.videoId === videoId
-    );
     const res = await fetch(`http://localhost:5000/video/${videoId}/history`, {
       method: "PATCH",
       headers: {
@@ -81,15 +81,15 @@ const Home = (props) => {
       },
       body: JSON.stringify({
         email: localStorage.getItem("user"),
-        channelTitle,
-        description,
-        thumbnails,
-        title,
+        channelTitle: vid.channelTitle,
+        description : vid.description,
+        thumbnails: vid.thumbnails,
+        title: vid.title,
         videoId,
       }),
     });
     const data = await res.json();
-    // setHistory(data);
+    setHistory(data);
   };
   return (
     <>
@@ -156,23 +156,17 @@ const Home = (props) => {
       <div className="continue-watch">
         <div className="continue-text mb-5">
           <h5 className="float-left mb-3">Continue Watching</h5>
-          {/* <Button
-            variant="outlined"
-            onClick={clearHistory}
-            style={{ color: "white", borderColor: "white" }}
-            className="float-right"
-            endIcon={<DeleteIcon />}
-            size="small"
-          >
-            Clear
-          </Button> */}
-
           <button
             className="iconbutton float-right d-flex"
             onClick={clearHistory}
             style={{ color: "white", borderColor: "white" }}
           >
-            <h6 className="mt-2 mr-2" style={{fontWeight:'700'}}>CLEAR</h6>
+            <h6
+              className="mt-2 mr-2"
+              style={{ fontWeight: "700", letterSpacing: 1.3 }}
+            >
+              CLEAR
+            </h6>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               version="1.1"
@@ -239,39 +233,7 @@ const Home = (props) => {
           </div>
         </div>
       </div>
-
-
-      
-      {/* Video Cards */}
-      <div className="container p-0">
-        <div className="d-flex flex-wrap">
-          {props.fetchData.map((item, index) => {
-            return (
-              <div
-                className="col-md-6 col-lg-4 mb-5"
-                key={index}
-                id={item.videoId}
-                onClick={onloadFrame}
-              >
-                <div className="item-card">
-                  <img
-                    src={item.thumbnails}
-                    className="img-fluid"
-                    alt="card-content"
-                  />
-                  <div className="info">
-                    <Link id="play-video" className="video-play-button" to="/">
-                      <span></span>
-                    </Link>
-
-                    <h6 className="text">{item.title}</h6>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
+      <VideoContainer onloadFrame={onloadFrame} fetchData={props.fetchData} />
     </>
   );
 };

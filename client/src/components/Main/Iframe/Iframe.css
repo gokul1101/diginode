@@ -1,0 +1,116 @@
+.close-btn{
+  top: 10px;
+  right: 20px;
+}
+.video-overlay {
+    transform: scale(1);
+    transform-origin: center;
+    background: black;
+    opacity: 1;
+    transition: all ease 500ms;
+    z-index: 1000;
+    position: fixed;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    height: auto;
+    overflow-y: scroll;
+  }
+  
+  @media (min-width: 768px) {
+    .video-overlay iframe {
+      width: 70%;
+      height: 70vh;
+      max-width: 100%;
+      margin: 0;
+      padding: 0;
+      border: 0 none;
+      box-sizing: border-box;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.75);
+    }
+  }
+  @media (max-width: 767px) {
+    .video-overlay iframe {
+      width: 100%;
+      height: 50vh;
+      max-width: 100%;
+      margin: 0;
+      padding: 0;
+      border: 0 none;
+      box-sizing: border-box;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.75);
+    }
+  }
+
+  #heart-container {
+    margin-top: 10px;
+    margin-left: 0px;
+    position: relative;
+    left: -40px;
+  }
+  
+  #twitter-heart {
+    position: absolute;
+    background: url("https://abs.twimg.com/a/1454637594/img/t1/web_heart_animation.png");
+    background-position: 0px;
+    background-repeat: no-repeat;
+    height: 100px;
+    width: 100px;
+    top: -40px;
+    left: -40px;
+    pointer-events: none;
+  }
+  
+  #toggle {
+    opacity: 0;
+    transform: scale(3);
+    position: absolute;
+  }
+  #toggle:checked + #twitter-heart {
+    -webkit-animation: heart-animate 0.8s steps(28) forwards;
+    animation: heart-animate 0.8s steps(28) forwards;
+  }
+  
+  @-webkit-keyframes heart-animate {
+    100% {
+      background-position: -2800px;
+    }
+  }
+  
+  @keyframes heart-animate {
+    100% {
+      background-position: -2800px;
+    }
+  }
+  .download {
+    cursor: pointer;
+    height: 40px;
+    width: 20px;
+    margin-top: -10px;
+  }
+  .download:hover .arrow {
+    -webkit-animation: bounce 0.75s both ease-out 1;
+    animation: bounce 0.75s both ease-out 1;
+  }
+  .download:hover .arrow,.download:hover .line{
+    fill:dodgerblue;
+  }
+  @keyframes bounce {
+    0% {
+      transform: translateY(0);
+    }
+    25% {
+      transform: translateY(-6px);
+    }
+    50% {
+      transform: translateY(0);
+    }
+    75% {
+      transform: translateY(-6px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+  
