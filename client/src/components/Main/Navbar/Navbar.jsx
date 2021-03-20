@@ -6,6 +6,8 @@ import Trending from "./Trending/Trending";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
 const Navbar = (props) => {
+  const [query, setQuery] = useState("");
+
   const [fetchData, setFetchData] = useState([]);
   let color = "#xxxxxx".replace(/x/g, (y) =>
     ((Math.random() * 16) | 0).toString(16)
@@ -18,9 +20,9 @@ const Navbar = (props) => {
   };
   const searchVideos = async () => {
     const API_KEY = "AIzaSyCdXjI8f3QWwf6HEWVYAPU4-ZVrn4kPoRw";
-    let url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&location=11.127123%2C78.656891&locationRadius=10mi&q=${props.query}&type=video&maxResults=3&key=${API_KEY}`
-    if(props.query !== "") 
-      url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${props.query}&type=video&maxResults=3&key=${API_KEY}`
+    let url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&location=11.127123%2C78.656891&locationRadius=10mi&q=${query}&type=video&maxResults=3&key=${API_KEY}`;
+    if (query !== "")
+      url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${query}&type=video&maxResults=3&key=${API_KEY}`;
     const res = await fetch(url, {
       method: "GET",
       headers: {
@@ -131,8 +133,8 @@ const Navbar = (props) => {
                 <div className="form-group">
                   <input
                     type="text"
-                    value={props.query}
-                    onChange={(e) => props.setQuery(e.target.value)}
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
                     className="form-control"
                   />
                   <i className="fa fa-search form-control-feedback position-relative"></i>
@@ -161,7 +163,9 @@ const Navbar = (props) => {
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    D
+                    {Object.keys(props.user).length === 0
+                      ? ""
+                      : props.user.name.charAt(0)}
                   </button>
                   <div
                     className="dropdown-menu"
@@ -200,6 +204,7 @@ const Navbar = (props) => {
               setUser={props.setUser}
               snackBar={props.snackBar}
               setCurrentVideo={props.setCurrentVideo}
+              setFavorites={props.setFavorites}
               setToggle={props.setToggle}
             />
           </div>
@@ -225,8 +230,11 @@ const Navbar = (props) => {
             role="tabpanel"
             aria-labelledby="pills-favorite-tab"
           >
-            <Favorite user={props.user} setCurrentVideo={props.setCurrentVideo}
-              setToggle={props.setToggle} />
+            <Favorite
+              favorites={props.favorites}
+              setCurrentVideo={props.setCurrentVideo}
+              setToggle={props.setToggle}
+            />
           </div>
         </div>
       </div>

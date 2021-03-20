@@ -26,6 +26,7 @@ const Home = (props) => {
         props.setUser(userDetails);
         props.snackBar("Welcome back!!!", "success");
         setHistory(userDetails.history);
+        props.setFavorites(userDetails.favorites);
       } else if (res.status === 404) props.snackBar("user not found", "info");
       else if (res.status === 401)
         props.snackBar("Incorrect password", "error");
@@ -71,7 +72,7 @@ const Home = (props) => {
 
   const onloadFrame = async (e) => {
     let videoId = e.currentTarget.id;
-    let vid = props.fetchData.find((data) => data.videoId === videoId)
+    let vid = props.fetchData.find((data) => data.videoId === videoId);
     props.setCurrentVideo(vid);
     props.setToggle(true);
     const res = await fetch(`http://localhost:5000/video/${videoId}/history`, {
@@ -82,7 +83,7 @@ const Home = (props) => {
       body: JSON.stringify({
         email: localStorage.getItem("user"),
         channelTitle: vid.channelTitle,
-        description : vid.description,
+        description: vid.description,
         thumbnails: vid.thumbnails,
         title: vid.title,
         videoId,

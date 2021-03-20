@@ -75,10 +75,10 @@ const favorites = async (req, res) => {
       }).exec();
     }
     let favorite = await User.find({ email }).select("favorite").populate({
-      path: "favorite",
+      path: "favorites",
       model: "video",
     });
-    res.send(favorite[0].favorite);
+    res.send(favorite[0].favorites);
   } catch (e) {
     res.status(502).send({ message: "error" });
   }
@@ -168,13 +168,23 @@ const deleteVideo = async (req, res) => {
 };
 const clearHistory = async (req, res) => {
   const { email } = req.body;
-  try{
-    await User.updateOne({email}, {
-      $set : {history : []}
-    })
-    res.status(200).send("success")
-  } catch(e) {
+  try {
+    await User.updateOne(
+      { email },
+      {
+        $set: { history: [] },
+      }
+    );
+    res.status(200).send("success");
+  } catch (e) {
     res.status(502).send({ message: "error" });
   }
-}
-module.exports = { signup, login, favorites, history, deleteVideo, clearHistory };
+};
+module.exports = {
+  signup,
+  login,
+  favorites,
+  history,
+  deleteVideo,
+  clearHistory,
+};
