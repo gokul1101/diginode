@@ -67,17 +67,14 @@
 .delete-button {
   top: 0;
   right: 0;
-  display: none;
+  display: block;
   transition: all 0.3s;
   z-index: 1 !important;
 }
-#history:hover .delete-button {
-  display: block;
-}
 
-.item-card {
+.item-card-history {
   width: 100%;
-  height: 290px;
+  height: 210px;
   border-radius: 15px;
   padding: 1.5rem;
   background: black;
@@ -88,17 +85,17 @@
   transition: 0.4s ease-out;
   box-shadow: 0px 7px 10px rgba(0, 0, 0, 0.5);
 }
-.item-card:hover {
+.item-card-history:hover {
   transform: translateY(20px);
 }
-.item-card:hover:before {
+.item-card-history:hover:before {
   opacity: 1;
 }
-.item-card:hover .info {
+.item-card-history:hover .info-history {
   opacity: 1;
   transform: translateY(0px);
 }
-.item-card:before {
+.item-card-history:before {
   content: "";
   position: absolute;
   top: 0;
@@ -113,7 +110,7 @@
   opacity: 0;
 }
 
-.item-card img {
+.item-card-history img {
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -122,7 +119,9 @@
   left: 0;
   border-radius: 15px;
 }
-.item-card .info {
+.item-card-history .info-history {
+  height: 100%;
+  width: 100%;
   position: relative;
   z-index: 3;
   color: white;
@@ -130,16 +129,25 @@
   transform: translateY(30px);
   transition: 0.5s;
 }
-.item-card .info img {
+.item-card-history .info-history .badge {
+  width: auto;
+  max-width: 85%;
+  overflow: hidden;
+  position: relative;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.item-card-history .info-history img {
   border-radius: 0;
 }
 
-.video-play-button {
+.video-play-button-history {
   position: absolute;
   z-index: 10;
   top: 50%;
   left: 50%;
-  transform: translateX(-50%) translateY(-50%);
+  transform: translate(-50%, -30%);
   box-sizing: content-box;
   display: block;
   width: 32px;
@@ -149,7 +157,7 @@
   padding: 18px 20px 18px 28px;
 }
 
-.video-play-button:before {
+.video-play-button-history:before {
   content: "";
   position: absolute;
   z-index: 0;
@@ -164,7 +172,7 @@
   animation: pulse-border 1500ms ease-out infinite;
 }
 
-.video-play-button:after {
+.video-play-button-history:after {
   content: "";
   position: absolute;
   z-index: 1;
@@ -179,10 +187,10 @@
   transition: all 200ms;
 }
 
-.video-play-button:hover:after {
+.video-play-button-history:hover:after {
   background-color: darken(#fa183d, 10%);
 }
-.video-play-button span {
+.video-play-button-history .play-span-history {
   display: block;
   position: relative;
   z-index: 3;
