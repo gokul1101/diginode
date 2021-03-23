@@ -1,3 +1,7 @@
+import React, { useState } from "react";
+import Navbar from "./Navbar/Navbar";
+import "./Main.css";
+
 import Iframe from "./Iframe/Iframe";
 const Main = (props) => {
   const [favorites, setFavorites] = useState(

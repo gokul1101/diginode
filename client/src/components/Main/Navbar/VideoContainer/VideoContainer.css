@@ -1,0 +1,238 @@
+.item-card {
+    width: 100%;
+    height: 290px;
+    border-radius: 15px;
+    padding: 1.5rem;
+    background: black;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.4s ease-out;
+    box-shadow: 0px 7px 10px rgba(0, 0, 0, 0.5);
+  }
+  .item-card:hover {
+    transform: translateY(20px);
+  }
+  .item-card:hover:before {
+    opacity: 1;
+  }
+  .item-card:hover .info {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+  .item-card:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 2;
+    transition: 0.5s;
+    opacity: 0;
+  }
+  
+  .item-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 15px;
+  }
+  .item-card .info {
+    position: relative;
+    z-index: 3;
+    color: white;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: 0.5s;
+  }
+  .item-card .info img {
+    border-radius: 0;
+  }
+  
+  .video-play-button {
+    position: absolute;
+    z-index: 10;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    box-sizing: content-box;
+    display: block;
+    width: 32px;
+    height: 44px;
+    background: #fa183d;
+    border-radius: 50%;
+    padding: 18px 20px 18px 28px;
+  }
+  
+  .video-play-button:before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    display: block;
+    width: 80px;
+    height: 80px;
+    background: #ba1f24;
+    border-radius: 50%;
+    animation: pulse-border 1500ms ease-out infinite;
+  }
+  
+  .video-play-button:after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    display: block;
+    width: 80px;
+    height: 80px;
+    background: #fa183d;
+    border-radius: 50%;
+    transition: all 200ms;
+  }
+  
+  .video-play-button:hover:after {
+    background-color: darken(#fa183d, 10%);
+  }
+  .video-play-button span {
+    display: block;
+    position: relative;
+    z-index: 3;
+    width: 0;
+    height: 0;
+    border-left: 32px solid #fff;
+    border-top: 22px solid transparent;
+    border-bottom: 22px solid transparent;
+  }
+  
+  @keyframes pulse-border {
+    0% {
+      transform: translateX(-50%) translateY(-50%) translateZ(0) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(-50%) translateY(-50%) translateZ(0) scale(1.5);
+      opacity: 0;
+    }
+  }
+  .text {
+    position: relative;
+    top: 100px;
+  }
+  
+  .iconbutton {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    fill: #fff;
+  }
+  .iconbutton svg {
+    transition: 200ms all;
+    position: relative;
+    top: -5px;
+  }
+  .iconbutton.poof {
+    position: relative;
+  }
+  .iconbutton.poof svg {
+    opacity: 0.01;
+  }
+  .iconbutton.poof:after {
+    position: absolute;
+    left: 0;
+    right: 0;
+    content: "";
+    background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/8585/poof.png)
+      no-repeat 0 0;
+    animation: poof 500ms 1;
+    animation-fill-mode: forwards;
+    background-size: 128px 640px;
+  }
+  .iconbutton svg {
+    width: 20px;
+  }
+  .iconbutton.poof:after {
+    height: 20px;
+    background-size: 20px 100px;
+  }
+  .iconbutton.medium svg {
+    width: 35px;
+  }
+  .iconbutton.medium:after {
+    height: 35px;
+    background-size: 35px 175px;
+  }
+  .iconbutton.large svg {
+    width: 50px;
+  }
+  .iconbutton.large:after {
+    height: 50px;
+    background-size: 50px 250px;
+  }
+  
+  .delete-animation .lid {
+    transform-origin: 2px 5px;
+    transition: 500ms all;
+  }
+  .delete-animation .can {
+    transition: 500ms all;
+  }
+  .iconbutton:hover {
+    fill: #f55050;
+    color: #f55050 !important;
+  }
+  .iconbutton:hover .lid {
+    transform: rotate(-45deg);
+  }
+  .iconbutton:active .lid {
+    transform: rotate(-50deg);
+  }
+  
+  @keyframes poof {
+    0% {
+      background-position: 0 0;
+    }
+    20% {
+      background-position: 0 0;
+    }
+    21% {
+      background-position: 0 25%;
+    }
+    40% {
+      background-position: 0 25%;
+    }
+    41% {
+      background-position: 0 50%;
+    }
+    60% {
+      background-position: 0 50%;
+    }
+    61% {
+      background-position: 0 75%;
+    }
+    80% {
+      background-position: 0 75%;
+    }
+    81% {
+      background-position: 0 100%;
+    }
+    99% {
+      background-position: 0 100%;
+    }
+    100% {
+      background-position: 0 200%;
+    }
+  }
+  

@@ -69,13 +69,16 @@ const favorites = async (req, res) => {
       await User.findByIdAndUpdate(user._id, {
         $push: { favorites: data._id },
       }).exec();
-      res.send({ message: "liked" });
     } else {
       await User.findByIdAndUpdate(user._id, {
         $pull: { favorites: data._id },
       }).exec();
-      res.send({ message: "unliked" });
     }
+    let favorite = await User.find({ email }).select("favorite").populate({
+      path: "favorites",
+      model: "video",
+    });
+    res.send(favorite[0].favorites);
   } catch (e) {
     res.status(502).send({ message: "error" });
   }
@@ -165,13 +168,23 @@ const deleteVideo = async (req, res) => {
 };
 const clearHistory = async (req, res) => {
   const { email } = req.body;
-  try{
-    await User.updateOne({email}, {
-      $set : {history : []}
-    })
-    res.status(200).send("success")
-  } catch(e) {
+  try {
+    await User.updateOne(
+      { email },
+      {
+        $set: { history: [] },
+      }
+    );
+    res.status(200).send("success");
+  } catch (e) {
     res.status(502).send({ message: "error" });
   }
-}
-module.exports = { signup, login, favorites, history, deleteVideo, clearHistory };
+};
+module.exports = {
+  signup,
+  login,
+  favorites,
+  history,
+  deleteVideo,
+  clearHistory,
+};
