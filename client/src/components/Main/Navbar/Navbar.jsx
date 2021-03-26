@@ -63,15 +63,18 @@ const Navbar = (props) => {
             <i className="fa fa-bars"></i>
           </button>
 
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <div
+            className="collapse navbar-collapse py-3"
+            id="navbarSupportedContent"
+          >
             <ul
-              className="nav nav-pills navbar-nav mr-auto px-3 d-flex align-items-center justify-content-center w-100"
+              className="nav nav-pills navbar-nav mr-auto px-3 mt-2 d-flex align-items-center justify-content-center w-100"
               id="pills-tab"
               role="tablist"
             >
-              <li className="nav-item px-2" role="presentation">
+              <li className="nav-item " role="presentation">
                 <a
-                  className="nav-link active"
+                  className="nav-link active navIcon"
                   id="pills-home-tab"
                   data-toggle="pill"
                   href="#pills-home"
@@ -79,12 +82,31 @@ const Navbar = (props) => {
                   aria-controls="pills-home"
                   aria-selected="true"
                 >
-                  HOME
+                  <span className="dot"></span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    hoverable="false"
+                    fill="currentColor"
+                    className="bi bi-house-fill svgIcon"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M8 3.293l6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"
+                    />
+                    <path
+                      fillRule="evenodd"
+                      d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"
+                    />
+                  </svg>
+
+                  <span className="text-li">HOME</span>
                 </a>
               </li>
               <li className="nav-item px-2" role="presentation">
                 <a
-                  className="nav-link"
+                  className="nav-link navIcon"
                   id="pills-profile-tab"
                   data-toggle="pill"
                   href="#pills-profile"
@@ -92,12 +114,23 @@ const Navbar = (props) => {
                   aria-controls="pills-profile"
                   aria-selected="false"
                 >
-                  TRENDING
+                  <span className="dot"></span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    hoverable="false"
+                    fill="currentColor"
+                    className="bi bi-bar-chart-line svgIcon"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z" />
+                  </svg>
+                  <span className="text-li">TRENDING</span>
                 </a>
               </li>
               <li className="nav-item px-2" role="presentation">
                 <a
-                  className="nav-link"
+                  className="nav-link navIcon"
                   id="pills-contact-tab"
                   data-toggle="pill"
                   href="#pills-contact"
@@ -105,12 +138,29 @@ const Navbar = (props) => {
                   aria-controls="pills-contact"
                   aria-selected="false"
                 >
-                  MY PLAYLIST
+                  <span className="dot"></span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    hoverable="false"
+                    fill="currentColor"
+                    className="bi bi-music-note-list svgIcon"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M12 13c0 1.105-1.12 2-2.5 2S7 14.105 7 13s1.12-2 2.5-2 2.5.895 2.5 2z" />
+                    <path fillule="evenodd" d="M12 3v10h-1V3h1z" />
+                    <path d="M11 2.82a1 1 0 0 1 .804-.98l3-.6A1 1 0 0 1 16 2.22V4l-5 1V2.82z" />
+                    <path
+                      fillule="evenodd"
+                      d="M0 11.5a.5.5 0 0 1 .5-.5H4a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 .5 7H8a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 .5 3H8a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5z"
+                    />
+                  </svg>
+                  <span className="text-li">PLAYLIST</span>
                 </a>
               </li>
               <li className="nav-item px-2" role="presentation">
                 <a
-                  className="nav-link"
+                  className="nav-link navIcon"
                   id="pills-favorite-tab"
                   data-toggle="pill"
                   href="#pills-favorite"
@@ -118,7 +168,21 @@ const Navbar = (props) => {
                   aria-controls="pills-favorite"
                   aria-selected="false"
                 >
-                  FAVORITES
+                  <span className="dot"></span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    hoverable="false"
+                    fill="currentColor"
+                    className="bi bi-heart-fill svgIcon"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fillule="evenodd"
+                      d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+                    />
+                  </svg>
+                  <span className="text-li">FAVORITES</span>
                 </a>
               </li>
             </ul>

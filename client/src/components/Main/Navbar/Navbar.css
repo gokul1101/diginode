@@ -1,37 +1,38 @@
-.fa-bars{
-    color: whitesmoke;
+.fa-bars {
+  color: whitesmoke;
 }
 .nav-pills .nav-link.active {
-    color: white !important;
-    background: none;
+  color:#f55050 !important;
+  background: none;
 }
-.navbar{
-    background: rgba(255,255,255,0.04);
-    border-radius: 7px;
+.navbar {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 7px;
 }
-.nav .nav-item .nav-link{
-    color: #585050;
+.nav .nav-item .nav-link {
+  color: #585050;
 }
-.form-inline .form-group .form-control {
-    background: rgba(255,255,255,0.04);
-    width:350px !important;
-    border: none;
+.form-inline .form-group input {
+  background: rgba(255, 255, 255, 0.09);
+  width: 350px !important;
+  border: none;
+  color: #fff !important;
 }
-.form-control-feedback{
-    z-index: 2;
-    display: block;
-    width: 2.375rem;
-    height: 2.375rem;
-    line-height: 2.375rem;
-    text-align: center;
-    right:40px;
-    color: #fff;
+.form-control-feedback {
+  z-index: 2;
+  display: block;
+  width: 2.375rem;
+  height: 2.375rem;
+  line-height: 2.375rem;
+  text-align: center;
+  right: 40px;
+  color: #fff !important;
 }
 @media (max-width: 575px) {
-  .form-inline .form-group .form-control{
-    width: 100%!important;
-}
-.form-control-feedback{
+  .form-inline .form-group .form-control {
+    width: 100% !important;
+  }
+  .form-control-feedback {
     z-index: 2;
     display: block;
     width: 2.375rem;
@@ -42,5 +43,58 @@
     position: relative;
     top: -35px;
     right: 0;
+  }
 }
+.navIcon {
+  text-decoration: none !important;
+  position: relative;
+  width: 100px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  font-weight: 800;
+  border: none;
+  transition-duration: 0.5s;
+}
+.text-li {
+  position: relative;
+  top: 0px;
+  left: -23px;
+}
+.navIcon:hover {
+  color: #f55050 !important;
+}
+.navIcon:hover .svgIcon {
+  fill: #f55050 !important;
+}
+
+.svgIcon {
+  position: absolute;
+  height: 20px;
+  margin-top: -20px;
+  margin-left: -54px;
+  transition-duration: 1s;
+}
+.navIcon:hover .svgIcon {
+  margin-top: -21px;
+  margin-left: -25px;
+  transition-duration: 0.5s;
+}
+
+.navIcon:hover .dot {
+  opacity: 0%;
+  margin-top: 7px;
+  margin-left: -40px;
+  transform: scale(0.1);
+  transition-duration: 0.4s;
+}
+.dot {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.07);
+  height: 7px;
+  width: 16px;
+  border-radius: 50%;
+  margin-top: 5px;
+  margin-left: -51px;
+  transition-duration: 1s;
 }

@@ -1,6 +1,7 @@
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/DeleteOutlined";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 import VideoContainer from "../VideoContainer/VideoContainer";
 import "./Home.css";
@@ -68,14 +69,14 @@ const Home = (props) => {
   };
   useEffect(() => {
     getData();
-  }, []);
+  });
   const historyFrame = (e) => {
     let videoId = e.currentTarget.id;
     let vid = history.find((data) => data.videoId === videoId);
-    console.log(videoId, vid)
+    console.log(videoId, vid);
     props.setCurrentVideo(vid);
     props.setToggle(true);
-  }
+  };
   const onloadFrame = async (e) => {
     let videoId = e.currentTarget.id;
     let vid = props.fetchData.find((data) => data.videoId === videoId);
@@ -203,8 +204,6 @@ const Home = (props) => {
                   <div
                     className="col-12  col-sm-6 col-md-6 col-lg-4"
                     key={index}
-                    id={item.videoId}
-                    onClick={historyFrame}
                   >
                     <div className="item-card-history">
                       <img
@@ -215,8 +214,16 @@ const Home = (props) => {
                         alt="img"
                       />
                       <div className="info-history">
-                        <Link id="play-video" className="video-play-button-history" to="/">
-                          <span className="play-span-history"></span>
+                        <Link
+                          id="play-video"
+                          className="video-play-button-history"
+                          to="/"
+                        >
+                          <span
+                            className="play-span-history"
+                            onClick={historyFrame}
+                            id={item.videoId}
+                          ></span>
                         </Link>
                         <div className="delete-button position-absolute">
                           <IconButton

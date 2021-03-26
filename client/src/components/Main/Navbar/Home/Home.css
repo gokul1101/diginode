@@ -129,15 +129,15 @@
   transform: translateY(30px);
   transition: 0.5s;
 }
-.item-card-history .info-history .badge {
-  width: auto;
-  max-width: 85%;
-  overflow: hidden;
-  position: relative;
-  text-decoration: none;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+    .item-card-history .info-history .badge {
+      width: auto;
+      max-width: 85%;
+      overflow: hidden;
+      position: relative;
+      text-decoration: none;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 .item-card-history .info-history img {
   border-radius: 0;
 }
