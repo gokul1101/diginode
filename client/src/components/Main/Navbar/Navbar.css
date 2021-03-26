@@ -2,7 +2,7 @@
   color: whitesmoke;
 }
 .nav-pills .nav-link.active {
-  color:#f55050 !important;
+  color: #f55050 !important;
   background: none;
 }
 .navbar {
@@ -97,4 +97,32 @@
   margin-top: 5px;
   margin-left: -51px;
   transition-duration: 1s;
+}
+
+.navbar-brand h1 {
+  position: relative;
+  font-size: 30px;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+.navbar-brand h1::before,
+.navbar-brand h1::after {
+  content: "DIGINODE";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  transition: 0.5s;
+}
+.navbar-brand h1::before {
+  -webkit-clip-path : polygon(0 0 , 55% 0 ,35% 100% , 0 100%);
+  clip-path : polygon(0 0 , 55% 0 ,35% 100% , 0 100%);
+  color: #f02323;
+}
+.navbar-brand h1::after {
+  -webkit-clip-path : polygon(55% 0 , 100% 0 , 100% 100% , 35% 100%);
+    clip-path : polygon(55% 0 , 100% 0 , 100% 100% , 35% 100%);
+    color: whitesmoke ;
 }

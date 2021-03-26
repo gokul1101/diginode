@@ -20,9 +20,9 @@ const Navbar = (props) => {
   };
   const searchVideos = async () => {
     const API_KEY = "AIzaSyBsAyZ97pvZLsFrIdwiYhDCR5ag9aXvQuQ"; //AIzaSyCdXjI8f3QWwf6HEWVYAPU4-ZVrn4kPoRw
-    let url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&location=11.127123%2C78.656891&locationRadius=10mi&q=${query}&type=video&maxResults=3&key=${API_KEY}`;
+    let url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&location=11.127123%2C78.656891&locationRadius=10mi&q=${query}&type=video&maxResults=1&key=${API_KEY}`;
     if (query !== "")
-      url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${query}&type=video&maxResults=3&key=${API_KEY}`;
+      url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${query}&type=video&maxResults=1&key=${API_KEY}`;
     const res = await fetch(url, {
       method: "GET",
       headers: {
@@ -48,8 +48,8 @@ const Navbar = (props) => {
     <div>
       <div className="container-fluid p-0 nav-div">
         <nav className="navbar navbar-expand-lg  bg-transparent d-flex align-items-center justify-content-space-around">
-          <Link to="/" className="navbar-brand mt-2">
-            DIGINODE
+          <Link className="navbar-brand mt-2">
+            <h1 className="nav-text">DIGINODE</h1>
           </Link>
           <button
             className="navbar-toggler"
