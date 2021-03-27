@@ -22,14 +22,14 @@ const Main = (props) => {
         setCurrentVideo={setCurrentVideo}
       />
       {toggle ? (
-        <>
+        
           <Iframe
             setToggle={setToggle}
             favorites={favorites}
             setFavorites={setFavorites}
             currentVideo={currentVideo}
           />
-        </>
+        
       ) : null}
     </div>
   );

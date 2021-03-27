@@ -1,6 +1,7 @@
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/DeleteOutlined";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 import VideoContainer from "../VideoContainer/VideoContainer";
 import "./Home.css";
@@ -68,8 +69,14 @@ const Home = (props) => {
   };
   useEffect(() => {
     getData();
-  }, []);
-
+  },[]);
+  const historyFrame = (e) => {
+    let videoId = e.currentTarget.id;
+    let vid = history.find((data) => data.videoId === videoId);
+    console.log(videoId, vid);
+    props.setCurrentVideo(vid);
+    props.setToggle(true);
+  };
   const onloadFrame = async (e) => {
     let videoId = e.currentTarget.id;
     let vid = props.fetchData.find((data) => data.videoId === videoId);
@@ -190,40 +197,51 @@ const Home = (props) => {
             </svg>
           </button>
 
-          <div className="container-fluid continue-scroll">
-            <div className="row flex-nowrap watching mt-3">
+          <div className="container-fluid continue-scroll py-3">
+            <div className="row flex-nowrap watching mt-3 pb-5">
               {history.map((item, index) => {
                 return (
                   <div
                     className="col-12  col-sm-6 col-md-6 col-lg-4"
                     key={index}
                   >
-                    <div
-                      className="d-flex align-items-center justify-content-center position-relative"
-                      id="history"
-                    >
-                      <div className="delete-button position-absolute">
-                        <IconButton
-                          onClick={() => deleteVideoHistory(item)}
-                          aria-label="delete"
-                          style={{ color: "white" }}
+                    <div className="item-card-history">
+                      <img
+                        className="img-fluid"
+                        src={item.thumbnails}
+                        height="150"
+                        width="150"
+                        alt="img"
+                      />
+                      <div className="info-history">
+                        <Link
+                          id="play-video"
+                          className="video-play-button-history"
+                          to="/"
                         >
-                          <DeleteIcon />
-                        </IconButton>
-                      </div>
-                      <div className="col-md-6">
-                        <img
-                          className="img-fluid"
-                          src={item.thumbnails}
-                          height="150"
-                          width="150"
-                          alt="img"
-                        />
-                      </div>
-                      <div className="col-md-6 ">
-                        <div className="flex-column">
-                          <h6>{item.title.split("|").shift()}</h6>
-                          <h6>{item.channelTitle}</h6>
+                          <span
+                            className="play-span-history"
+                            onClick={historyFrame}
+                            id={item.videoId}
+                          ></span>
+                        </Link>
+                        <div className="delete-button position-absolute">
+                          <IconButton
+                            onClick={() => deleteVideoHistory(item)}
+                            aria-label="delete"
+                            style={{ color: "white" }}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </div>
+                        <div className="badges">
+                          <span className="badge badge-danger text-left pb-1">
+                            {item.title.split("|").shift()}
+                          </span>
+                          <br />
+                          <span className="badge badge-warning text-left pb-1">
+                            {item.channelTitle}
+                          </span>
                         </div>
                       </div>
                     </div>

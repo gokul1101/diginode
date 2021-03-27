@@ -12,6 +12,9 @@
 .logo h4 {
   letter-spacing: 2px;
 }
+html{
+  scroll-behavior: smooth;
+}
 a,
 li {
   text-decoration: none !important;
@@ -21,8 +24,8 @@ body {
   min-height: 100vh;
 }
 *::-webkit-scrollbar {
-  width:6px;
-  height: 5px !important;
+  width:4px;
+  height: 3px !important;
 }
 *::-webkit-scrollbar-track {
   background-color:#100A0F;
@@ -31,7 +34,7 @@ body {
   background-color:#100A0F;
 }
 *::-webkit-scrollbar-thumb {
-  background-color:#babac0;
+  background-color:#515152;
   border-radius:16px;
 }
 *::-webkit-scrollbar-thumb:hover {

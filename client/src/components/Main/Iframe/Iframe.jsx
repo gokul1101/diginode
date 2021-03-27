@@ -4,10 +4,11 @@ import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import { IconButton } from "@material-ui/core";
 const Iframe = (props) => {
   const [checkFavorite, setCheckFavorite] = useState(
-    props.favorites.filter((fav) => fav.videoId === props.currentVideo.videoId).length === 1
+    props.favorites.filter((fav) => fav.videoId === props.currentVideo.videoId)
+      .length === 1
   );
   const setFavorite = async (videoId) => {
-    setCheckFavorite(!checkFavorite)
+    setCheckFavorite(!checkFavorite);
     const res = await fetch(`http://localhost:5000/video/${videoId}/favorite`, {
       method: "PATCH",
       headers: {
@@ -47,7 +48,55 @@ const Iframe = (props) => {
         allow="autoplay"
       ></iframe>
       <div className="container">
-        <div className="iframe-content position-relative d-flex flex-column">
+        <div className="row">
+          <div className="col-md-10 iframe-cont">
+            <span class="badge badge-info mr-2">
+              {props.currentVideo.channelTitle}
+            </span>
+            <span class="badge badge-success w-auto">
+              {props.currentVideo.description}
+            </span>
+            <h3 className="mt-2">{props.currentVideo.title}</h3>
+          </div>
+          <div className="col-md-2 d-flex align-items-center justify-content-center iframe-icon">
+            <div id="heart-container">
+              <input
+                type="checkbox"
+                defaultChecked={checkFavorite}
+                id="toggle"
+                className="btn"
+                onClick={() => setFavorite(props.currentVideo.videoId)}
+              />
+              <div id="twitter-heart"></div>
+            </div>
+
+            <div className="content">
+              <div className="icon">
+                <svg
+                  className="download"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="25%"
+                  height="25%"
+                  viewBox="0 0 14 17"
+                >
+                  <path
+                    className="arrow"
+                    fill="#fff"
+                    fillRule="evenodd"
+                    d="M14 6h-4V0H4v6H0l7 7 7-7z"
+                  />
+                  <path
+                    className="line"
+                    fill="#fff"
+                    fillRule="evenodd"
+                    d="M0 15v2h14v-2H0z"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* <div className="iframe-content position-relative d-flex flex-column">
           <div className="social-div">
             <h3 className="float-left">{props.currentVideo.title}</h3>
             <div className="float-right">
@@ -61,6 +110,7 @@ const Iframe = (props) => {
                 />
                 <div id="twitter-heart"></div>
               </div>
+
               <div className="content">
                 <div className="icon">
                   <svg
@@ -89,7 +139,7 @@ const Iframe = (props) => {
           </div>
           <h6 className="mt-2">{props.currentVideo.channelTitle}</h6>
           <h6 className="mt-2">{props.currentVideo.description}</h6>
-        </div>
+        </div> */}
       </div>
     </div>
   );
