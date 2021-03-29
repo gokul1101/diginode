@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Favorite from "./Favorites/Favorite";
 import Home from "./Home/Home";
 import Playlist from "./Playlist/Playlist";
@@ -9,6 +9,7 @@ const Navbar = (props) => {
   const [query, setQuery] = useState("");
 
   const [fetchData, setFetchData] = useState([]);
+  const [fetchTrendData, setFetchTrendData] = useState([]);
   let color = "#xxxxxx".replace(/x/g, (y) =>
     ((Math.random() * 16) | 0).toString(16)
   );
@@ -20,9 +21,9 @@ const Navbar = (props) => {
   };
   const searchVideos = async () => {
     const API_KEY = "AIzaSyBsAyZ97pvZLsFrIdwiYhDCR5ag9aXvQuQ"; //AIzaSyCdXjI8f3QWwf6HEWVYAPU4-ZVrn4kPoRw
-    let url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&location=11.127123%2C78.656891&locationRadius=10mi&q=${query}&type=video&maxResults=1&key=${API_KEY}`;
+    let url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${query}&maxResults=1&key=${API_KEY}`;
     if (query !== "")
-      url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${query}&type=video&maxResults=1&key=${API_KEY}`;
+    url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${query}&type=video&maxResults=1&key=${API_KEY}`;
     const res = await fetch(url, {
       method: "GET",
       headers: {
@@ -32,20 +33,46 @@ const Navbar = (props) => {
     const data = await res.json();
     setFetchData(
       data.items
-        .filter((item) => item.id.videoId !== undefined)
-        .map((item) => {
-          return {
-            videoId: item.id.videoId,
-            channelTitle: item.snippet.channelTitle,
-            description: item.snippet.description,
-            thumbnails: item.snippet.thumbnails.high.url,
-            title: item.snippet.title,
-          };
-        })
-    );
-  };
+      .filter((item) => item.id.videoId !== undefined)
+      .map((item) => {
+        return {
+          videoId: item.id.videoId,
+          channelTitle: item.snippet.channelTitle,
+          description: item.snippet.description,
+          thumbnails: item.snippet.thumbnails.high.url,
+          title: item.snippet.title,
+        };
+      })
+      );
+    };
+    const trendingVideos = async () => {
+    const API_KEY = "AIzaSyBsAyZ97pvZLsFrIdwiYhDCR5ag9aXvQuQ"; //AIzaSyCdXjI8f3QWwf6HEWVYAPU4-ZVrn4kPoRw
+    let trendUrl = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&type=video&maxResults=2&chart=mostPopular&key=${API_KEY}`
+    const res = await fetch(trendUrl, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    const data = await res.json();
+    console.log(data)
+    setFetchTrendData(
+      data.items
+      .map((item) => {
+        return {
+          videoId: item.id.videoId,
+          channelTitle: item.snippet.channelTitle,
+          description: item.snippet.description,
+          thumbnails: item.snippet.thumbnails.high.url,
+          title: item.snippet.title,
+        };
+      })
+      );
+    
+  }
   return (
     <div>
+      {console.log(fetchTrendData)}
       <div className="container-fluid p-0 nav-div">
         <nav className="navbar navbar-expand-lg  bg-transparent d-flex align-items-center justify-content-space-around">
           <Link className="navbar-brand mt-2">
@@ -278,7 +305,10 @@ const Navbar = (props) => {
             role="tabpanel"
             aria-labelledby="pills-profile-tab"
           >
-            <Trending />
+            <Trending 
+              trendingVideos = {trendingVideos}
+              fetchTrendData = {fetchTrendData}
+            />
           </div>
           <div
             className="tab-pane fade"
