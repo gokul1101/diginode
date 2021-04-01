@@ -50,10 +50,10 @@ const Iframe = (props) => {
       <div className="container">
         <div className="row">
           <div className="col-md-10 iframe-cont">
-            <span class="badge badge-info mr-2">
+            <span className="badge badge-info mr-2">
               {props.currentVideo.channelTitle}
             </span>
-            <span class="badge badge-success w-auto">
+            <span className="badge badge-success w-auto">
               {props.currentVideo.description}
             </span>
             <h3 className="mt-2">{props.currentVideo.title}</h3>
@@ -70,7 +70,7 @@ const Iframe = (props) => {
               <div id="twitter-heart"></div>
             </div>
 
-            <div className="content">
+            <div className="content pr-4">
               <div className="icon">
                 <svg
                   className="download"
@@ -94,52 +94,14 @@ const Iframe = (props) => {
                 </svg>
               </div>
             </div>
+
+            <i
+              title="Add to Playlist"
+              className="fas fa-sliders-h"
+              style={{ fontSize: "26px", marginTop: "-8px" }}
+            ></i>
           </div>
         </div>
-        {/* <div className="iframe-content position-relative d-flex flex-column">
-          <div className="social-div">
-            <h3 className="float-left">{props.currentVideo.title}</h3>
-            <div className="float-right">
-              <div id="heart-container">
-                <input
-                  type="checkbox"
-                  defaultChecked={checkFavorite}
-                  id="toggle"
-                  className="btn"
-                  onClick={() => setFavorite(props.currentVideo.videoId)}
-                />
-                <div id="twitter-heart"></div>
-              </div>
-
-              <div className="content">
-                <div className="icon">
-                  <svg
-                    className="download"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="25%"
-                    height="25%"
-                    viewBox="0 0 14 17"
-                  >
-                    <path
-                      className="arrow"
-                      fill="#fff"
-                      fillRule="evenodd"
-                      d="M14 6h-4V0H4v6H0l7 7 7-7z"
-                    />
-                    <path
-                      className="line"
-                      fill="#fff"
-                      fillRule="evenodd"
-                      d="M0 15v2h14v-2H0z"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </div>
-          <h6 className="mt-2">{props.currentVideo.channelTitle}</h6>
-          <h6 className="mt-2">{props.currentVideo.description}</h6>
-        </div> */}
       </div>
     </div>
   );

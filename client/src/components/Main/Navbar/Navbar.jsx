@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Favorite from "./Favorites/Favorite";
 import Home from "./Home/Home";
 import Playlist from "./Playlist/Playlist";
@@ -55,7 +55,6 @@ const Navbar = (props) => {
       },
     });
     const data = await res.json();
-    console.log(data)
     setFetchTrendData(
       data.items
       .map((item) => {
@@ -72,7 +71,6 @@ const Navbar = (props) => {
   }
   return (
     <div>
-      {console.log(fetchTrendData)}
       <div className="container-fluid p-0 nav-div">
         <nav className="navbar navbar-expand-lg  bg-transparent d-flex align-items-center justify-content-space-around">
           <Link className="navbar-brand mt-2">
@@ -308,6 +306,12 @@ const Navbar = (props) => {
             <Trending 
               trendingVideos = {trendingVideos}
               fetchTrendData = {fetchTrendData}
+              user={props.user}
+              setUser={props.setUser}
+              snackBar={props.snackBar}
+              setCurrentVideo={props.setCurrentVideo}
+              setFavorites={props.setFavorites}
+              setToggle={props.setToggle}
             />
           </div>
           <div

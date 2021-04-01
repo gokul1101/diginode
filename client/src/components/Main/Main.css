@@ -3,3 +3,19 @@
   color: whitesmoke;
   overflow: scroll;
 }
+
+.playlist-overlay {
+  transform: scale(1);
+  transform-origin: center;
+  background: black;
+  opacity: 1;
+  transition: all ease 500ms;
+  z-index: 1002;
+  position: fixed;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  height: auto;
+  overflow-y: scroll;
+}
