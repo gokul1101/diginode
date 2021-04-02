@@ -17,5 +17,6 @@
   top: 0;
   bottom: 0;
   height: auto;
+  /* width: 700px; */
   overflow-y: scroll;
 }
