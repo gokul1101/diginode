@@ -10,8 +10,10 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { makeStyles } from "@material-ui/core/styles";
 import FormatIndentDecreaseOutlinedIcon from "@material-ui/icons/FormatIndentDecreaseOutlined";
 import AddCircleOutlinedIcon from "@material-ui/icons/AddCircleOutlined";
+import DoneAllIcon from "@material-ui/icons/DoneAll";
 import Avatar from "@material-ui/core/Avatar";
 import Chip from "@material-ui/core/Chip";
+import DialogContentText from "@material-ui/core/DialogContentText";
 const Iframe = (props) => {
   const useStyles = makeStyles((theme) => ({
     button: {
@@ -29,14 +31,33 @@ const Iframe = (props) => {
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [openDownload, setOpenDownload] = React.useState(false);
   const [createPlaylist, setCreatePlaylist] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
+  const confirmDownload = () => {
+    handleClose();
+    props.snackBar("Video downloading...", "info")
+    const url = `http://localhost:5000/video/download/${props.currentVideo.videoId}`;
+    fetch(url)
+      .then((response) => response.blob())
+      .then((blob) => {
+        const url = window.URL.createObjectURL(new Blob([blob]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `${props.currentVideo.title}.mp4`);
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode.removeChild(link);
+        props.snackBar("Video downloaded Successfully", "success")
+      });
+  };
 
   const handleClose = () => {
     setOpen(false);
+    setOpenDownload(false);
   };
 
   const handleClick = () => {
@@ -68,11 +89,13 @@ const Iframe = (props) => {
         videoId,
       }),
     });
-    const {data, flag} = await res.json();
-    props.snackBar(flag?"Added to favorties":"Removed from favorites", flag?"success":"error");
+    const { data, flag } = await res.json();
+    props.snackBar(
+      flag ? "Added to favorties" : "Removed from favorites",
+      flag ? "success" : "error"
+    );
     props.setFavorites(data);
   };
-  const confirmDownload = () => {}
   return (
     <div
       id="video-overlay"
@@ -117,7 +140,7 @@ const Iframe = (props) => {
               <div id="twitter-heart"></div>
             </div>
 
-            <div className="content pr-4 download" onClick={confirmDownload}>
+            <div className="content download">
               <div className="icon">
                 <svg
                   className="download"
@@ -125,6 +148,7 @@ const Iframe = (props) => {
                   width="25%"
                   height="25%"
                   viewBox="0 0 14 17"
+                  onClick={() => setOpenDownload(true)}
                 >
                   <path
                     className="arrow"
@@ -139,6 +163,45 @@ const Iframe = (props) => {
                     d="M0 15v2h14v-2H0z"
                   />
                 </svg>
+                <Dialog
+                  open={openDownload}
+                  onClose={handleClose}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                  <DialogTitle id="alert-dialog-title">
+                    {"Do you want to Download this Video?"}
+                  </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                      <span className="badge badge-info mr-2">
+                        {props.currentVideo.channelTitle}
+                      </span>
+                      <span className="badge badge-success w-auto">
+                        {props.currentVideo.description}
+                      </span>
+                      <h4 className="mt-2">{props.currentVideo.title}</h4>
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button
+                      color="primary"
+                      onClick={confirmDownload}
+                      startIcon={<DoneAllIcon />}
+                      autoFocus
+                    >
+                      Yes
+                    </Button>
+                    <Button
+                      startIcon={<CloseOutlinedIcon />}
+                      onClick={handleClose}
+                      color="secondary"
+                      autoFocus
+                    >
+                      No
+                    </Button>
+                  </DialogActions>
+                </Dialog>
               </div>
             </div>
 

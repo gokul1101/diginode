@@ -73,7 +73,7 @@ const Navbar = (props) => {
     <div>
       <div className="container-fluid p-0 nav-div">
         <nav className="navbar navbar-expand-lg  bg-transparent d-flex align-items-center justify-content-space-around">
-          <Link className="navbar-brand mt-2">
+          <Link to="/" className="navbar-brand mt-2">
             <h1 className="nav-text">DIGINODE</h1>
           </Link>
           <button
