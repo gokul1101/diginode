@@ -202,14 +202,74 @@ const Iframe = (props) => {
                   ) : (
                     <ul>
                       <div
-                        className="scroll-li"
+                        className="scroll-li d-flex flex-wrap"
                         style={{
                           width: "100%",
                           height: "100px",
                           overflowY: "scroll",
                         }}
                       >
-                        <li className="text-left">
+                        <li className="mx-1">
+                          <Chip
+                            avatar={<Avatar>D</Avatar>}
+                            label="Dhanush"
+                            clickable
+                            color="primary"
+                            onClick={handleClick}
+                            className="mb-2 "
+                          />
+                        </li>
+                        <li className="mx-1">
+                          <Chip
+                            avatar={<Avatar>D</Avatar>}
+                            label="Gajendriran"
+                            clickable
+                            color="primary"
+                            onClick={handleClick}
+                            className="mb-2 "
+                          />
+                        </li>
+                        <li className="mx-1">
+                          <Chip
+                            avatar={<Avatar>D</Avatar>}
+                            label="Gobinath"
+                            clickable
+                            color="primary"
+                            onClick={handleClick}
+                            className="mb-2 "
+                          />
+                        </li>
+                        <li className="mx-1">
+                          <Chip
+                            avatar={<Avatar>D</Avatar>}
+                            label="Nandha"
+                            clickable
+                            color="primary"
+                            onClick={handleClick}
+                            className="mb-2 "
+                          />
+                        </li>
+                        <li className="mx-1">
+                          <Chip
+                            avatar={<Avatar>D</Avatar>}
+                            label="Dhusandhan"
+                            clickable
+                            color="primary"
+                            onClick={handleClick}
+                            className="mb-2 "
+                          />
+                        </li>
+                        <li className="mx-1">
+                          <Chip
+                            avatar={<Avatar>D</Avatar>}
+                            label="Vasanthan"
+                            clickable
+                            color="primary"
+                            onClick={handleClick}
+                            className="mb-2 "
+                          />
+                        </li>
+                        <li className="mx-1">
                           <Chip
                             avatar={<Avatar>D</Avatar>}
                             label="Dhanush"
@@ -220,7 +280,7 @@ const Iframe = (props) => {
                           />
                         </li>
 
-                        <li>
+                        <li className="mx-1">
                           <Chip
                             avatar={<Avatar>G</Avatar>}
                             label="Gokul"
