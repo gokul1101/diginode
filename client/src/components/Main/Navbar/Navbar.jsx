@@ -23,7 +23,7 @@ const Navbar = (props) => {
     const API_KEY = "AIzaSyBsAyZ97pvZLsFrIdwiYhDCR5ag9aXvQuQ"; //AIzaSyCdXjI8f3QWwf6HEWVYAPU4-ZVrn4kPoRw
     let url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${query}&maxResults=1&key=${API_KEY}`;
     if (query !== "")
-    url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${query}&type=video&maxResults=1&key=${API_KEY}`;
+      url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${query}&type=video&maxResults=1&key=${API_KEY}`;
     const res = await fetch(url, {
       method: "GET",
       headers: {
@@ -33,21 +33,21 @@ const Navbar = (props) => {
     const data = await res.json();
     setFetchData(
       data.items
-      .filter((item) => item.id.videoId !== undefined)
-      .map((item) => {
-        return {
-          videoId: item.id.videoId,
-          channelTitle: item.snippet.channelTitle,
-          description: item.snippet.description,
-          thumbnails: item.snippet.thumbnails.high.url,
-          title: item.snippet.title,
-        };
-      })
-      );
-    };
-    const trendingVideos = async () => {
+        .filter((item) => item.id.videoId !== undefined)
+        .map((item) => {
+          return {
+            videoId: item.id.videoId,
+            channelTitle: item.snippet.channelTitle,
+            description: item.snippet.description,
+            thumbnails: item.snippet.thumbnails.high.url,
+            title: item.snippet.title,
+          };
+        })
+    );
+  };
+  const trendingVideos = async () => {
     const API_KEY = "AIzaSyBsAyZ97pvZLsFrIdwiYhDCR5ag9aXvQuQ"; //AIzaSyCdXjI8f3QWwf6HEWVYAPU4-ZVrn4kPoRw
-    let trendUrl = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&type=video&maxResults=2&chart=mostPopular&key=${API_KEY}`
+    let trendUrl = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&type=video&maxResults=2&chart=mostPopular&key=${API_KEY}`;
     const res = await fetch(trendUrl, {
       method: "GET",
       headers: {
@@ -57,18 +57,17 @@ const Navbar = (props) => {
     const data = await res.json();
     setFetchTrendData(
       data.items
-      .map((item) => {
-        return {
-          videoId: item.id.videoId,
-          channelTitle: item.snippet.channelTitle,
-          description: item.snippet.description,
-          thumbnails: item.snippet.thumbnails.high.url,
-          title: item.snippet.title,
-        };
-      })
-      );
-    
-  }
+        .map((item) => {
+          return {
+            videoId: item.id,
+            channelTitle: item.snippet.channelTitle,
+            description: item.snippet.description,
+            thumbnails: item.snippet.thumbnails.high.url,
+            title: item.snippet.title,
+          };
+        })
+    );
+  };
   return (
     <div>
       <div className="container-fluid p-0 nav-div">
@@ -302,14 +301,11 @@ const Navbar = (props) => {
             role="tabpanel"
             aria-labelledby="pills-profile-tab"
           >
-            <Trending 
-              trendingVideos = {trendingVideos}
-              fetchTrendData = {fetchTrendData}
-              user={props.user}
-              setUser={props.setUser}
+            <Trending
+              trendingVideos={trendingVideos}
+              fetchTrendData={fetchTrendData}
               snackBar={props.snackBar}
               setCurrentVideo={props.setCurrentVideo}
-              setFavorites={props.setFavorites}
               setToggle={props.setToggle}
             />
           </div>

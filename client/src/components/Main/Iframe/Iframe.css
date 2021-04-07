@@ -47,7 +47,7 @@
   margin-top: -28px;
   margin-left: 0px;
   position: relative;
-  left: -46px;
+  left: -60px;
 }
 
 #twitter-heart {
@@ -87,7 +87,9 @@
   cursor: pointer;
   height: 40px;
   width: 20px;
-  margin-top: -10px;
+  position: relative;
+  left: -9px;
+  top: -2px;
 }
 .download:hover .arrow {
   -webkit-animation: bounce 0.75s both ease-out 1;

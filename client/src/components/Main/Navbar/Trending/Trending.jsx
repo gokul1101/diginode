@@ -6,9 +6,15 @@ const Trending = (props) => {
   useEffect(()=>{
     props.trendingVideos();
   },[]);
+  const onloadFrame = (e) => {
+    let videoId = e.currentTarget.id;
+    let video = props.fetchTrendData.find((data) => data.videoId === videoId);
+    props.setCurrentVideo(video);
+    props.setToggle(true);
+  }
   return (
     <div>
-      <VideoContainer fetchData={props.fetchTrendData} />
+      <VideoContainer fetchData={props.fetchTrendData} onloadFrame={onloadFrame}/>
     </div>
   );
 };
