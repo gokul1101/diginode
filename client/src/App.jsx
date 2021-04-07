@@ -26,7 +26,7 @@ const App = () => {
   };
   return (
     <div className="App container-fluid m-0 p-0">
-      <Snackbar open={open} anchorOrigin={{ vertical:"top", horizontal:"center" }} autoHideDuration={6000} onClose={handleClose}>
+      <Snackbar open={open} anchorOrigin={{ vertical:"top", horizontal:"center" }} autoHideDuration={3000} onClose={handleClose}>
         <Alert onClose={handleClose} severity={severity}>
           {message}
         </Alert>

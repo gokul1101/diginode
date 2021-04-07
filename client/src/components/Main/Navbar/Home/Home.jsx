@@ -73,7 +73,6 @@ const Home = (props) => {
   const historyFrame = (e) => {
     let videoId = e.currentTarget.id;
     let vid = history.find((data) => data.videoId === videoId);
-    console.log(videoId, vid);
     props.setCurrentVideo(vid);
     props.setToggle(true);
   };

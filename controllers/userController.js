@@ -1,6 +1,6 @@
 const User = require("../models/User");
 const Video = require("../models/Video");
-
+const ytdl = require("ytdl-core");
 const signup = (req, res) => {
   let { name, email, password } = req.body;
   User.findOne({ email })
@@ -52,6 +52,7 @@ const favorites = async (req, res) => {
     let data;
     let videos = await Video.find({});
     let currentVideo = videos.find((video) => video.videoId === videoId);
+    let flag = false;
     if (!currentVideo) {
       const newVideo = new Video({
         channelTitle,
@@ -69,16 +70,18 @@ const favorites = async (req, res) => {
       await User.findByIdAndUpdate(user._id, {
         $push: { favorites: data._id },
       }).exec();
+      flag = true;
     } else {
       await User.findByIdAndUpdate(user._id, {
         $pull: { favorites: data._id },
       }).exec();
+      flag = false;
     }
     let favorite = await User.find({ email }).select("favorite").populate({
       path: "favorites",
       model: "video",
     });
-    res.send(favorite[0].favorites);
+      res.send({data: favorite[0].favorites, flag});
   } catch (e) {
     res.status(502).send({ message: "error" });
   }
@@ -180,6 +183,14 @@ const clearHistory = async (req, res) => {
     res.status(502).send({ message: "error" });
   }
 };
+
+const downloadVideo = (req, res) => {
+  const id = req.params.id;
+  const url = `https://www.youtube.com/watch?v=${id}`;
+  res.header("Content-Disposition", 'attachment;  filename="Video.mp4');
+  ytdl(url, { format: "mp4" }).pipe(res);
+};
+
 module.exports = {
   signup,
   login,
@@ -187,4 +198,5 @@ module.exports = {
   history,
   deleteVideo,
   clearHistory,
+  downloadVideo,
 };

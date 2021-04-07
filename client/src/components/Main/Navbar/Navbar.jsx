@@ -9,6 +9,7 @@ const Navbar = (props) => {
   const [query, setQuery] = useState("");
 
   const [fetchData, setFetchData] = useState([]);
+  const [fetchTrendData, setFetchTrendData] = useState([]);
   let color = "#xxxxxx".replace(/x/g, (y) =>
     ((Math.random() * 16) | 0).toString(16)
   );
@@ -20,9 +21,9 @@ const Navbar = (props) => {
   };
   const searchVideos = async () => {
     const API_KEY = "AIzaSyBsAyZ97pvZLsFrIdwiYhDCR5ag9aXvQuQ"; //AIzaSyCdXjI8f3QWwf6HEWVYAPU4-ZVrn4kPoRw
-    let url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&location=11.127123%2C78.656891&locationRadius=10mi&q=${query}&type=video&maxResults=1&key=${API_KEY}`;
+    let url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${query}&maxResults=1&key=${API_KEY}`;
     if (query !== "")
-      url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${query}&type=video&maxResults=1&key=${API_KEY}`;
+    url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${query}&type=video&maxResults=1&key=${API_KEY}`;
     const res = await fetch(url, {
       method: "GET",
       headers: {
@@ -32,18 +33,42 @@ const Navbar = (props) => {
     const data = await res.json();
     setFetchData(
       data.items
-        .filter((item) => item.id.videoId !== undefined)
-        .map((item) => {
-          return {
-            videoId: item.id.videoId,
-            channelTitle: item.snippet.channelTitle,
-            description: item.snippet.description,
-            thumbnails: item.snippet.thumbnails.high.url,
-            title: item.snippet.title,
-          };
-        })
-    );
-  };
+      .filter((item) => item.id.videoId !== undefined)
+      .map((item) => {
+        return {
+          videoId: item.id.videoId,
+          channelTitle: item.snippet.channelTitle,
+          description: item.snippet.description,
+          thumbnails: item.snippet.thumbnails.high.url,
+          title: item.snippet.title,
+        };
+      })
+      );
+    };
+    const trendingVideos = async () => {
+    const API_KEY = "AIzaSyBsAyZ97pvZLsFrIdwiYhDCR5ag9aXvQuQ"; //AIzaSyCdXjI8f3QWwf6HEWVYAPU4-ZVrn4kPoRw
+    let trendUrl = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&type=video&maxResults=2&chart=mostPopular&key=${API_KEY}`
+    const res = await fetch(trendUrl, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    const data = await res.json();
+    setFetchTrendData(
+      data.items
+      .map((item) => {
+        return {
+          videoId: item.id.videoId,
+          channelTitle: item.snippet.channelTitle,
+          description: item.snippet.description,
+          thumbnails: item.snippet.thumbnails.high.url,
+          title: item.snippet.title,
+        };
+      })
+      );
+    
+  }
   return (
     <div>
       <div className="container-fluid p-0 nav-div">
@@ -72,7 +97,7 @@ const Navbar = (props) => {
               id="pills-tab"
               role="tablist"
             >
-              <li className="nav-item " role="presentation">
+              <li className="nav-item mx-3 px-3" role="presentation">
                 <a
                   className="nav-link active navIcon"
                   id="pills-home-tab"
@@ -100,11 +125,10 @@ const Navbar = (props) => {
                       d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"
                     />
                   </svg>
-
                   <span className="text-li">HOME</span>
                 </a>
               </li>
-              <li className="nav-item px-2" role="presentation">
+              <li className="nav-item mx-3 px-3" role="presentation">
                 <a
                   className="nav-link navIcon"
                   id="pills-profile-tab"
@@ -128,7 +152,7 @@ const Navbar = (props) => {
                   <span className="text-li">TRENDING</span>
                 </a>
               </li>
-              <li className="nav-item px-2" role="presentation">
+              <li className="nav-item mx-3 px-3" role="presentation">
                 <a
                   className="nav-link navIcon"
                   id="pills-contact-tab"
@@ -158,7 +182,7 @@ const Navbar = (props) => {
                   <span className="text-li">PLAYLIST</span>
                 </a>
               </li>
-              <li className="nav-item px-2" role="presentation">
+              <li className="nav-item mx-3 px-3" role="presentation">
                 <a
                   className="nav-link navIcon"
                   id="pills-favorite-tab"
@@ -278,7 +302,16 @@ const Navbar = (props) => {
             role="tabpanel"
             aria-labelledby="pills-profile-tab"
           >
-            <Trending />
+            <Trending 
+              trendingVideos = {trendingVideos}
+              fetchTrendData = {fetchTrendData}
+              user={props.user}
+              setUser={props.setUser}
+              snackBar={props.snackBar}
+              setCurrentVideo={props.setCurrentVideo}
+              setFavorites={props.setFavorites}
+              setToggle={props.setToggle}
+            />
           </div>
           <div
             className="tab-pane fade"

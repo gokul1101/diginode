@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "./Navbar/Navbar";
 import "./Main.css";
-
 import Iframe from "./Iframe/Iframe";
 const Main = (props) => {
   const [favorites, setFavorites] = useState(
@@ -22,14 +21,13 @@ const Main = (props) => {
         setCurrentVideo={setCurrentVideo}
       />
       {toggle ? (
-        
-          <Iframe
-            setToggle={setToggle}
-            favorites={favorites}
-            setFavorites={setFavorites}
-            currentVideo={currentVideo}
-          />
-        
+        <Iframe
+          setToggle={setToggle}
+          favorites={favorites}
+          setFavorites={setFavorites}
+          currentVideo={currentVideo}
+          snackBar={props.snackBar}
+        />
       ) : null}
     </div>
   );

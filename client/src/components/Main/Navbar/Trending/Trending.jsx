@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
+import VideoContainer from "../VideoContainer/VideoContainer";
 import "./Trending.css";
 
-const Trending = () => {
+const Trending = (props) => {  
+  useEffect(()=>{
+    props.trendingVideos();
+  },[]);
   return (
     <div>
-      <h1>Hello</h1>
+      <VideoContainer fetchData={props.fetchTrendData} />
     </div>
   );
 };
