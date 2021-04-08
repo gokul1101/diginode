@@ -112,7 +112,7 @@ const Iframe = (props) => {
       <iframe
         title="render-video"
         className="mb-5"
-        src={`https://www.youtube.com/embed/${props.currentVideo.videoId}?autoplay=1&;enablejsapi=1?rel=0&showinfo=0`}
+        src={`https://www.youtube-nocookie.com/embed/${props.currentVideo.videoId}?autoplay=1&enablejsapi=1&rel=0&showinfo=0`}
         frameBorder="0"
         allowFullScreen
         allow="autoplay"
