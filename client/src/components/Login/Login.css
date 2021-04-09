@@ -1,0 +1,64 @@
+.login{
+    height: 100vh !important;
+}
+.login .logo{
+    z-index : 10 !important;
+}
+.sign-up{
+    background-color: #B92B27;
+}
+.logo h4,
+.sign-up h1{
+    font-weight: 600;
+}
+.small-txt{
+    font-family: 'Langar', cursive;
+}
+.social-media-login .icon{
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    border: 1px solid rgb(189, 189, 189);
+    box-shadow: 0 0 5px;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+.social-media-login .icon:hover{
+    box-shadow: inset 0 0 5px #cdcdcd;
+}
+.social-media-login .icon i{
+    font-size: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.MuiInput-underline:hover:not(.Mui-disabled):before,
+.MuiInput-underline:before,
+.MuiInput-underline:after {
+    border: 0 !important;
+}
+input{
+    font-size: 15px !important;
+    padding-bottom: 5px !important;
+}
+@media(max-width:520px){
+    .login{
+        display: flex;
+        flex-direction: row !important;
+    }
+    .sign-register{
+        display: flex;
+        flex-direction: column !important;
+        margin-top: 70px;
+    }
+    .sign-up{
+        order: 2;
+        margin-top: 20px;
+    }
+    .title-name{
+        color: #B92B27 !important;
+    }
+    .text-white,.text-dark{
+        font-size: 18px;
+    }
+}
