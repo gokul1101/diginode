@@ -5,19 +5,15 @@ import "./Playlist.css";
 const Playlist = (props) => {
   return (
     <div>
-      {/* {
-        props.playlists.map(item => console.log(item))
-      } */}
       <form className="form-inline ">
         <div className="form-group mx-auto">
-          <input type="text" className="form-control" />
+          <input type="text" className="form-control" placeholder="Search for Playlist"/>
           <i className="fa fa-search form-control-feedback position-relative"></i>
         </div>
       </form>
       <br />
       <div className="container p-0 cont-playlist">
-        <div className="d-flex flex-column">
-          <div className="d-flex mt-2 mb-2">
+          <div className="d-flex mt-2 mb-2 ">
             <div className="main-play mr-auto">
               <h2>Playlist</h2>
             </div>
@@ -27,9 +23,9 @@ const Playlist = (props) => {
               </Button>
             </div>
           </div>
-          <div className="d-flex">
+          <div className="d-flex flex-playlist">
             <div className="col-md-7 text-right">
-              <div className="d-flex p-3 playlist-list">
+              <div className="d-flex p-3 playlist-list mb-2">
                 <div className="play-image mr-3">
                   <img
                     src="https://www.teahub.io/photos/full/3-34370_avengers-endgame-portals-poster.png"
@@ -38,11 +34,11 @@ const Playlist = (props) => {
                   />
                 </div>
                 <div className="d-flex flex-column text-left">
-                  <h5>The Bruno Playlist</h5>
+                  <h5 className="playlist-h6">The Bruno Playlist</h5>
                   <h6 className="playlist-h5">114 videos</h6>
                 </div>
               </div>
-              <div className="d-flex p-3 playlist-list">
+              <div className="d-flex p-3 playlist-list mb-2">
                 <div className="play-image mr-3">
                   <img
                     src="https://www.teahub.io/photos/full/3-34370_avengers-endgame-portals-poster.png"
@@ -51,11 +47,11 @@ const Playlist = (props) => {
                   />
                 </div>
                 <div className="d-flex flex-column text-left">
-                  <h5>The Bruno Playlist</h5>
+                  <h5 className="playlist-h6">The Bruno Playlist</h5>
                   <h6 className="playlist-h5">114 videos</h6>
                 </div>
               </div>
-              <div className="d-flex p-3 playlist-list">
+              <div className="d-flex p-3 playlist-list mb-2">
                 <div className="play-image mr-3">
                   <img
                     src="https://www.teahub.io/photos/full/3-34370_avengers-endgame-portals-poster.png"
@@ -64,7 +60,7 @@ const Playlist = (props) => {
                   />
                 </div>
                 <div className="d-flex flex-column text-left">
-                  <h5>The Bruno Playlist</h5>
+                  <h5 className="playlist-h6">The Bruno Playlist</h5>
                   <h6 className="playlist-h5">114 videos</h6>
                 </div>
               </div>
@@ -91,7 +87,7 @@ const Playlist = (props) => {
                   <h6 className="mt-2 ml-2">Related songs</h6>
                 </div>
                 <div style={{ overflowX: "scroll !important" }}>
-                  <div className="d-flex pt-3 pb-3">
+                  <div className="d-flex playlist-list pt-3 pb-3 mb-2">
                     <div className="play-image mr-3 ml-3">
                       <img
                         src="https://www.teahub.io/photos/full/3-34370_avengers-endgame-portals-poster.png"
@@ -100,11 +96,11 @@ const Playlist = (props) => {
                       />
                     </div>
                     <div className="d-flex flex-column text-left">
-                      <h5>The Bruno Playlist</h5>
+                      <h5 className="playlist-h-3">The Bruno Playlist</h5>
                       <h6 className="playlist-h5">114 videos</h6>
                     </div>
                   </div>
-                  <div className="d-flex pt-3 pb-3">
+                  <div className="d-flex playlist-list pt-3 pb-3 mb-2">
                     <div className="play-image mr-3 ml-3">
                       <img
                         src="https://www.teahub.io/photos/full/3-34370_avengers-endgame-portals-poster.png"
@@ -113,11 +109,11 @@ const Playlist = (props) => {
                       />
                     </div>
                     <div className="d-flex flex-column text-left">
-                      <h5>The Bruno Playlist</h5>
+                      <h5 className="playlist-h-3">The Bruno Playlist</h5>
                       <h6 className="playlist-h5">114 videos</h6>
                     </div>
                   </div>
-                  <div className="d-flex pt-3 pb-3">
+                  <div className="d-flex playlist-list pt-3 pb-3 mb-2">
                     <div className="play-image mr-3 ml-3">
                       <img
                         src="https://www.teahub.io/photos/full/3-34370_avengers-endgame-portals-poster.png"
@@ -126,7 +122,7 @@ const Playlist = (props) => {
                       />
                     </div>
                     <div className="d-flex flex-column text-left">
-                      <h5>The Bruno Playlist</h5>
+                      <h5 className="playlist-h-3">The Bruno Playlist</h5>
                       <h6 className="playlist-h5">114 videos</h6>
                     </div>
                   </div>
@@ -136,7 +132,6 @@ const Playlist = (props) => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 
