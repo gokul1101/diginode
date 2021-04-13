@@ -7,7 +7,12 @@ import "./Navbar.css";
 import { Link } from "react-router-dom";
 const Navbar = (props) => {
   const [query, setQuery] = useState("");
-
+  const [history, setHistory] = useState(
+    Object.keys(props.user).length === 0 ? [] : props.user.history
+  );
+  let [playlists, setPlayLists] = useState(
+    Object.keys(props.user).length === 0 ? [] : props.user.playlists
+  );
   const [fetchData, setFetchData] = useState([]);
   const [fetchTrendData, setFetchTrendData] = useState([]);
   let color = "#xxxxxx".replace(/x/g, (y) =>
@@ -31,23 +36,26 @@ const Navbar = (props) => {
       },
     });
     const data = await res.json();
-    setFetchData(
-      data.items
-        .filter((item) => item.id.videoId !== undefined)
-        .map((item) => {
-          return {
-            videoId: item.id.videoId,
-            channelTitle: item.snippet.channelTitle,
-            description: item.snippet.description,
-            thumbnails: item.snippet.thumbnails.high.url,
-            title: item.snippet.title,
-          };
-        })
-    );
+    console.log(data)
+    if(res.status === 200) {
+      setFetchData(
+        data.items
+          .filter((item) => item.id.videoId !== undefined)
+          .map((item) => {
+            return {
+              videoId: item.id.videoId,
+              channelTitle: item.snippet.channelTitle,
+              description: item.snippet.description,
+              thumbnails: item.snippet.thumbnails.high.url,
+              title: item.snippet.title,
+            };
+          })
+      );
+    }
   };
   const trendingVideos = async () => {
-    const API_KEY = "AIzaSyBsAyZ97pvZLsFrIdwiYhDCR5ag9aXvQuQ"; //AIzaSyCdXjI8f3QWwf6HEWVYAPU4-ZVrn4kPoRw
-    let trendUrl = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&type=video&maxResults=2&chart=mostPopular&key=${API_KEY}`;
+    const API_KEY = "AIzaSyAXL7M66rqm-LH9Fx8JhZsT55j7htNKsDI"; // AIzaSyBsAyZ97pvZLsFrIdwiYhDCR5ag9aXvQuQ AIzaSyCdXjI8f3QWwf6HEWVYAPU4-ZVrn4kPoRw
+    let trendUrl = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&type=video&maxResults=2&regionCode=IN&chart=mostPopular&key=${API_KEY}`;
     const res = await fetch(trendUrl, {
       method: "GET",
       headers: {
@@ -55,19 +63,74 @@ const Navbar = (props) => {
       },
     });
     const data = await res.json();
-    setFetchTrendData(
-      data.items
-        .filter((item) => item.id !== undefined)
-        .map((item) => {
-          return {
-            videoId: item.id,
-            channelTitle: item.snippet.channelTitle,
-            description: item.snippet.description,
-            thumbnails: item.snippet.thumbnails.high.url,
-            title: item.snippet.title,
-          };
-        })
-    );
+    if(res.status === 200) {
+      setFetchTrendData(
+        data.items
+          .filter((item) => item.id !== undefined)
+          .map((item) => {
+            return {
+              videoId: item.id,
+              channelTitle: item.snippet.channelTitle,
+              description: item.snippet.description,
+              thumbnails: item.snippet.thumbnails.high.url,
+              title: item.snippet.title,
+            };
+          })
+      );
+    }
+  };
+  const getData = async () => {
+    if (Object.keys(props.user).length === 0) {
+      const url = "http://localhost:5000/login";
+      const res = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify({
+          email: localStorage.getItem("user"),
+          password: localStorage.getItem("password"),
+        }),
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
+      if (res.status === 200) {
+        let userDetails = await res.json();
+        props.setUser(userDetails);
+        setHistory(userDetails.history);
+        setPlayLists(userDetails.playlists);
+        props.snackBar("Welcome back!!!", "success");
+        props.setFavorites(userDetails.favorites);
+      } else if (res.status === 404) props.snackBar("user not found", "info");
+      else if (res.status === 401)
+        props.snackBar("Incorrect password", "error");
+      else props.snackBar("Something wrong in the server", "error");
+    }    
+  };
+  const addToHistory = async (id, location) => {
+    let videoId = id;
+    let vid;
+    if (location === "home") {
+      vid = fetchData.find((data) => data.videoId === videoId);
+    } else if (location === "trending") {
+      vid = fetchTrendData.find((data) => data.videoId === videoId);
+    }
+    props.setCurrentVideo(vid);
+    props.setToggle(true);
+    const res = await fetch(`http://localhost:5000/video/${videoId}/history`, {
+      method: "PATCH",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        email: localStorage.getItem("user"),
+        channelTitle: vid.channelTitle,
+        description: vid.description,
+        thumbnails: vid.thumbnails,
+        title: vid.title,
+        videoId,
+      }),
+    });
+    const data = await res.json();
+    setHistory(data);
   };
   return (
     <div>
@@ -288,12 +351,11 @@ const Navbar = (props) => {
             <Home
               searchVideos={searchVideos}
               fetchData={fetchData}
-              user={props.user}
-              setUser={props.setUser}
+              getData={getData}
               snackBar={props.snackBar}
-              setCurrentVideo={props.setCurrentVideo}
-              setFavorites={props.setFavorites}
-              setToggle={props.setToggle}
+              addToHistory={addToHistory}
+              history={history}
+              setHistory={setHistory}
             />
           </div>
           <div
@@ -303,11 +365,11 @@ const Navbar = (props) => {
             aria-labelledby="pills-profile-tab"
           >
             <Trending
+              searchVideos={searchVideos}
               trendingVideos={trendingVideos}
               fetchTrendData={fetchTrendData}
               snackBar={props.snackBar}
-              setCurrentVideo={props.setCurrentVideo}
-              setToggle={props.setToggle}
+              addToHistory={addToHistory}
             />
           </div>
           <div
@@ -316,7 +378,9 @@ const Navbar = (props) => {
             role="tabpanel"
             aria-labelledby="pills-contact-tab"
           >
-            <Playlist />
+            <Playlist 
+              playlists = {playlists}
+            />
           </div>
           <div
             className="tab-pane fade"

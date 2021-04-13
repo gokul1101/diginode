@@ -1,10 +1,13 @@
 import React from "react";
 import "./Playlist.css";
 
-const Playlist = () => {
+const Playlist = (props) => {
+  
   return (
     <div>
-      <h1>Hiii</h1>
+      {
+        props.playlists.map(item => console.log(item))
+      }
     </div>
   );
 };

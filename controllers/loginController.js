@@ -19,14 +19,20 @@ const login = async (req, res) => {
   let { email, password } = req.body;
   try {
     let currentUser = await User.findOne({ email })
-      .populate({
+      .populate([{
         path: "favorites",
         model: "video",
-      })
-      .populate({
+      }, {
         path: "history",
         model: "video",
-      })
+      }, {
+        path: "playlists",
+        model: "playlist",
+        populate : {
+          path: "list",
+          model: "video",
+        }
+      }])
       .exec();
     if (!currentUser) res.status(404).send({ message: "user not found" });
     else if (currentUser.password !== password)
