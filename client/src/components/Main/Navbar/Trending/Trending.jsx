@@ -7,10 +7,8 @@ const Trending = (props) => {
     props.trendingVideos();
   }, []);
   const onloadFrame = (e) => {
-    let videoId = e.currentTarget.id;
-    let video = props.fetchTrendData.find((data) => data.videoId === videoId);
-    props.setCurrentVideo(video);
-    props.setToggle(true);
+    props.addToHistory(e.currentTarget.id, "trending");
+    props.searchVideos();
   };
   return (
     <div>

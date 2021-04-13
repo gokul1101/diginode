@@ -1,0 +1,19 @@
+.playlist-list{
+    background: rgba(255, 255, 255, 0.04);
+}
+.cont-playlist{
+    overflow: hidden !important;
+}
+.playlist-h5{
+    color:rgb(182, 182, 182);
+}
+.style-playlist{
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    overflow:hidden !important;
+}
+.songs-name{
+    border-bottom: 1px solid rgb(68, 68, 68);
+    padding-bottom: 8px;
+    
+}

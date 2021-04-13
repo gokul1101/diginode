@@ -6,35 +6,6 @@ import { Link } from "react-router-dom";
 import VideoContainer from "../VideoContainer/VideoContainer";
 import "./Home.css";
 const Home = (props) => {
-  const [history, setHistory] = useState(
-    Object.keys(props.user).length === 0 ? [] : props.user.history
-  );
-  const getData = async () => {
-    if (Object.keys(props.user).length === 0) {
-      const url = "http://localhost:5000/login";
-      const res = await fetch(url, {
-        method: "POST",
-        body: JSON.stringify({
-          email: localStorage.getItem("user"),
-          password: localStorage.getItem("password"),
-        }),
-        headers: {
-          "Content-type": "application/json",
-        },
-      });
-      if (res.status === 200) {
-        let userDetails = await res.json();
-        props.setUser(userDetails);
-        props.snackBar("Welcome back!!!", "success");
-        setHistory(userDetails.history);
-        props.setFavorites(userDetails.favorites);
-      } else if (res.status === 404) props.snackBar("user not found", "info");
-      else if (res.status === 401)
-        props.snackBar("Incorrect password", "error");
-      else props.snackBar("Something wrong in the server", "error");
-    }
-    props.searchVideos();
-  };
   const deleteVideoHistory = async (video) => {
     const res = await fetch(
       `http://localhost:5000/video/${video.videoId}/delete`,
@@ -51,7 +22,7 @@ const Home = (props) => {
     );
     const data = await res.json();
     props.snackBar("Video deleted Successfully", "info");
-    setHistory(data);
+    props.setHistory(data);
   };
   const clearHistory = async () => {
     await fetch(`http://localhost:5000/video/clearHistory`, {
@@ -63,40 +34,23 @@ const Home = (props) => {
         email: localStorage.getItem("user"),
       }),
     });
-    if (history.length !== 0)
+    if (props.history.length !== 0)
       props.snackBar("History cleared Successfully", "info");
-    setHistory([]);
+    props.setHistory([]);
   };
   useEffect(() => {
-    getData();
+    props.getData();
+    props.searchVideos();
   },[]);
   const historyFrame = (e) => {
     let videoId = e.currentTarget.id;
-    let vid = history.find((data) => data.videoId === videoId);
+    let vid = props.history.find((data) => data.videoId === videoId);
     props.setCurrentVideo(vid);
     props.setToggle(true);
   };
-  const onloadFrame = async (e) => {
-    let videoId = e.currentTarget.id;
-    let vid = props.fetchData.find((data) => data.videoId === videoId);
-    props.setCurrentVideo(vid);
-    props.setToggle(true);
-    const res = await fetch(`http://localhost:5000/video/${videoId}/history`, {
-      method: "PATCH",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        email: localStorage.getItem("user"),
-        channelTitle: vid.channelTitle,
-        description: vid.description,
-        thumbnails: vid.thumbnails,
-        title: vid.title,
-        videoId,
-      }),
-    });
-    const data = await res.json();
-    setHistory(data);
+  const onloadFrame = (e) => {
+    props.addToHistory(e.currentTarget.id, "home")
+    props.setHistory(props.addHistory)
   };
   return (
     <>
@@ -198,7 +152,7 @@ const Home = (props) => {
 
           <div className="container-fluid continue-scroll py-3">
             <div className="row flex-nowrap watching mt-3 pb-5">
-              {history.map((item, index) => {
+              {props.history.map((item, index) => {
                 return (
                   <div
                     className="col-12  col-sm-6 col-md-6 col-lg-4"
