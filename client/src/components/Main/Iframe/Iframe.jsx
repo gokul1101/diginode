@@ -39,7 +39,7 @@ const Iframe = (props) => {
   };
   const confirmDownload = () => {
     handleClose();
-    props.snackBar("Video downloading...", "info")
+    props.snackBar("Video downloading...", "info");
     const url = `http://localhost:5000/video/download/${props.currentVideo.videoId}`;
     fetch(url)
       .then((response) => response.blob())
@@ -51,7 +51,7 @@ const Iframe = (props) => {
         document.body.appendChild(link);
         link.click();
         link.parentNode.removeChild(link);
-        props.snackBar("Video downloaded Successfully", "success")
+        props.snackBar("Video downloaded Successfully", "success");
       });
   };
 
@@ -129,8 +129,9 @@ const Iframe = (props) => {
             <h3 className="mt-2">{props.currentVideo.title}</h3>
           </div>
           <div className="col-md-2 d-flex align-items-center justify-content-center iframe-icon">
-            <div id="heart-container">
+            <div id="heart-container" className="mx-2">
               <input
+                title="Add to favorites"
                 type="checkbox"
                 defaultChecked={checkFavorite}
                 id="toggle"
@@ -140,9 +141,10 @@ const Iframe = (props) => {
               <div id="twitter-heart"></div>
             </div>
 
-            <div className="content download">
+            <div className="content download mx-2">
               <div className="icon">
                 <svg
+                  title="Download"
                   className="download"
                   xmlns="http://www.w3.org/2000/svg"
                   width="25%"
@@ -207,7 +209,7 @@ const Iframe = (props) => {
 
             <i
               title="Add to Playlist"
-              className="fas fa-sliders-h"
+              className="fas fa-sliders-h mx-2"
               style={{ fontSize: "26px", marginTop: "-8px" }}
               onClick={handleClickOpen}
             ></i>
@@ -263,97 +265,27 @@ const Iframe = (props) => {
                       </Button>
                     </div>
                   ) : (
-                    <ul>
-                      <div
-                        className="scroll-li d-flex flex-wrap"
-                        style={{
-                          width: "100%",
-                          height: "100px",
-                          overflowY: "scroll",
-                        }}
-                      >
-                        <li className="mx-1">
-                          <Chip
-                            avatar={<Avatar>D</Avatar>}
-                            label="Dhanush"
-                            clickable
-                            color="primary"
-                            onClick={handleClick}
-                            className="mb-2 "
-                          />
-                        </li>
-                        <li className="mx-1">
-                          <Chip
-                            avatar={<Avatar>D</Avatar>}
-                            label="Gajendriran"
-                            clickable
-                            color="primary"
-                            onClick={handleClick}
-                            className="mb-2 "
-                          />
-                        </li>
-                        <li className="mx-1">
-                          <Chip
-                            avatar={<Avatar>D</Avatar>}
-                            label="Gobinath"
-                            clickable
-                            color="primary"
-                            onClick={handleClick}
-                            className="mb-2 "
-                          />
-                        </li>
-                        <li className="mx-1">
-                          <Chip
-                            avatar={<Avatar>D</Avatar>}
-                            label="Nandha"
-                            clickable
-                            color="primary"
-                            onClick={handleClick}
-                            className="mb-2 "
-                          />
-                        </li>
-                        <li className="mx-1">
-                          <Chip
-                            avatar={<Avatar>D</Avatar>}
-                            label="Dhusandhan"
-                            clickable
-                            color="primary"
-                            onClick={handleClick}
-                            className="mb-2 "
-                          />
-                        </li>
-                        <li className="mx-1">
-                          <Chip
-                            avatar={<Avatar>D</Avatar>}
-                            label="Vasanthan"
-                            clickable
-                            color="primary"
-                            onClick={handleClick}
-                            className="mb-2 "
-                          />
-                        </li>
-                        <li className="mx-1">
-                          <Chip
-                            avatar={<Avatar>D</Avatar>}
-                            label="Dhanush"
-                            clickable
-                            color="primary"
-                            onClick={handleClick}
-                            className="mb-2 "
-                          />
-                        </li>
-
-                        <li className="mx-1">
-                          <Chip
-                            avatar={<Avatar>G</Avatar>}
-                            label="Gokul"
-                            clickable
-                            color="primary"
-                            onClick={handleClick}
-                            className="mb-2"
-                          />
-                        </li>
-                      </div>
+                    <ul
+                      className="scroll-li d-flex flex-wrap"
+                      style={{
+                        width: "100%",
+                        height: "100px",
+                        overflowY: "scroll",
+                      }}
+                    >
+                      {
+                        props.playlists.map(playlist => console.log(playlist))
+                      }
+                      <li className="mx-1">
+                        <Chip
+                          avatar={<Avatar>D</Avatar>}
+                          label="Dhanush"
+                          clickable
+                          color="primary"
+                          onClick={handleClick}
+                          className="mb-2 "
+                        />
+                      </li>
                     </ul>
                   )}
                 </div>

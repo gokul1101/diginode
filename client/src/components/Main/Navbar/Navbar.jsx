@@ -10,9 +10,6 @@ const Navbar = (props) => {
   const [history, setHistory] = useState(
     Object.keys(props.user).length === 0 ? [] : props.user.history
   );
-  let [playlists, setPlayLists] = useState(
-    Object.keys(props.user).length === 0 ? [] : props.user.playlists
-  );
   const [fetchData, setFetchData] = useState([]);
   const [fetchTrendData, setFetchTrendData] = useState([]);
   let color = "#xxxxxx".replace(/x/g, (y) =>
@@ -96,7 +93,7 @@ const Navbar = (props) => {
         let userDetails = await res.json();
         props.setUser(userDetails);
         setHistory(userDetails.history);
-        setPlayLists(userDetails.playlists);
+        props.setPlayLists(userDetails.playlists);
         props.snackBar("Welcome back!!!", "success");
         props.setFavorites(userDetails.favorites);
       } else if (res.status === 404) props.snackBar("user not found", "info");
@@ -356,6 +353,8 @@ const Navbar = (props) => {
               addToHistory={addToHistory}
               history={history}
               setHistory={setHistory}
+              setCurrentVideo={props.setCurrentVideo}
+              setToggle={props.setToggle}
             />
           </div>
           <div
@@ -379,7 +378,7 @@ const Navbar = (props) => {
             aria-labelledby="pills-contact-tab"
           >
             <Playlist 
-              playlists = {playlists}
+              playlists = {props.playlists}
             />
           </div>
           <div

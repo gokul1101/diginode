@@ -15,6 +15,9 @@
 html{
   scroll-behavior: smooth;
 }
+i{
+  cursor: pointer;
+}
 a,
 li {
   text-decoration: none !important;

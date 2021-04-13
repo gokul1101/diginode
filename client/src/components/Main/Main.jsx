@@ -6,6 +6,9 @@ const Main = (props) => {
   const [favorites, setFavorites] = useState(
     Object.keys(props.user).length === 0 ? [] : props.user.favorites
   );
+  const [playlists, setPlaylists] = useState(
+    Object.keys(props.user).length === 0 ? [] : props.user.playlists
+  );
   const [toggle, setToggle] = useState(false);
   const [currentVideo, setCurrentVideo] = useState([]);
   return (
@@ -18,6 +21,8 @@ const Main = (props) => {
         setToggle={setToggle}
         favorites={favorites}
         setFavorites={setFavorites}
+        playlists={playlists}
+        setPlaylists={setPlaylists}
         setCurrentVideo={setCurrentVideo}
       />
       {toggle ? (
@@ -25,6 +30,8 @@ const Main = (props) => {
           setToggle={setToggle}
           favorites={favorites}
           setFavorites={setFavorites}
+          playlists={playlists}
+          setPlaylists={setPlaylists}
           currentVideo={currentVideo}
           snackBar={props.snackBar}
         />
