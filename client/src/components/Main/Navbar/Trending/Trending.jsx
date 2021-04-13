@@ -11,7 +11,7 @@ const Trending = (props) => {
     props.searchVideos();
   };
   return (
-    <div>
+    <div className="trend">
       <VideoContainer
         onloadFrame={onloadFrame}
         fetchData={props.fetchTrendData}
