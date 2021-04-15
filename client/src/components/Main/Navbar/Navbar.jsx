@@ -33,8 +33,8 @@ const Navbar = (props) => {
       },
     });
     const data = await res.json();
-    console.log(data)
-    if(res.status === 200) {
+    console.log(data);
+    if (res.status === 200) {
       setFetchData(
         data.items
           .filter((item) => item.id.videoId !== undefined)
@@ -60,7 +60,7 @@ const Navbar = (props) => {
       },
     });
     const data = await res.json();
-    if(res.status === 200) {
+    if (res.status === 200) {
       setFetchTrendData(
         data.items
           .filter((item) => item.id !== undefined)
@@ -93,14 +93,14 @@ const Navbar = (props) => {
         let userDetails = await res.json();
         props.setUser(userDetails);
         setHistory(userDetails.history);
-        props.setPlayLists(userDetails.playlists);
+        props.setPlaylists(userDetails.playlists);
         props.snackBar("Welcome back!!!", "success");
         props.setFavorites(userDetails.favorites);
       } else if (res.status === 404) props.snackBar("user not found", "info");
       else if (res.status === 401)
         props.snackBar("Incorrect password", "error");
       else props.snackBar("Something wrong in the server", "error");
-    }    
+    }
   };
   const addToHistory = async (id, location) => {
     let videoId = id;
@@ -377,9 +377,7 @@ const Navbar = (props) => {
             role="tabpanel"
             aria-labelledby="pills-contact-tab"
           >
-            <Playlist 
-              playlists = {props.playlists}
-            />
+            <Playlist playlists={props.playlists} />
           </div>
           <div
             className="tab-pane fade"

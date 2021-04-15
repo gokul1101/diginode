@@ -1,0 +1,34 @@
+.playlist-list {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 4px;
+  box-shadow:inset -5px 5px 5px #444444,inset 5px -5px 5px #353535;
+}
+.cont-playlist {
+  overflow: hidden !important;
+}
+.playlist-h5 {
+  color: rgb(182, 182, 182);
+}
+.style-playlist {
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  overflow: hidden !important;
+}
+.songs-name {
+  border-bottom: 1px solid rgb(68, 68, 68);
+  padding-bottom: 8px;
+}
+@media(max-width:426px){
+    .flex-playlist{
+        display: flex;
+        flex-direction: column;
+    }
+}
+@media(max-width:769px){
+    .playlist-h5{
+        font-size: 13px;
+    }
+    .playlist-h-3{
+        font-size: 16px;
+    }
+}

@@ -1,6 +1,6 @@
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/DeleteOutlined";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import VideoContainer from "../VideoContainer/VideoContainer";
@@ -41,7 +41,7 @@ const Home = (props) => {
   useEffect(() => {
     props.getData();
     props.searchVideos();
-  },[]);
+  },[props, props.getData, props.searchVideos]);
   const historyFrame = (e) => {
     let videoId = e.currentTarget.id;
     let vid = props.history.find((data) => data.videoId === videoId);

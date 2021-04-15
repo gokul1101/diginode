@@ -33,6 +33,7 @@ const Iframe = (props) => {
   const [open, setOpen] = React.useState(false);
   const [openDownload, setOpenDownload] = React.useState(false);
   const [createPlaylist, setCreatePlaylist] = useState(false);
+  const [playlistName, setPlaylistName] = useState("")
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -60,13 +61,48 @@ const Iframe = (props) => {
     setOpenDownload(false);
   };
 
-  const handleClick = () => {
-    props.snackBar("Added to Playlist", "success");
+  const handleClick = async (playlistName) => {
+    const url = "http://localhost:5000/addToPlaylist";
+    const res = await fetch(url, {
+      method: "PATCH",
+        body: JSON.stringify({
+          playlistName,
+          videoId: props.currentVideo.videoId,
+        }),
+        headers: {
+          "Content-type": "application/json",
+        },
+    })
+    if(res.status === 200) {
+      const {playlists} = await res.json();
+      props.setPlaylists(playlists)
+      props.snackBar("Added to the playlist", "success");
+    } else if(res.status === 403)props.snackBar("Video already in the playlist", "info");
+    else props.snackBar("Cannot add to the playlist", "error");
     setOpen(false);
   };
-
-  const onCreatedList = () => {
-    props.snackBar("Successfully created Playlist", "success");
+  
+  const onCreatedList = async() => {
+    if(playlistName === "") return;
+    const url = "http://localhost:5000/createPlaylist";
+    const res = await fetch(url, {
+      method: "POST",
+        body: JSON.stringify({
+          email : localStorage.getItem("user"),
+          playlistName,
+          videoId: props.currentVideo.videoId,
+        }),
+        headers: {
+          "Content-type": "application/json",
+        },
+    })
+    if(res.status === 201) {
+      const newPlaylist = await res.json();
+      console.log(newPlaylist)
+      // props.setPlaylists(playlists)
+      props.snackBar("Created and video added to the playlist", "success");
+    } else if(res.status === 403)props.snackBar("Playlist already exists", "info");
+    else props.snackBar("Cannot create a playlist", "error");
     setOpen(false);
   };
   const [checkFavorite, setCheckFavorite] = useState(
@@ -249,6 +285,8 @@ const Iframe = (props) => {
                       <input
                         className="p-2 mr-3"
                         placeholder="Name of the playlist"
+                        value={playlistName}
+                        onChange={(e) => setPlaylistName(e.target.value)}
                         style={{
                           border: "none",
                           borderRadius: "10px",
@@ -274,18 +312,22 @@ const Iframe = (props) => {
                       }}
                     >
                       {
-                        props.playlists.map(playlist => console.log(playlist))
+                        props.playlists.map((playlist, index) => {
+                          return (
+                            <li className="mx-1" key={index} id={playlist.name}>
+                              {console.log(playlist)}
+                              <Chip
+                                avatar={<Avatar>{playlist.name.charAt(0)}</Avatar>}
+                                label={playlist.name}
+                                clickable
+                                color="primary"
+                                onClick={(e) => handleClick(playlist.name)}
+                                className="mb-2"
+                              />
+                            </li>
+                          )
+                        })
                       }
-                      <li className="mx-1">
-                        <Chip
-                          avatar={<Avatar>D</Avatar>}
-                          label="Dhanush"
-                          clickable
-                          color="primary"
-                          onClick={handleClick}
-                          className="mb-2 "
-                        />
-                      </li>
                     </ul>
                   )}
                 </div>
