@@ -16,6 +16,9 @@ const createPlaylist = async (req, res) => {
         user: user._id,
         name,
         list: [video._id],
+      }).populate({
+        path: "list",
+        model: "video",
       });
       await newPlaylist.save();
       await User.findByIdAndUpdate(user._id, {
@@ -39,13 +42,11 @@ const addToPlaylist = async (req, res) => {
       await PlayList.findByIdAndUpdate(playlist._id, {
         $push: { list: video._id },
       }).exec();
-      let playlists = await PlayList.find({ _id: playlist._id })
-        .select("list")
-        .populate({
-          path: "list",
-          model: "video",
-        });
-      res.status(200).send({ playlists });
+      let playlists = await PlayList.find({ _id: playlist._id }).populate({
+        path: "list",
+        model: "video",
+      });
+      res.status(200).send(playlists);
     } else res.status(403).send("Video is already in the playlist");
   } catch (e) {
     res.status(502).send({ message: "error" });
@@ -63,12 +64,10 @@ const removeFromPlaylist = async (req, res) => {
       await PlayList.findByIdAndUpdate(playlist._id, {
         $pull: { list: video._id },
       }).exec();
-      let playlists = await PlayList.find({ _id: playlist._id })
-        .select("list")
-        .populate({
-          path: "list",
-          model: "video",
-        });
+      let playlists = await PlayList.find({ _id: playlist._id }).populate({
+        path: "list",
+        model: "video",
+      });
       res.status(200).send(playlists);
     } else res.status(403).send("Video is not in the playlist");
   } catch (e) {

@@ -4,7 +4,7 @@ import "./Playlist.css";
 
 const Playlist = (props) => {
   return (
-    <div>
+    <div className="container-fluid">
       <form className="form-inline ">
         <div className="form-group mx-auto">
           <input type="text" className="form-control" placeholder="Search for Playlist"/>
@@ -12,7 +12,7 @@ const Playlist = (props) => {
         </div>
       </form>
       <br />
-      <div className="container p-0 cont-playlist">
+      <div className="cont-playlist">
           <div className="d-flex mt-2 mb-2 ">
             <div className="main-play mr-auto">
               <h2>Playlist</h2>

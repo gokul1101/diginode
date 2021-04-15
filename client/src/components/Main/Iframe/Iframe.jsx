@@ -33,7 +33,7 @@ const Iframe = (props) => {
   const [open, setOpen] = React.useState(false);
   const [openDownload, setOpenDownload] = React.useState(false);
   const [createPlaylist, setCreatePlaylist] = useState(false);
-  const [playlistName, setPlaylistName] = useState("")
+  const [playlistName, setPlaylistName] = useState("");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -55,53 +55,57 @@ const Iframe = (props) => {
         props.snackBar("Video downloaded Successfully", "success");
       });
   };
-
   const handleClose = () => {
     setOpen(false);
     setOpenDownload(false);
   };
-
   const handleClick = async (playlistName) => {
     const url = "http://localhost:5000/addToPlaylist";
     const res = await fetch(url, {
       method: "PATCH",
-        body: JSON.stringify({
-          playlistName,
-          videoId: props.currentVideo.videoId,
-        }),
-        headers: {
-          "Content-type": "application/json",
-        },
-    })
-    if(res.status === 200) {
-      const {playlists} = await res.json();
-      props.setPlaylists(playlists)
+      body: JSON.stringify({
+        playlistName,
+        videoId: props.currentVideo.videoId,
+      }),
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    if (res.status === 200) {
+      const playlist = await res.json();
+      const playlists = props.playlists.map(
+        (obj) => playlist.find((p) => p.name === obj.name) || obj
+      );
+      props.setPlaylists(playlists);
       props.snackBar("Added to the playlist", "success");
-    } else if(res.status === 403)props.snackBar("Video already in the playlist", "info");
+    } else if (res.status === 403)
+      props.snackBar("Video already in the playlist", "info");
     else props.snackBar("Cannot add to the playlist", "error");
     setOpen(false);
   };
-  
-  const onCreatedList = async() => {
-    if(playlistName === "") return;
+  const onCreatedList = async () => {
+    if (playlistName === "") {
+      props.snackBar("Playlist name should not be empty", "error");
+      return;
+    }
     const url = "http://localhost:5000/createPlaylist";
     const res = await fetch(url, {
       method: "POST",
-        body: JSON.stringify({
-          email : localStorage.getItem("user"),
-          playlistName,
-          videoId: props.currentVideo.videoId,
-        }),
-        headers: {
-          "Content-type": "application/json",
-        },
-    })
-    if(res.status === 201) {
+      body: JSON.stringify({
+        email: localStorage.getItem("user"),
+        playlistName,
+        videoId: props.currentVideo.videoId,
+      }),
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    if (res.status === 201) {
       const newPlaylist = await res.json();
-      console.log(newPlaylist)
-      // props.setPlaylists(playlists)
+      props.setPlaylists(...props.playlists, newPlaylist);
       props.snackBar("Created and video added to the playlist", "success");
-    } else if(res.status === 403)props.snackBar("Playlist already exists", "info");
+    } else if (res.status === 403)
+      props.snackBar("Playlist already exists", "info");
     else props.snackBar("Cannot create a playlist", "error");
     setOpen(false);
   };
@@ -311,13 +315,14 @@ const Iframe = (props) => {
                         overflowY: "scroll",
                       }}
                     >
-                      {
+                      {props.playlists &&
                         props.playlists.map((playlist, index) => {
                           return (
                             <li className="mx-1" key={index} id={playlist.name}>
-                              {console.log(playlist)}
                               <Chip
-                                avatar={<Avatar>{playlist.name.charAt(0)}</Avatar>}
+                                avatar={
+                                  <Avatar>{playlist.name.charAt(0)}</Avatar>
+                                }
                                 label={playlist.name}
                                 clickable
                                 color="primary"
@@ -325,9 +330,8 @@ const Iframe = (props) => {
                                 className="mb-2"
                               />
                             </li>
-                          )
-                        })
-                      }
+                          );
+                        })}
                     </ul>
                   )}
                 </div>

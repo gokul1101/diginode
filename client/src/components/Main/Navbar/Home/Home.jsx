@@ -41,7 +41,7 @@ const Home = (props) => {
   useEffect(() => {
     props.getData();
     props.searchVideos();
-  },[props, props.getData, props.searchVideos]);
+  },[]);
   const historyFrame = (e) => {
     let videoId = e.currentTarget.id;
     let vid = props.history.find((data) => data.videoId === videoId);
@@ -114,7 +114,7 @@ const Home = (props) => {
         </div>
       </div>
       {/* Horizontal Scrolling Div (Continue Watching) */}
-      <div className="continue-watch">
+      <div className="container continue-watch">
         <div className="continue-text mb-5">
           <h5 className="float-left mb-3">Continue Watching</h5>
           <button

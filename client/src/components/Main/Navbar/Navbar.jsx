@@ -9,9 +9,11 @@ const Navbar = (props) => {
   const [query, setQuery] = useState("");
   const [history, setHistory] = useState(
     Object.keys(props.user).length === 0 ? [] : props.user.history
-  );
-  const [fetchData, setFetchData] = useState([]);
-  const [fetchTrendData, setFetchTrendData] = useState([]);
+    );
+    const [fetchData, setFetchData] = useState([]);
+    const [fetchTrendData, setFetchTrendData] = useState([]);
+    // const API_KEY = "AIzaSyAXL7M66rqm-LH9Fx8JhZsT55j7htNKsDI"; AIzaSyBsAyZ97pvZLsFrIdwiYhDCR5ag9aXvQuQ
+  const API_KEY = "AIzaSyBsAyZ97pvZLsFrIdwiYhDCR5ag9aXvQuQ"; //AIzaSyCdXjI8f3QWwf6HEWVYAPU4-ZVrn4kPoRw
   let color = "#xxxxxx".replace(/x/g, (y) =>
     ((Math.random() * 16) | 0).toString(16)
   );
@@ -22,7 +24,6 @@ const Navbar = (props) => {
     props.snackBar("Logged out successfully!!!", "success");
   };
   const searchVideos = async () => {
-    const API_KEY = "AIzaSyBsAyZ97pvZLsFrIdwiYhDCR5ag9aXvQuQ"; //AIzaSyCdXjI8f3QWwf6HEWVYAPU4-ZVrn4kPoRw
     let url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${query}&maxResults=1&key=${API_KEY}`;
     if (query !== "")
       url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${query}&type=video&maxResults=1&key=${API_KEY}`;
@@ -51,7 +52,6 @@ const Navbar = (props) => {
     }
   };
   const trendingVideos = async () => {
-    const API_KEY = "AIzaSyAXL7M66rqm-LH9Fx8JhZsT55j7htNKsDI"; // AIzaSyBsAyZ97pvZLsFrIdwiYhDCR5ag9aXvQuQ AIzaSyCdXjI8f3QWwf6HEWVYAPU4-ZVrn4kPoRw
     let trendUrl = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&type=video&maxResults=2&regionCode=IN&chart=mostPopular&key=${API_KEY}`;
     const res = await fetch(trendUrl, {
       method: "GET",
@@ -337,7 +337,7 @@ const Navbar = (props) => {
         </nav>
       </div>
 
-      <div className="container">
+      <div className="container-fluid">
         <div className="tab-content" id="pills-tabContent">
           <div
             className="tab-pane fade show active"
@@ -377,7 +377,10 @@ const Navbar = (props) => {
             role="tabpanel"
             aria-labelledby="pills-contact-tab"
           >
-            <Playlist playlists={props.playlists} />
+            <Playlist
+              playlists={props.playlists}
+              setPlaylists={props.setPlaylists}
+            />
           </div>
           <div
             className="tab-pane fade"
