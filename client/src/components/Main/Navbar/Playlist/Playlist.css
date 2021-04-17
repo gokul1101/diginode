@@ -49,6 +49,7 @@
   height: 280px;
   max-width: 300px;
   cursor: pointer;
+  border-radius: 34px;
 }
 .playlist{
   border-radius: 34px;
@@ -59,6 +60,15 @@
 .playlist-img img{
   border-top-left-radius: 34px;
   border-top-right-radius: 34px;
+}
+.playlist-card:hover{
+  transform: scale(1.05);
+  background: linear-gradient(145deg, #110b10, #0e090e);
+  box-shadow:  10px 10px 15px #060406,
+  -10px -10px 15px #1a1018;
+}
+.playlist-play-icon:hover{
+  transform: scale(1.1);
 }
 .playlist-play-icon{
   top: 60%;

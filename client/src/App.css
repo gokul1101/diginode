@@ -2,6 +2,7 @@
 *:before,
 *:after {
   box-sizing: border-box;
+  transition: all 0.3s;
 }
 *:not(i) {
   font-family: "Roboto", sans-serif !important;
