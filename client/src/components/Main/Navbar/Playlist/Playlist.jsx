@@ -1,144 +1,81 @@
-import { Button } from "@material-ui/core";
-import React from "react";
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import { IconButton } from "@material-ui/core";
+import React, { useState } from "react";
 import "./Playlist.css";
 
 const Playlist = (props) => {
+  let [playlists, setPlaylists] = useState(props.playlists? props.playlists : []);
+  let [searchPlaylists, setSearchPlaylists] = useState(props.playlists? props.playlists : []);
+  const search = (name) => {
+    if(name === "") setSearchPlaylists(playlists);
+    else {
+      let arr = playlists.filter(playlist => playlist.name.toLowerCase().includes(name.toLowerCase()));
+      setSearchPlaylists(arr)
+    }
+  }
   return (
-    <div className="container-fluid">
-      <form className="form-inline ">
-        <div className="form-group mx-auto">
-          <input type="text" className="form-control" placeholder="Search for Playlist"/>
-          <i className="fa fa-search form-control-feedback position-relative"></i>
-        </div>
-      </form>
-      <br />
-      <div className="cont-playlist">
-          <div className="d-flex mt-2 mb-2 ">
-            <div className="main-play mr-auto">
-              <h2>Playlist</h2>
-            </div>
-            <div className="main-play mr-auto">
-              <Button variant="outlined" color="secondary" size="small">
-                New Playlist
-              </Button>
-            </div>
+    <div className="container-fluid playlists d-flex">
+      <div className="px-2 m-4">
+        <h1 className="position-relative">
+          <span className="position-relative">playlists</span>
+        </h1>
+      </div>
+      <div className="container-fluid d-flex flex-column align-items-center h-100">
+        <form className="form-inline mt-3" onSubmit={(e) => e.preventDefault()}>
+          <div className="form-group mx-auto">
+            <input
+              type="text"
+              className="form-control"
+              onChange={(e) => search(e.target.value)}
+              placeholder="Search a Playlist"
+            />
+            <i className="fa fa-search form-control-feedback position-relative"></i>
           </div>
-          <div className="d-flex flex-playlist">
-            <div className="col-md-7 text-right">
-              <div className="d-flex p-3 playlist-list mb-2">
-                <div className="play-image mr-3">
-                  <img
-                    alt="img"
-                    src="https://www.teahub.io/photos/full/3-34370_avengers-endgame-portals-poster.png"
-                    height="60"
-                    width="100"
-                  />
-                </div>
-                <div className="d-flex flex-column text-left">
-                  <h5 className="playlist-h6">The Bruno Playlist</h5>
-                  <h6 className="playlist-h5">114 videos</h6>
-                </div>
-              </div>
-              <div className="d-flex p-3 playlist-list mb-2">
-                <div className="play-image mr-3">
-                  <img
-                    alt="img"
-                    src="https://www.teahub.io/photos/full/3-34370_avengers-endgame-portals-poster.png"
-                    height="60"
-                    width="100"
-                  />
-                </div>
-                <div className="d-flex flex-column text-left">
-                  <h5 className="playlist-h6">The Bruno Playlist</h5>
-                  <h6 className="playlist-h5">114 videos</h6>
-                </div>
-              </div>
-              <div className="d-flex p-3 playlist-list mb-2">
-                <div className="play-image mr-3">
-                  <img
-                    alt="img"
-                    src="https://www.teahub.io/photos/full/3-34370_avengers-endgame-portals-poster.png"
-                    height="60"
-                    width="100"
-                  />
-                </div>
-                <div className="d-flex flex-column text-left">
-                  <h5 className="playlist-h6">The Bruno Playlist</h5>
-                  <h6 className="playlist-h5">114 videos</h6>
-                </div>
-              </div>
-            </div>
-            <div
-              className="col-md-4 style-playlist p-0"
-              style={{ overflow: "hidden" }}
-            >
-              <div className="d-flex flex-column">
-                <div className="style-image d-flex flex-column">
-                  <img
-                    alt="img"
-                    src="https://www.teahub.io/photos/full/3-34370_avengers-endgame-portals-poster.png"
-                    height="100%"
-                    width="100%"
-                    className="img-fluid"
-                  />
-                  <h6 className="mt-2 ml-2">Bruno Mars - Finese(Remix)</h6>
-                </div>
-                <div className="d-flex ml-2 songs-name">
-                  <i className="fa fa-play mr-3" aria-hidden="true"></i>
-                  <i className="fa fa-trash-o" aria-hidden="true"></i>
-                </div>
-                <div className="list-view">
-                  <h6 className="mt-2 ml-2">Related songs</h6>
-                </div>
-                <div style={{ overflowX: "scroll !important" }}>
-                  <div className="d-flex playlist-list pt-3 pb-3 mb-2">
-                    <div className="play-image mr-3 ml-3">
-                      <img
-                        alt="img"
-                        src="https://www.teahub.io/photos/full/3-34370_avengers-endgame-portals-poster.png"
-                        height="60"
-                        width="100"
-                      />
+        </form>
+        <div className="d-flex align-items-center justify-content-center flex-wrap mt-5 pl-3 h-100">
+          {searchPlaylists.map((playlist) => {
+              return (
+                <div className="flex-fill playlist-card m-3">
+                  <div className="playlist h-100 w-100">
+                    <div className="playlist-img position-relative">
+                      {playlist.list.length !== 0 ? (
+                        <>
+                          <img
+                            className="img-fluid"
+                            src={playlist.list[0].thumbnails}
+                            alt="playlist-img"
+                          />
+                          <div className="playlist-play-icon d-flex align-items-center justify-content-center position-absolute">
+                            <IconButton aria-label="add an alarm">
+                              <PlayArrowIcon
+                                style={{
+                                  color: "#f55050",
+                                  height: 40,
+                                  width: 40,
+                                }}
+                              />
+                            </IconButton>
+                          </div>
+                        </>
+                      ) : (
+                        <></>
+                      )}
                     </div>
-                    <div className="d-flex flex-column text-left">
-                      <h5 className="playlist-h-3">The Bruno Playlist</h5>
-                      <h6 className="playlist-h5">114 videos</h6>
-                    </div>
-                  </div>
-                  <div className="d-flex playlist-list pt-3 pb-3 mb-2">
-                    <div className="play-image mr-3 ml-3">
-                      <img
-                        alt="img"
-                        src="https://www.teahub.io/photos/full/3-34370_avengers-endgame-portals-poster.png"
-                        height="60"
-                        width="100"
-                      />
-                    </div>
-                    <div className="d-flex flex-column text-left">
-                      <h5 className="playlist-h-3">The Bruno Playlist</h5>
-                      <h6 className="playlist-h5">114 videos</h6>
-                    </div>
-                  </div>
-                  <div className="d-flex playlist-list pt-3 pb-3 mb-2">
-                    <div className="play-image mr-3 ml-3">
-                      <img
-                        alt="img"
-                        src="https://www.teahub.io/photos/full/3-34370_avengers-endgame-portals-poster.png"
-                        height="60"
-                        width="100"
-                      />
-                    </div>
-                    <div className="d-flex flex-column text-left">
-                      <h5 className="playlist-h-3">The Bruno Playlist</h5>
-                      <h6 className="playlist-h5">114 videos</h6>
+                    <div className="playlist-detail d-flex align-items-center justify-content-between mt-2 pt-1 px-4">
+                      <h6 className="text-white m-0">{playlist.name}</h6>
+                      <p className="m-0 text-white">
+                        {playlist.list.length !== 1
+                          ? `${playlist.list.length} videos`
+                          : `${playlist.list.length} video`}
+                      </p>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
+              );
+            })}
         </div>
       </div>
+    </div>
   );
 };
 

@@ -1,34 +1,80 @@
-.playlist-list {
-  background: rgba(255, 255, 255, 0.04);
-  border-radius: 4px;
-  box-shadow:inset -5px 5px 5px #444444,inset 5px -5px 5px #353535;
+.playlists {
+  min-height: calc(100vh - 90px) !important;
 }
-.cont-playlist {
-  overflow: hidden !important;
+.playlists h1 {
+  text-transform: UPPERCASE;
+  width: 5em;
+  font-size: 2.4em;
+  line-height: 1.1;
+  background-color: inherit;
 }
-.playlist-h5 {
-  color: rgb(182, 182, 182);
+.playlists h1 > span {
+  display: block;
+  padding: 0.2em 0;
+  transform-origin: 100% 0%;
+  transform: skew(0, -14deg);
+  background-color: inherit;
+  z-index: 2;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
 }
-.style-playlist {
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.04);
-  overflow: hidden !important;
+.playlists h1 > span:before {
+  content: "playlists";
+  font-weight: 900;
+  position: absolute;
+  width: 55%;
+  height: 80%;
+  clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
+  background: #f55050;
+  color: transparent;
+  background-clip: text;
 }
-.songs-name {
-  border-bottom: 1px solid rgb(68, 68, 68);
-  padding-bottom: 8px;
+.playlists h1:before,
+.playlists h1:after {
+  content: "";
+  position: absolute;
+  height: 1.27em;
+  width: 100%;
+  z-index: 1;
 }
-@media(max-width:426px){
-    .flex-playlist{
-        display: flex;
-        flex-direction: column;
-    }
+.playlists h1:before {
+  border-top: 2px solid;
+  border-left: 2px solid;
 }
-@media(max-width:769px){
-    .playlist-h5{
-        font-size: 13px;
-    }
-    .playlist-h-3{
-        font-size: 16px;
-    }
+.playlists h1:after {
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+}
+.playlist-card {
+  height: 280px;
+  max-width: 300px;
+  cursor: pointer;
+}
+.playlist{
+  border-radius: 34px;
+  background: #100A0F;
+  box-shadow: inset 5px 5px 10px #060406,
+  inset -5px -5px 10px #1a1018;
+}
+.playlist-img img{
+  border-top-left-radius: 34px;
+  border-top-right-radius: 34px;
+}
+.playlist-play-icon{
+  top: 60%;
+  right: 18%;
+  height: 60px;
+  width: 60px;
+  background-color: #FBF7F3;
+  border-radius: 20px;
+  box-shadow: -2px 3px 6px 5px rgba(255, 255, 255), 3px -2px 6px 5px rgb(255, 255, 255);
+}
+.playlist-detail p{
+  font-size : 16px;
+  font-weight: 900;
+}
+.playlist-detail h6{
+  font-size : 18px;
+  font-weight: 900;
+  letter-spacing: 1px;
 }
