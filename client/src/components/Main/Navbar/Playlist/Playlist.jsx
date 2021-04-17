@@ -1,15 +1,11 @@
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import { IconButton } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Playlist.css";
 
 const Playlist = (props) => {
-  let [playlists, setPlaylists] = useState(
-    props.playlists ? props.playlists : []
-  );
-  let [searchPlaylists, setSearchPlaylists] = useState(
-    props.playlists ? props.playlists : []
-  );
+  let [playlists, setPlaylists] = useState(props.playlists);
+  let [searchPlaylists, setSearchPlaylists] = useState(props.playlists);
   const search = (name) => {
     if (name === "") setSearchPlaylists(playlists);
     else {
@@ -19,6 +15,10 @@ const Playlist = (props) => {
       setSearchPlaylists(arr);
     }
   };
+  useEffect(() => {
+    setPlaylists(props.playlists)
+    setSearchPlaylists(props.playlists)
+  }, [props.playlists])
   return (
     <div className="container-fluid playlists d-flex">
       <div className="px-2 m-4">
@@ -45,7 +45,7 @@ const Playlist = (props) => {
                 className="flex-fill playlist-card m-3"
                 onClick={(e) => console.log(e.currentTarget.id)}
                 key={index}
-                id={playlist? playlist.name : index}
+                id={playlist ? playlist.name : index}
               >
                 <div className="playlist h-100 w-100">
                   <div className="playlist-img position-relative">

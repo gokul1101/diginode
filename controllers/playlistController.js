@@ -16,17 +16,19 @@ const createPlaylist = async (req, res) => {
         user: user._id,
         name,
         list: [video._id],
-      }).populate({
-        path: "list",
-        model: "video",
-      });
+      })
       await newPlaylist.save();
       await User.findByIdAndUpdate(user._id, {
         $push: { playlists: newPlaylist._id },
       }).exec();
+      newPlaylist = await PlayList.find({ _id: newPlaylist._id }).populate({
+        path: "list",
+        model: "video",
+      });
       res.status(201).send(newPlaylist);
     } else res.status(403).send("playlist already exists");
   } catch (e) {
+    console.log(e)
     res.status(502).send({ message: "error" });
   }
 };

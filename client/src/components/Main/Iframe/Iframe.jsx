@@ -73,10 +73,10 @@ const Iframe = (props) => {
     });
     if (res.status === 200) {
       const playlist = await res.json();
-      const playlists = props.playlists.map(
-        (obj) => playlist.find((p) => p.name === obj.name) || obj
-      );
-      props.setPlaylists(playlists);
+      const playlists = props.playlists.filter(obj => obj.name !== playlist.name);
+      let arr = playlists;
+      arr.push(...playlist)
+      props.setPlaylists(arr);
       props.snackBar("Added to the playlist", "success");
     } else if (res.status === 403)
       props.snackBar("Video already in the playlist", "info");
@@ -102,7 +102,9 @@ const Iframe = (props) => {
     });
     if (res.status === 201) {
       const newPlaylist = await res.json();
-      props.setPlaylists(...props.playlists, newPlaylist);
+      let arr = props.playlists;
+      arr.push(...newPlaylist)
+      props.setPlaylists(arr);
       props.snackBar("Created and video added to the playlist", "success");
     } else if (res.status === 403)
       props.snackBar("Playlist already exists", "info");

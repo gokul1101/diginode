@@ -152,7 +152,7 @@ const Home = (props) => {
 
           <div className="container-fluid continue-scroll py-3">
             <div className="row flex-nowrap watching mt-3 pb-5">
-              {props.history.map((item, index) => {
+              {props.history && props.history.map((item, index) => {
                 return (
                   <div
                     className="col-12  col-sm-6 col-md-6 col-lg-4"
