@@ -35,9 +35,7 @@ const Iframe = (props) => {
   const [createPlaylist, setCreatePlaylist] = useState(false);
   const [playlistName, setPlaylistName] = useState("");
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const handleClickOpen = () => setOpen(true);
   const confirmDownload = () => {
     handleClose();
     props.snackBar("Video downloading...", "info");
@@ -72,10 +70,12 @@ const Iframe = (props) => {
       },
     });
     if (res.status === 200) {
-      const playlist = await res.json();
-      const playlists = props.playlists.filter(obj => obj.name !== playlist.name);
-      let arr = playlists;
-      arr.push(...playlist)
+      const [playlist] = await res.json();
+      let arr = [];
+      props.playlists.forEach(obj => {
+        if(obj.name === playlist.name) arr.push(playlist)
+        else arr.push(obj);
+      })
       props.setPlaylists(arr);
       props.snackBar("Added to the playlist", "success");
     } else if (res.status === 403)
@@ -101,9 +101,9 @@ const Iframe = (props) => {
       },
     });
     if (res.status === 201) {
-      const newPlaylist = await res.json();
+      const [newPlaylist] = await res.json();
       let arr = props.playlists;
-      arr.push(...newPlaylist)
+      arr.push(newPlaylist)
       props.setPlaylists(arr);
       props.snackBar("Created and video added to the playlist", "success");
     } else if (res.status === 403)
