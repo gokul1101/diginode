@@ -50,6 +50,7 @@ const Navbar = (props) => {
           })
       );
     }
+    setQuery("");
   };
   const trendingVideos = async () => {
     let trendUrl = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&type=video&maxResults=2&regionCode=IN&chart=mostPopular&key=${API_KEY}`;
@@ -380,6 +381,9 @@ const Navbar = (props) => {
             <Playlist
               playlists={props.playlists}
               setPlaylists={props.setPlaylists}
+              setCurrentVideo={props.setCurrentVideo}
+              setToggle={props.setToggle}
+              snackBar={props.snackBar}
             />
           </div>
           <div

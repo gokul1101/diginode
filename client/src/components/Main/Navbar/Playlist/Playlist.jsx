@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
-import { IconButton } from "@material-ui/core";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/DeleteOutlined";
+import empty from "../../../../images/empty.svg";
 import "./Playlist.css";
-
 const Playlist = (props) => {
   let [toggle, setToggle] = useState(false);
   let [playlists, setPlaylists] = useState(props.playlists);
@@ -22,13 +23,53 @@ const Playlist = (props) => {
     setToggle(true);
     setCurrentPlaylist(playlists.find((obj) => obj.name === playlistName));
   };
+  const openIframe = (vid) => {
+    props.setCurrentVideo(vid);
+    props.setToggle(true);
+  };
+  const textShadow = () => {
+    let shadow = "";
+    for (let i = 0; i < 6; i++) {
+      shadow += (shadow ? "," : "") + -i * 1 + "px " + i * 1 + "px 0 #d9d9d9";
+    }
+    return shadow;
+  };
+  const deleteVideoFromPlaylist = async (video, playlistName) => {
+    const res = await fetch(
+      `http://localhost:5000/removeFromPlaylist`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          playlistName,
+          videoId: video.videoId,
+        }),
+      }
+    );
+    const [playlist] = await res.json();
+    if(res.status === 200) {
+      props.snackBar("Video removed from playlist", "error");
+      let arr = [];
+      props.playlists.forEach(obj => {
+        if(obj.name === playlist.name) arr.push(playlist)
+        else arr.push(obj);
+      })
+      props.setPlaylists(arr);
+    }
+  };
   useEffect(() => {
     setPlaylists(props.playlists);
     setSearchPlaylists(props.playlists);
+    if(toggle) setCurrentPlaylist(props.playlists.find((obj) => obj.name === currentPlaylist.name));
   }, [props.playlists]);
   return toggle ? (
     <div className="container-fluid position-relative my-3 d-flex flex-column align-items-center playlist-videos">
-      <div className="back-to-playlist h-auto w-auto p-2 position-absolute" onClick={() => setToggle(false)}>
+      <div
+        className="back-to-playlist h-auto w-auto p-2 position-absolute"
+        onClick={() => setToggle(false)}
+      >
         <KeyboardBackspaceIcon
           style={{
             color: "#fff",
@@ -43,16 +84,45 @@ const Playlist = (props) => {
             className="video-card position-relative my-3 p-0 col-md-6 col-sm-9 col-12"
             key={obj.videoId}
           >
-            <div className="video-card-content d-flex">
-              <div className="playlist-video-img position-relative col-4 p-0">
+            <div className="video-card-content d-flex position-relative">
+              <div className="playlist-video-img position-relative col-4 p-0" onClick={() => openIframe(obj)}>
                 <img
                   className="img-fluid"
                   src={obj.thumbnails}
                   alt="playlist-video-img"
                 />
               </div>
-              <div className="p-3">
-                <p className="m-0">{`${index + 1}. ${obj.title}`}</p>
+              <div className="delete-button position-absolute mr-3 mt-2">
+                <IconButton
+                  onClick={() => deleteVideoFromPlaylist(obj, currentPlaylist.name)}
+                  aria-label="delete"
+                  style={{ color: "white" }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </div>
+              <div className="p-3" onClick={() => openIframe(obj)}>
+                <div className="row">
+                  <span
+                    style={{ fontSize: 14 }}
+                    className="badge badge-danger my-2"
+                  >
+                    {`${index + 1}. ${obj.title}`}
+                  </span>
+                </div>
+                <div className="row">
+                  <span
+                    style={{ fontSize: 15 }}
+                    className="badge badge-success"
+                  >
+                    {obj.channelTitle}
+                  </span>
+                </div>
+                <div className="row">
+                  <span className="badge badge-info text-wrap text-left my-2">
+                    {obj.description}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -66,7 +136,7 @@ const Playlist = (props) => {
           <span className="position-relative">playlists</span>
         </h1>
       </div>
-      <div className="container-fluid d-flex flex-column align-items-center h-100">
+      <div className="container-fluid d-flex flex-column align-items-center">
         <form className="form-inline mt-3" onSubmit={(e) => e.preventDefault()}>
           <div className="form-group mx-auto">
             <input
@@ -78,52 +148,75 @@ const Playlist = (props) => {
             <i className="fa fa-search form-control-feedback position-relative"></i>
           </div>
         </form>
-        <div className="d-flex align-items-center justify-content-center flex-wrap mt-5 pl-3 h-100">
-          {searchPlaylists.map((playlist, index) => {
-            return (
+        <div
+          className={`d-flex ${
+            searchPlaylists.length === 0
+              ? ""
+              : "align-items-center justify-content-center"
+          } flex-wrap mt-5 pl-3`}
+        >
+          {searchPlaylists.length === 0 ? (
+            <div
+              id="nodata"
+              className="d-flex align-items-center justify-content-between mt-4"
+            >
+              <img className="img-fluid mt-3 mr-3" src={empty} alt="nodata" />
               <div
-                className="flex-fill playlist-card m-3"
-                onClick={(e) => play(e.currentTarget.id)}
-                key={index}
-                id={playlist ? playlist.name : index}
+                id="text"
+                style={{ textShadow: textShadow() }}
+                data-text="You doesn't created any playlist yet."
+                className="mt-3 ml-3 position-relative text-white text-center"
               >
-                <div className="playlist h-100 w-100">
-                  <div className="playlist-img position-relative">
-                    {playlist.list.length !== 0 ? (
-                      <>
-                        <img
-                          className="img-fluid"
-                          src={playlist.list[0].thumbnails}
-                          alt="playlist-img"
-                        />
-                        <div className="playlist-play-icon d-flex align-items-center justify-content-center position-absolute">
-                          <IconButton aria-label="playlist">
-                            <PlayArrowIcon
-                              style={{
-                                color: "#f55050",
-                                height: 40,
-                                width: 40,
-                              }}
-                            />
-                          </IconButton>
-                        </div>
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                  </div>
-                  <div className="playlist-detail d-flex align-items-center justify-content-between mt-2 pt-1 px-4">
-                    <h6 className="text-white m-0">{playlist.name}</h6>
-                    <p className="m-0 text-white">
-                      {playlist.list.length !== 1
-                        ? `${playlist.list.length} videos`
-                        : `${playlist.list.length} video`}
-                    </p>
+                You doesn't created any playlist yet.
+              </div>
+            </div>
+          ) : (
+            searchPlaylists.map((playlist, index) => {
+              return (
+                <div
+                  className="flex-fill playlist-card m-3"
+                  onClick={(e) => play(e.currentTarget.id)}
+                  key={index}
+                  id={playlist ? playlist.name : index}
+                >
+                  <div className="playlist h-100 w-100">
+                    <div className="playlist-img position-relative">
+                      {playlist.list.length !== 0 ? (
+                        <>
+                          <img
+                            className="img-fluid"
+                            src={playlist.list[0].thumbnails}
+                            alt="playlist-img"
+                          />
+                          <div className="playlist-play-icon d-flex align-items-center justify-content-center position-absolute">
+                            <IconButton aria-label="playlist">
+                              <PlayArrowIcon
+                                style={{
+                                  color: "#f55050",
+                                  height: 40,
+                                  width: 40,
+                                }}
+                              />
+                            </IconButton>
+                          </div>
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                    </div>
+                    <div className="playlist-detail d-flex align-items-center justify-content-between mt-2 pt-1 px-4">
+                      <h6 className="text-white m-0">{playlist.name}</h6>
+                      <p className="m-0 text-white">
+                        {playlist.list.length !== 1
+                          ? `${playlist.list.length} videos`
+                          : `${playlist.list.length} video`}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </div>
       </div>
     </div>

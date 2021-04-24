@@ -149,3 +149,28 @@
   width: 94%;
   height: 100%;
 }
+#nodata{
+  height: 400px;
+}
+#nodata img{
+  width: 400px;
+  height: 400px;
+  object-fit: contain;
+}
+#nodata #text {
+  width: 300px;
+  font-size: 2.8vw;
+  line-height: 1.2em;
+  letter-spacing: 2px;
+  transform: rotate(-10deg) skew(27deg);
+}
+#nodata #text:before {
+  content: attr(data-text);
+  position: absolute;
+  top: 30px;
+  left: -30px;
+  color: rgba(0, 0, 0, 0.3);
+  text-shadow: none;
+  filter: blur(5px);
+  z-index: -1;
+}

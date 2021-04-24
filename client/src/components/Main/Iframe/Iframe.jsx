@@ -268,9 +268,7 @@ const Iframe = (props) => {
                   variant="outlined"
                   color="primary"
                   endIcon={<AddCircleOutlinedIcon />}
-                  onClick={() => {
-                    setCreatePlaylist(false);
-                  }}
+                  onClick={() => setCreatePlaylist(false)}
                 >
                   ADD PLAYLIST
                 </Button>
