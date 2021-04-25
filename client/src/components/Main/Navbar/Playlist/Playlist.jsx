@@ -35,34 +35,34 @@ const Playlist = (props) => {
     return shadow;
   };
   const deleteVideoFromPlaylist = async (video, playlistName) => {
-    const res = await fetch(
-      `http://localhost:5000/removeFromPlaylist`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          playlistName,
-          videoId: video.videoId,
-        }),
-      }
-    );
+    const res = await fetch(`http://localhost:5000/removeFromPlaylist`, {
+      method: "PATCH",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        playlistName,
+        videoId: video.videoId,
+      }),
+    });
     const [playlist] = await res.json();
-    if(res.status === 200) {
+    if (res.status === 200) {
       props.snackBar("Video removed from playlist", "error");
       let arr = [];
-      props.playlists.forEach(obj => {
-        if(obj.name === playlist.name) arr.push(playlist)
+      props.playlists.forEach((obj) => {
+        if (obj.name === playlist.name) arr.push(playlist);
         else arr.push(obj);
-      })
+      });
       props.setPlaylists(arr);
-    }
+    } else props.snackBar("Something wrong in the server", "error");
   };
   useEffect(() => {
     setPlaylists(props.playlists);
     setSearchPlaylists(props.playlists);
-    if(toggle) setCurrentPlaylist(props.playlists.find((obj) => obj.name === currentPlaylist.name));
+    if (toggle)
+      setCurrentPlaylist(
+        props.playlists.find((obj) => obj.name === currentPlaylist.name)
+      );
   }, [props.playlists]);
   return toggle ? (
     <div className="container-fluid position-relative my-3 d-flex flex-column align-items-center playlist-videos">
@@ -81,11 +81,14 @@ const Playlist = (props) => {
       {currentPlaylist.list.map((obj, index) => {
         return (
           <div
-            className="video-card position-relative my-3 p-0 col-md-6 col-sm-9 col-12"
+            className="video-card position-relative my-3 p-0 h-auto col-md-7 col-sm-9 col-12"
             key={obj.videoId}
           >
             <div className="video-card-content d-flex position-relative">
-              <div className="playlist-video-img position-relative col-4 p-0" onClick={() => openIframe(obj)}>
+              <div
+                className="playlist-video-img position-relative col-4 p-0"
+                onClick={() => openIframe(obj)}
+              >
                 <img
                   className="img-fluid"
                   src={obj.thumbnails}
@@ -94,18 +97,19 @@ const Playlist = (props) => {
               </div>
               <div className="delete-button position-absolute mr-3 mt-2">
                 <IconButton
-                  onClick={() => deleteVideoFromPlaylist(obj, currentPlaylist.name)}
+                  onClick={() =>
+                    deleteVideoFromPlaylist(obj, currentPlaylist.name)
+                  }
                   aria-label="delete"
                   style={{ color: "white" }}
                 >
                   <DeleteIcon />
                 </IconButton>
               </div>
-              <div className="p-3" onClick={() => openIframe(obj)}>
+              <div className="p-3 col-8" onClick={() => openIframe(obj)}>
                 <div className="row">
                   <span
-                    style={{ fontSize: 14 }}
-                    className="badge badge-danger my-2"
+                    className="badge badge-danger text-wrap text-left my-2"
                   >
                     {`${index + 1}. ${obj.title}`}
                   </span>
@@ -131,23 +135,23 @@ const Playlist = (props) => {
     </div>
   ) : (
     <div className="container-fluid playlists d-flex">
-      <div className="px-2 m-4">
-        <h1 className="position-relative">
-          <span className="position-relative">playlists</span>
-        </h1>
-      </div>
       <div className="container-fluid d-flex flex-column align-items-center">
-        <form className="form-inline mt-3" onSubmit={(e) => e.preventDefault()}>
-          <div className="form-group mx-auto">
-            <input
-              type="text"
-              className="form-control"
-              onChange={(e) => search(e.target.value)}
-              placeholder="Search a Playlist"
-            />
-            <i className="fa fa-search form-control-feedback position-relative"></i>
-          </div>
-        </form>
+        {searchPlaylists.length !== 0 ? (
+          <form
+            className="form-inline mt-3"
+            onSubmit={(e) => e.preventDefault()}
+          >
+            <div className="form-group mx-auto">
+              <input
+                type="text"
+                className="form-control"
+                onChange={(e) => search(e.target.value)}
+                placeholder="Search a Playlist"
+              />
+              <i className="fa fa-search form-control-feedback position-relative"></i>
+            </div>
+          </form>
+        ) : null}
         <div
           className={`d-flex ${
             searchPlaylists.length === 0

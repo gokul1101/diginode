@@ -6,51 +6,6 @@
   height: calc(100vh - 128px) !important;
   overflow-y: scroll;
 }
-
-.playlists h1 {
-  text-transform: UPPERCASE;
-  width: 5em;
-  font-size: 2.4em;
-  line-height: 1.1;
-  background-color: inherit;
-}
-.playlists h1 > span {
-  display: block;
-  padding: 0.2em 0;
-  transform-origin: 100% 0%;
-  transform: skew(0, -14deg);
-  background-color: inherit;
-  z-index: 2;
-  border-top: 2px solid;
-  border-bottom: 2px solid;
-}
-.playlists h1 > span:before {
-  content: "playlists";
-  font-weight: 900;
-  position: absolute;
-  width: 55%;
-  height: 80%;
-  clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
-  background: #f55050;
-  color: transparent;
-  background-clip: text;
-}
-.playlists h1:before,
-.playlists h1:after {
-  content: "";
-  position: absolute;
-  height: 1.27em;
-  width: 100%;
-  z-index: 1;
-}
-.playlists h1:before {
-  border-top: 2px solid;
-  border-left: 2px solid;
-}
-.playlists h1:after {
-  border-bottom: 2px solid;
-  border-right: 2px solid;
-}
 .playlist-card {
   height: 280px;
   max-width: 300px;
@@ -108,7 +63,7 @@
 }
 .playlist-videos .video-card {
   transition: all 0.3s;
-  max-height: 161px !important;
+  max-height: 154px !important;
   border-radius: 20px;
   background-color: #000;
   background: inherit;
@@ -145,7 +100,7 @@
 .playlist-videos .video-card img {
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
-  transform: translateY(-13%);
+  transform: translateY(-7%);
   width: 94%;
   height: 100%;
 }
