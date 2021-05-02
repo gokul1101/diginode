@@ -35,13 +35,11 @@ const Iframe = (props) => {
   const [createPlaylist, setCreatePlaylist] = useState(false);
   const [playlistName, setPlaylistName] = useState("");
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const handleClickOpen = () => setOpen(true);
   const confirmDownload = () => {
     handleClose();
     props.snackBar("Video downloading...", "info");
-    const url = `http://localhost:5000/video/download/${props.currentVideo.videoId}`;
+    const url = `http://:5000/video/download/${props.currentVideo.videoId}`;
     fetch(url)
       .then((response) => response.blob())
       .then((blob) => {
@@ -53,7 +51,7 @@ const Iframe = (props) => {
         link.click();
         link.parentNode.removeChild(link);
         props.snackBar("Video downloaded Successfully", "success");
-      });
+      }).catch(e => props.snackBar("Something wrong in the server", "error"))
   };
   const handleClose = () => {
     setOpen(false);
@@ -72,11 +70,13 @@ const Iframe = (props) => {
       },
     });
     if (res.status === 200) {
-      const playlist = await res.json();
-      const playlists = props.playlists.map(
-        (obj) => playlist.find((p) => p.name === obj.name) || obj
-      );
-      props.setPlaylists(playlists);
+      const [playlist] = await res.json();
+      let arr = [];
+      props.playlists.forEach(obj => {
+        if(obj.name === playlist.name) arr.push(playlist)
+        else arr.push(obj);
+      })
+      props.setPlaylists(arr);
       props.snackBar("Added to the playlist", "success");
     } else if (res.status === 403)
       props.snackBar("Video already in the playlist", "info");
@@ -101,8 +101,10 @@ const Iframe = (props) => {
       },
     });
     if (res.status === 201) {
-      const newPlaylist = await res.json();
-      props.setPlaylists(...props.playlists, newPlaylist);
+      const [newPlaylist] = await res.json();
+      let arr = props.playlists;
+      arr.push(newPlaylist)
+      props.setPlaylists(arr);
       props.snackBar("Created and video added to the playlist", "success");
     } else if (res.status === 403)
       props.snackBar("Playlist already exists", "info");
@@ -115,27 +117,37 @@ const Iframe = (props) => {
   );
   const setFavorite = async (videoId) => {
     setCheckFavorite(!checkFavorite);
-    const res = await fetch(`http://localhost:5000/video/${videoId}/favorite`, {
-      method: "PATCH",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        email: localStorage.getItem("user"),
-        channelTitle: props.currentVideo.channelTitle,
-        description: props.currentVideo.description,
-        thumbnails: props.currentVideo.thumbnails,
-        title: props.currentVideo.title,
-        videoId,
-      }),
-    });
-    const { data, flag } = await res.json();
-    props.snackBar(
-      flag ? "Added to favorties" : "Removed from favorites",
-      flag ? "success" : "error"
-    );
-    props.setFavorites(data);
+    try{
+      const res = await fetch(`http://localhost:5000/video/${videoId}/favorite`, {
+        method: "PATCH",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          email: localStorage.getItem("user"),
+          channelTitle: props.currentVideo.channelTitle,
+          description: props.currentVideo.description,
+          thumbnails: props.currentVideo.thumbnails,
+          title: props.currentVideo.title,
+          videoId,
+        }),
+      });
+      const { data, flag } = await res.json();
+      if(res.status === 200) {
+        props.snackBar(
+          flag ? "Added to favorties" : "Removed from favorites",
+          flag ? "success" : "error"
+          );
+          props.setFavorites(data);
+      } else props.snackBar("Something wrong in the server", "error")
+    } catch(e) {
+      
+    }
   };
+  const checkVideo = (listArray) => {
+    let vid = listArray.find(obj => obj.videoId === props.currentVideo.videoId)
+    return vid? true : false;
+  }
   return (
     <div
       id="video-overlay"
@@ -266,11 +278,9 @@ const Iframe = (props) => {
                   variant="outlined"
                   color="primary"
                   endIcon={<AddCircleOutlinedIcon />}
-                  onClick={() => {
-                    setCreatePlaylist(false);
-                  }}
+                  onClick={() => setCreatePlaylist(false)}
                 >
-                  ADD PLAYLIST
+                  ADD TO PLAYLIST
                 </Button>
                 <Button
                   variant="outlined"
@@ -285,7 +295,7 @@ const Iframe = (props) => {
                 </Button>
                 <div className="li-overlay mt-3">
                   {createPlaylist ? (
-                    <div className="d-flex">
+                    <form onSubmit={onCreatedList} className="d-flex">
                       <input
                         className="p-2 mr-3"
                         placeholder="Name of the playlist"
@@ -305,7 +315,7 @@ const Iframe = (props) => {
                       >
                         ADD
                       </Button>
-                    </div>
+                    </form>
                   ) : (
                     <ul
                       className="scroll-li d-flex flex-wrap"
@@ -319,13 +329,14 @@ const Iframe = (props) => {
                         props.playlists.map((playlist, index) => {
                           return (
                             <li className="mx-1" key={index} id={playlist.name}>
+                              {console.log(props.playlists, props.currentVideo)}
                               <Chip
                                 avatar={
                                   <Avatar>{playlist.name.charAt(0)}</Avatar>
                                 }
                                 label={playlist.name}
                                 clickable
-                                color="primary"
+                                color = {checkVideo(playlist.list)?"secondary":"primary"}
                                 onClick={(e) => handleClick(playlist.name)}
                                 className="mb-2"
                               />

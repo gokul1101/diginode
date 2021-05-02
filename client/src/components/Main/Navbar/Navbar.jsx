@@ -34,7 +34,6 @@ const Navbar = (props) => {
       },
     });
     const data = await res.json();
-    console.log(data);
     if (res.status === 200) {
       setFetchData(
         data.items
@@ -50,6 +49,7 @@ const Navbar = (props) => {
           })
       );
     }
+    setQuery("");
   };
   const trendingVideos = async () => {
     let trendUrl = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&type=video&maxResults=2&regionCode=IN&chart=mostPopular&key=${API_KEY}`;
@@ -112,22 +112,27 @@ const Navbar = (props) => {
     }
     props.setCurrentVideo(vid);
     props.setToggle(true);
-    const res = await fetch(`http://localhost:5000/video/${videoId}/history`, {
-      method: "PATCH",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        email: localStorage.getItem("user"),
-        channelTitle: vid.channelTitle,
-        description: vid.description,
-        thumbnails: vid.thumbnails,
-        title: vid.title,
-        videoId,
-      }),
-    });
-    const data = await res.json();
-    setHistory(data);
+    try{
+      const res = await fetch(`http://localhost:5000/video/${videoId}/history`, {
+        method: "PATCH",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          email: localStorage.getItem("user"),
+          channelTitle: vid.channelTitle,
+          description: vid.description,
+          thumbnails: vid.thumbnails,
+          title: vid.title,
+          videoId,
+        }),
+      });
+      const data = await res.json();
+      if(res.status === 200) setHistory(data);
+      else props.snackBar("Something wrong in the server", "error")
+    } catch(e) {
+      props.snackBar("Something wrong in the server", "error")
+    }
   };
   return (
     <div>
@@ -380,6 +385,9 @@ const Navbar = (props) => {
             <Playlist
               playlists={props.playlists}
               setPlaylists={props.setPlaylists}
+              setCurrentVideo={props.setCurrentVideo}
+              setToggle={props.setToggle}
+              snackBar={props.snackBar}
             />
           </div>
           <div
