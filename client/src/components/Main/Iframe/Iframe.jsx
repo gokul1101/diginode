@@ -51,7 +51,8 @@ const Iframe = (props) => {
         link.click();
         link.parentNode.removeChild(link);
         props.snackBar("Video downloaded Successfully", "success");
-      });
+      })
+      .catch((e) => props.snackBar("Something wrong in the server", "error"));
   };
   const handleClose = () => {
     setOpen(false);
@@ -72,10 +73,10 @@ const Iframe = (props) => {
     if (res.status === 200) {
       const [playlist] = await res.json();
       let arr = [];
-      props.playlists.forEach(obj => {
-        if(obj.name === playlist.name) arr.push(playlist)
+      props.playlists.forEach((obj) => {
+        if (obj.name === playlist.name) arr.push(playlist);
         else arr.push(obj);
-      })
+      });
       props.setPlaylists(arr);
       props.snackBar("Added to the playlist", "success");
     } else if (res.status === 403)
@@ -103,7 +104,7 @@ const Iframe = (props) => {
     if (res.status === 201) {
       const [newPlaylist] = await res.json();
       let arr = props.playlists;
-      arr.push(newPlaylist)
+      arr.push(newPlaylist);
       props.setPlaylists(arr);
       props.snackBar("Created and video added to the playlist", "success");
     } else if (res.status === 403)
@@ -117,26 +118,39 @@ const Iframe = (props) => {
   );
   const setFavorite = async (videoId) => {
     setCheckFavorite(!checkFavorite);
-    const res = await fetch(`http://localhost:5000/video/${videoId}/favorite`, {
-      method: "PATCH",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        email: localStorage.getItem("user"),
-        channelTitle: props.currentVideo.channelTitle,
-        description: props.currentVideo.description,
-        thumbnails: props.currentVideo.thumbnails,
-        title: props.currentVideo.title,
-        videoId,
-      }),
-    });
-    const { data, flag } = await res.json();
-    props.snackBar(
-      flag ? "Added to favorties" : "Removed from favorites",
-      flag ? "success" : "error"
+    try {
+      const res = await fetch(
+        `http://localhost:5000/video/${videoId}/favorite`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({
+            email: localStorage.getItem("user"),
+            channelTitle: props.currentVideo.channelTitle,
+            description: props.currentVideo.description,
+            thumbnails: props.currentVideo.thumbnails,
+            title: props.currentVideo.title,
+            videoId,
+          }),
+        }
+      );
+      const { data, flag } = await res.json();
+      if (res.status === 200) {
+        props.snackBar(
+          flag ? "Added to favorties" : "Removed from favorites",
+          flag ? "success" : "error"
+        );
+        props.setFavorites(data);
+      } else props.snackBar("Something wrong in the server", "error");
+    } catch (e) {}
+  };
+  const checkVideo = (listArray) => {
+    let vid = listArray.find(
+      (obj) => obj.videoId === props.currentVideo.videoId
     );
-    props.setFavorites(data);
+    return vid ? true : false;
   };
   return (
     <div
@@ -270,7 +284,7 @@ const Iframe = (props) => {
                   endIcon={<AddCircleOutlinedIcon />}
                   onClick={() => setCreatePlaylist(false)}
                 >
-                  ADD PLAYLIST
+                  ADD TO PLAYLIST
                 </Button>
                 <Button
                   variant="outlined"
@@ -285,7 +299,7 @@ const Iframe = (props) => {
                 </Button>
                 <div className="li-overlay mt-3">
                   {createPlaylist ? (
-                    <div className="d-flex">
+                    <form onSubmit={onCreatedList} className="d-flex">
                       <input
                         className="p-2 mr-3"
                         placeholder="Name of the playlist"
@@ -305,7 +319,7 @@ const Iframe = (props) => {
                       >
                         ADD
                       </Button>
-                    </div>
+                    </form>
                   ) : (
                     <ul
                       className="scroll-li d-flex flex-wrap"
@@ -325,7 +339,11 @@ const Iframe = (props) => {
                                 }
                                 label={playlist.name}
                                 clickable
-                                color="primary"
+                                color={
+                                  checkVideo(playlist.list)
+                                    ? "secondary"
+                                    : "primary"
+                                }
                                 onClick={(e) => handleClick(playlist.name)}
                                 className="mb-2"
                               />

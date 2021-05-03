@@ -16,7 +16,7 @@ const VideoContainer = (props) => {
             <svg viewBox="0 0 800 600">
               <symbol id="s-text">
                 <text
-                  text-anchor="middle"
+                  textAnchor="middle"
                   x="50%"
                   y="35%"
                   className="text--line"

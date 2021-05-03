@@ -235,9 +235,9 @@
     background-position: 0 200%;
   }
 }
-.no-data{
+.no-data {
   background: transparent;
-  background-size: .12em 100%;
+  background-size: 0.12em 100%;
   font: 16em/1 Arial;
 }
 .no-data svg {
@@ -245,7 +245,7 @@
   height: 100%;
 }
 .no-data .text--line {
-  font-size: .9em;
+  font-size: 0.9em;
 }
 .no-data .text-copy {
   fill: none;
@@ -253,7 +253,7 @@
   stroke-dasharray: 7% 28%;
   stroke-width: 3px;
   -webkit-animation: stroke-offset 2s infinite linear;
-          animation: stroke-offset 2s infinite linear;
+  animation: stroke-offset 2s infinite linear;
 }
 
 .no-data .text-copy:nth-child(1) {
@@ -261,19 +261,19 @@
   stroke-dashoffset: 7%;
 }
 .no-data .text-copy:nth-child(2) {
-  stroke: #D61C59;
+  stroke: #d61c59;
   stroke-dashoffset: 14%;
 }
 .no-data .text-copy:nth-child(3) {
-  stroke: #E7D84B;
+  stroke: #e7d84b;
   stroke-dashoffset: 21%;
 }
 .no-data .text-copy:nth-child(4) {
-  stroke: #EFEAC5;
+  stroke: #efeac5;
   stroke-dashoffset: 28%;
 }
 .no-data .text-copy:nth-child(5) {
-  stroke: #1B8798;
+  stroke: #1b8798;
   stroke-dashoffset: 35%;
 }
 
