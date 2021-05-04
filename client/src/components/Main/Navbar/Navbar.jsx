@@ -331,7 +331,7 @@ const Navbar = (props) => {
                     >
                       Logout
                     </Link>
-                    <Link to="/" className="dropdown-item">
+                    <Link to="/edit" className="dropdown-item">
                       Edit Profile
                     </Link>
                   </div>

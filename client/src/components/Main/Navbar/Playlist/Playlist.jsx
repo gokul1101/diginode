@@ -65,7 +65,7 @@ const Playlist = (props) => {
       );
   }, [props.playlists]);
   return toggle ? (
-    <div className="container-fluid position-relative my-3 d-flex flex-column align-items-center playlist-videos">
+    <div className="container-fluid position-relative my-3 d-flex flex-column align-items-center justofy-content-center playlist-videos">
       <div
         className="back-to-playlist h-auto w-auto p-2 position-absolute"
         onClick={() => setToggle(false)}
@@ -78,60 +78,132 @@ const Playlist = (props) => {
           }}
         />
       </div>
-      {currentPlaylist.list.map((obj, index) => {
-        return (
-          <div
-            className="video-card position-relative my-3 p-0 h-auto col-md-7 col-sm-9 col-12"
-            key={obj.videoId}
-          >
-            <div className="video-card-content d-flex position-relative">
-              <div
-                className="playlist-video-img position-relative col-4 p-0"
-                onClick={() => openIframe(obj)}
-              >
-                <img
-                  className="img-fluid"
-                  src={obj.thumbnails}
-                  alt="playlist-video-img"
-                />
-              </div>
-              <div className="delete-button position-absolute mr-3 mt-2">
-                <IconButton
-                  onClick={() =>
-                    deleteVideoFromPlaylist(obj, currentPlaylist.name)
-                  }
-                  aria-label="delete"
-                  style={{ color: "white" }}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </div>
-              <div className="p-3 col-8" onClick={() => openIframe(obj)}>
-                <div className="row">
-                  <span
-                    className="badge badge-danger text-wrap text-left my-2"
-                  >
-                    {`${index + 1}. ${obj.title}`}
-                  </span>
-                </div>
-                <div className="row">
-                  <span
-                    style={{ fontSize: 15 }}
-                    className="badge badge-success"
-                  >
-                    {obj.channelTitle}
-                  </span>
-                </div>
-                <div className="row">
-                  <span className="badge badge-info text-wrap text-left my-2">
-                    {obj.description}
-                  </span>
-                </div>
+      <div className="d-flex position-relative auto-flex" style={{ top: "100px" }}>
+        <div className="col-md-8 col-lg-3  hide-playlist">
+          <div className="img-container">
+            <div className="playlist-imgs position-relative">
+              <img
+                src="https://i.ytimg.com/vi/fRD_3vJagxk/hqdefault.jpg"
+                className="img-fluid"
+              />
+              <div className="playlist-overlay-img position-absolute text-center d-flex align-items-center justify-content-center p-1">
+                <i className="fab fa-google-play pr-2"></i>PLAY ALL
               </div>
             </div>
           </div>
-        );
-      })}
+          <div className="playlist-content mt-2">
+            <h3 className="play-name mb-2">
+              {" "}
+              <strong>Avenger - Age of Ultron</strong>
+            </h3>
+            <span className="playlist-avg-view">
+              33 videos <span> &bull; </span> 7,942 views <span> &bull; </span>{" "}
+              Last updated on Oct 2, 2020{" "}
+            </span>
+            <hr />
+          </div>
+        </div>
+        <div className="col-md-9">
+          {currentPlaylist.list.map((obj, index) => {
+            return (
+              <div
+                className="playlist-video-card position-relative p-0 mb-3"
+                key={obj.videoId}
+                data-label={obj.channelTitle}
+              >
+                <div className="d-flex playchange overlay-playlist">
+                  <div
+                    className="col-md-12 col-lg-4 d-flex align-items-center justify-content-center p-0 playlist-demo-div"
+                    onClick={() => openIframe(obj)}
+                  >
+                    <img
+                      src={obj.thumbnails}
+                      alt="playlist-video-img"
+                      className="img-fluid playlist-video-img-right"
+                    />
+                  </div>
+                  <div className="col-md-12 col-lg-8 p-2 overlay-playlist" onClick={() => openIframe(obj)}>
+                    <div className="d-flex">
+                      <div className="play-list-text mr-auto text-wrap text-left my-2 ">
+                        <span>
+                          <strong>{`${index + 1}. ${obj.title}`}</strong>
+                        </span>
+                      </div>
+                      <div className="">
+                        <IconButton
+                          onClick={() =>
+                            deleteVideoFromPlaylist(obj, currentPlaylist.name)
+                          }
+                          aria-label="delete"
+                          style={{ color: "white" }}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </div>
+                    </div>
+                    <div>
+                      <span
+                        style={{ fontSize: 15 }}
+                        className="badge badge-success"
+                      >
+                        {obj.channelTitle}
+                      </span>
+                    </div>
+                    <div className="w-75">
+                      <span>{obj.description}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              // <div
+              //   className="video-card position-relative p-0 h-auto mb-3"
+              //   key={obj.videoId}
+              // >
+              //   <div className="video-card-content d-flex position-relative">
+              //     <div
+              //       className="playlist-video-img position-relative col-4 p-0"
+              //       onClick={() => openIframe(obj)}
+              //     >
+              //       <img src={obj.thumbnails} alt="playlist-video-img" className="img-fluid"/>
+              //     </div>
+              //     <div className="delete-button position-absolute mr-3 mt-2">
+              // <IconButton
+              //   onClick={() =>
+              //     deleteVideoFromPlaylist(obj, currentPlaylist.name)
+              //   }
+              //   aria-label="delete"
+              //   style={{ color: "white" }}
+              // >
+              //   <DeleteIcon />
+              // </IconButton>
+              //     </div>
+              //     <div className="p-3 col-8" onClick={() => openIframe(obj)}>
+              //       <div className="row">
+              //         <span className="badge badge-danger text-wrap text-left my-2">
+              //           {`${index + 1}. ${obj.title}`}
+              //         </span>
+              //       </div>
+              //       <div className="row">
+              //         <span
+              //           style={{ fontSize: 15 }}
+              //           className="badge badge-success"
+              //         >
+              //           {obj.channelTitle}
+              //         </span>
+              //       </div>
+              //       <div className="row">
+              //         <span className="badge badge-info text-wrap text-left my-2">
+              //           {obj.description}
+              //         </span>
+              //       </div>
+              //     </div>
+              //   </div>
+              // </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   ) : (
     <div className="container-fluid playlists d-flex">

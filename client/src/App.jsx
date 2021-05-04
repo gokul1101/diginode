@@ -5,6 +5,7 @@ import { Snackbar } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import Main from "./components/Main/Main";
 import Login from "./components/Login/Login";
+import Edit from "./components/Edit/Edit";
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -32,6 +33,7 @@ const App = () => {
         </Alert>
       </Snackbar> 
       <Switch>
+        <Route path="/edit" component={Edit} />
         <Route path="/login">
           {!login ? (
             <Login setUser={setUser} snackBar={snackBar} setLogin={setLogin} />
