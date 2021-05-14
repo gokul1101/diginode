@@ -33,7 +33,7 @@ const App = () => {
         </Alert>
       </Snackbar> 
       <Switch>
-        <Route path="/edit" component={Edit} />
+        <Route path="/edit" component={Edit} snackBar={snackBar}/>
         <Route path="/login">
           {!login ? (
             <Login setUser={setUser} snackBar={snackBar} setLogin={setLogin} />

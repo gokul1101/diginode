@@ -129,7 +129,7 @@ const Login = (props) => {
           props.setLogin(true)
           props.snackBar("Logged in successfully!", "success")
           localStorage.setItem("user", userDetails.email)
-          // localStorage.setItem("password", userDetails.password)
+          localStorage.setItem("password", userDetails.password)
         } 
         else if (res.status === 404) props.snackBar("user not found", "info");
         else if (res.status === 401) props.snackBar("Incorrect password", "error");

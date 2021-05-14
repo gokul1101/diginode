@@ -1,8 +1,11 @@
 .edit-input input {
-  width: 400px;
+  width: 350px;
   border: none;
+  height: 45px;
   padding-right: 15px;
   background: #f0f0f0;
-  box-shadow: 5px 5px 10px #91bbeb, -20px -20px 60px #ffffff;
-  /* box-shadow: 3px 3px 5px dodgerblue; */
+  border-radius: 25px;
+}
+.edit-btn:focus,.edit-btn:hover{
+  color:white !important;
 }

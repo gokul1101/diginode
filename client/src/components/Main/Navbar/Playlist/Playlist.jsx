@@ -178,7 +178,7 @@ const Playlist = (props) => {
             data-text="You doesn't created any playlist yet."
             className="mt-3 ml-3 position-relative text-white text-center"
           >
-            You doesn't created any playlist yet.
+            You doesn't add any videos yet.
           </div>
         </div>
       )}
