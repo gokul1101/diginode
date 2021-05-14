@@ -39,7 +39,7 @@ const Iframe = (props) => {
   const confirmDownload = () => {
     handleClose();
     props.snackBar("Video downloading...", "info");
-    const url = `http://:5000/video/download/${props.currentVideo.videoId}`;
+    const url = `http://localhost:5000/video/download/${props.currentVideo.videoId}`;
     fetch(url)
       .then((response) => response.blob())
       .then((blob) => {
@@ -51,7 +51,8 @@ const Iframe = (props) => {
         link.click();
         link.parentNode.removeChild(link);
         props.snackBar("Video downloaded Successfully", "success");
-      }).catch(e => props.snackBar("Something wrong in the server", "error"))
+      })
+      .catch((e) => props.snackBar("Something wrong in the server", "error"));
   };
   const handleClose = () => {
     setOpen(false);
@@ -72,10 +73,10 @@ const Iframe = (props) => {
     if (res.status === 200) {
       const [playlist] = await res.json();
       let arr = [];
-      props.playlists.forEach(obj => {
-        if(obj.name === playlist.name) arr.push(playlist)
+      props.playlists.forEach((obj) => {
+        if (obj.name === playlist.name) arr.push(playlist);
         else arr.push(obj);
-      })
+      });
       props.setPlaylists(arr);
       props.snackBar("Added to the playlist", "success");
     } else if (res.status === 403)
@@ -103,7 +104,7 @@ const Iframe = (props) => {
     if (res.status === 201) {
       const [newPlaylist] = await res.json();
       let arr = props.playlists;
-      arr.push(newPlaylist)
+      arr.push(newPlaylist);
       props.setPlaylists(arr);
       props.snackBar("Created and video added to the playlist", "success");
     } else if (res.status === 403)
@@ -117,37 +118,40 @@ const Iframe = (props) => {
   );
   const setFavorite = async (videoId) => {
     setCheckFavorite(!checkFavorite);
-    try{
-      const res = await fetch(`http://localhost:5000/video/${videoId}/favorite`, {
-        method: "PATCH",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          email: localStorage.getItem("user"),
-          channelTitle: props.currentVideo.channelTitle,
-          description: props.currentVideo.description,
-          thumbnails: props.currentVideo.thumbnails,
-          title: props.currentVideo.title,
-          videoId,
-        }),
-      });
+    try {
+      const res = await fetch(
+        `http://localhost:5000/video/${videoId}/favorite`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({
+            email: localStorage.getItem("user"),
+            channelTitle: props.currentVideo.channelTitle,
+            description: props.currentVideo.description,
+            thumbnails: props.currentVideo.thumbnails,
+            title: props.currentVideo.title,
+            videoId,
+          }),
+        }
+      );
       const { data, flag } = await res.json();
-      if(res.status === 200) {
+      if (res.status === 200) {
         props.snackBar(
           flag ? "Added to favorties" : "Removed from favorites",
           flag ? "success" : "error"
-          );
-          props.setFavorites(data);
-      } else props.snackBar("Something wrong in the server", "error")
-    } catch(e) {
-      
-    }
+        );
+        props.setFavorites(data);
+      } else props.snackBar("Something wrong in the server", "error");
+    } catch (e) {}
   };
   const checkVideo = (listArray) => {
-    let vid = listArray.find(obj => obj.videoId === props.currentVideo.videoId)
-    return vid? true : false;
-  }
+    let vid = listArray.find(
+      (obj) => obj.videoId === props.currentVideo.videoId
+    );
+    return vid ? true : false;
+  };
   return (
     <div
       id="video-overlay"
@@ -329,14 +333,17 @@ const Iframe = (props) => {
                         props.playlists.map((playlist, index) => {
                           return (
                             <li className="mx-1" key={index} id={playlist.name}>
-                              {console.log(props.playlists, props.currentVideo)}
                               <Chip
                                 avatar={
                                   <Avatar>{playlist.name.charAt(0)}</Avatar>
                                 }
                                 label={playlist.name}
                                 clickable
-                                color = {checkVideo(playlist.list)?"secondary":"primary"}
+                                color={
+                                  checkVideo(playlist.list)
+                                    ? "secondary"
+                                    : "primary"
+                                }
                                 onClick={(e) => handleClick(playlist.name)}
                                 className="mb-2"
                               />
