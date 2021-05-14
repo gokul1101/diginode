@@ -208,7 +208,7 @@ const Playlist = (props) => {
   ) : (
     <div className="container-fluid playlists d-flex">
       <div className="container-fluid d-flex flex-column align-items-center">
-        {searchPlaylists.length !== 0 ? (
+        {playlists.length !== 0 ? (
           <form
             className="form-inline mt-3"
             onSubmit={(e) => e.preventDefault()}

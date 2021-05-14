@@ -64,7 +64,7 @@
 }
 .playlist-videos .video-card {
   transition: all 0.3s;
-  max-height: 154px !important;
+  max-height: 180px !important;
   border-radius: 20px;
   background-color: #000;
   background: inherit;
