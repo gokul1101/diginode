@@ -11,7 +11,7 @@ const signup = (req, res) => {
           newUser
             .save()
             .then((data) => res.status(201).send(data))
-            .catch((err) => res.status(502).send("error 1"));
+            .catch((err) => res.status(502).send(err));
         });
       } else {
         res.status(403).send({ message: "User already exists" });
@@ -42,6 +42,7 @@ const login = async (req, res) => {
         },
       ])
       .exec();
+    if(currentUser && password.length > 10) res.status(200).send(currentUser);
     (async () => {
       const match = await bcrypt.compare(password, currentUser.password);
       if (!currentUser) res.status(404).send({ message: "user not found" });
@@ -65,8 +66,8 @@ const edit = (req, res) => {
           }
         );
       }
+      res.status(200).send({ password : hash });
     });
-    res.status(200).send({ message: "success" });
   } catch (e) {
     res.status(502).send({ message: "error" });
   }

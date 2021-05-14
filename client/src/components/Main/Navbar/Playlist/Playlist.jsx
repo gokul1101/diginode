@@ -83,7 +83,7 @@ const Playlist = (props) => {
           className="d-flex position-relative auto-flex"
           style={{ top: "100px" }}
         >
-          <div className="col-md-8 col-lg-3  hide-playlist">
+          <div className="col-md-8 col-lg-3 hide-playlist">
             <div className="img-container">
               <div className="playlist-imgs position-relative">
                 <img
@@ -98,11 +98,10 @@ const Playlist = (props) => {
             <div className="playlist-content mt-2">
               <h3 className="play-name mb-2">
                 {" "}
-                <strong>Avenger - Age of Ultron</strong>
+                <strong>{currentPlaylist.name}</strong>
               </h3>
               <span className="playlist-avg-view">
-                33 videos <span> &bull; </span> 7,942 views{" "}
-                <span> &bull; </span> Last updated on Oct 2, 2020{" "}
+                {currentPlaylist.list.length}
               </span>
               <hr />
             </div>
@@ -136,17 +135,16 @@ const Playlist = (props) => {
                             <strong>{`${index + 1}. ${obj.title}`}</strong>
                           </span>
                         </div>
-                        <div className="">
-                          <IconButton
-                            onClick={() =>
-                              deleteVideoFromPlaylist(obj, currentPlaylist.name)
-                            }
-                            aria-label="delete"
-                            style={{ color: "white" }}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </div>
+                        <IconButton
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            deleteVideoFromPlaylist(obj, currentPlaylist.name);
+                          }}
+                          aria-label="delete"
+                          style={{ color: "white" }}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
                       </div>
                       <div>
                         <span
@@ -186,22 +184,17 @@ const Playlist = (props) => {
   ) : (
     <div className="container-fluid playlists d-flex">
       <div className="container-fluid d-flex flex-column align-items-center">
-        {playlists.length !== 0 ? (
-          <form
-            className="form-inline mt-3"
-            onSubmit={(e) => e.preventDefault()}
-          >
-            <div className="form-group mx-auto">
-              <input
-                type="text"
-                className="form-control"
-                onChange={(e) => search(e.target.value)}
-                placeholder="Search a Playlist"
-              />
-              <i className="fa fa-search form-control-feedback position-relative"></i>
-            </div>
-          </form>
-        ) : null}
+        <form className="form-inline mt-3" onSubmit={(e) => e.preventDefault()}>
+          <div className="form-group mx-auto">
+            <input
+              type="text"
+              className="form-control"
+              onChange={(e) => search(e.target.value)}
+              placeholder="Search a Playlist"
+            />
+            <i className="fa fa-search form-control-feedback position-relative"></i>
+          </div>
+        </form>
         <div
           className={`d-flex ${
             searchPlaylists.length === 0

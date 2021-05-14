@@ -289,6 +289,7 @@ const Navbar = (props) => {
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     className="form-control"
+                    placeholder="Search videos"
                   />
                   <i className="fa fa-search form-control-feedback position-relative"></i>
                 </div>
