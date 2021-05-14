@@ -8,7 +8,7 @@
 }
 .playlist-card {
   height: 280px;
-  max-width: 300px;
+  max-width:300px;
   cursor: pointer;
   border-radius: 34px;
   transition: all 0.3s;
@@ -22,6 +22,8 @@
 .playlist-img img {
   border-top-left-radius: 34px;
   border-top-right-radius: 34px;
+  height: 225px;
+  max-width:300px;
 }
 .playlist-card:hover {
   transform: scale(1.05);
@@ -134,7 +136,7 @@
 /* CSS */
 .playlist-overlay-img {
   background-color: rgb(151, 151, 151, 0.4);
-  width:100%;
+  width: 100%;
   bottom: 0px;
   height: auto;
   cursor: pointer;
@@ -190,7 +192,6 @@
   }
 }
 @media (max-width: 500px) {
-  
   .video-card-content {
     display: flex;
     flex-direction: column;
@@ -201,4 +202,44 @@
 }
 .overlay-playlist {
   z-index: 999 !important;
+}
+
+/*======================
+    404 page
+=======================*/
+
+.page_404 {
+  width:1000px !important;
+  padding: 40px 0;
+  background: #fff;
+  font-family: "Arvo", serif;
+}
+
+.page_404 img {
+  width: 100%;
+}
+
+.four_zero_four_bg {
+  background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
+  height: 400px;
+  background-position: center;
+}
+
+.four_zero_four_bg h1 {
+  font-size: 80px;
+}
+
+.four_zero_four_bg h3 {
+  font-size: 80px;
+}
+
+.link_404 {
+  color: #000 !important;
+  padding: 10px 20px;
+  background: #39ac31;
+  margin: 20px 0;
+  display: inline-block;
+}
+.contant_box_404 {
+  margin-top: -50px;
 }

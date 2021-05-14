@@ -78,132 +78,110 @@ const Playlist = (props) => {
           }}
         />
       </div>
-      <div className="d-flex position-relative auto-flex" style={{ top: "100px" }}>
-        <div className="col-md-8 col-lg-3  hide-playlist">
-          <div className="img-container">
-            <div className="playlist-imgs position-relative">
-              <img
-                src="https://i.ytimg.com/vi/fRD_3vJagxk/hqdefault.jpg"
-                className="img-fluid"
-              />
-              <div className="playlist-overlay-img position-absolute text-center d-flex align-items-center justify-content-center p-1">
-                <i className="fab fa-google-play pr-2"></i>PLAY ALL
+      {currentPlaylist.list.length !== 0 ? (
+        <div
+          className="d-flex position-relative auto-flex"
+          style={{ top: "100px" }}
+        >
+          <div className="col-md-8 col-lg-3  hide-playlist">
+            <div className="img-container">
+              <div className="playlist-imgs position-relative">
+                <img
+                  src="https://i.ytimg.com/vi/fRD_3vJagxk/hqdefault.jpg"
+                  className="img-fluid"
+                />
+                <div className="playlist-overlay-img position-absolute text-center d-flex align-items-center justify-content-center p-1">
+                  <i className="fab fa-google-play pr-2"></i>PLAY ALL
+                </div>
               </div>
             </div>
+            <div className="playlist-content mt-2">
+              <h3 className="play-name mb-2">
+                {" "}
+                <strong>Avenger - Age of Ultron</strong>
+              </h3>
+              <span className="playlist-avg-view">
+                33 videos <span> &bull; </span> 7,942 views{" "}
+                <span> &bull; </span> Last updated on Oct 2, 2020{" "}
+              </span>
+              <hr />
+            </div>
           </div>
-          <div className="playlist-content mt-2">
-            <h3 className="play-name mb-2">
-              {" "}
-              <strong>Avenger - Age of Ultron</strong>
-            </h3>
-            <span className="playlist-avg-view">
-              33 videos <span> &bull; </span> 7,942 views <span> &bull; </span>{" "}
-              Last updated on Oct 2, 2020{" "}
-            </span>
-            <hr />
-          </div>
-        </div>
-        <div className="col-md-9">
-          {currentPlaylist.list.map((obj, index) => {
-            return (
-              <div
-                className="playlist-video-card position-relative p-0 mb-3"
-                key={obj.videoId}
-                data-label={obj.channelTitle}
-              >
-                <div className="d-flex playchange overlay-playlist">
-                  <div
-                    className="col-md-12 col-lg-4 d-flex align-items-center justify-content-center p-0 playlist-demo-div"
-                    onClick={() => openIframe(obj)}
-                  >
-                    <img
-                      src={obj.thumbnails}
-                      alt="playlist-video-img"
-                      className="img-fluid playlist-video-img-right"
-                    />
-                  </div>
-                  <div className="col-md-12 col-lg-8 p-2 overlay-playlist" onClick={() => openIframe(obj)}>
-                    <div className="d-flex">
-                      <div className="play-list-text mr-auto text-wrap text-left my-2 ">
-                        <span>
-                          <strong>{`${index + 1}. ${obj.title}`}</strong>
+          <div className="col-md-9">
+            {currentPlaylist.list.map((obj, index) => {
+              return (
+                <div
+                  className="playlist-video-card position-relative p-0 mb-3"
+                  key={obj.videoId}
+                  data-label={obj.channelTitle}
+                >
+                  <div className="d-flex playchange overlay-playlist">
+                    <div
+                      className="col-md-12 col-lg-4 d-flex align-items-center justify-content-center p-0 playlist-demo-div"
+                      onClick={() => openIframe(obj)}
+                    >
+                      <img
+                        src={obj.thumbnails}
+                        alt="playlist-video-img"
+                        className="img-fluid playlist-video-img-right"
+                      />
+                    </div>
+                    <div
+                      className="col-md-12 col-lg-8 p-2 overlay-playlist"
+                      onClick={() => openIframe(obj)}
+                    >
+                      <div className="d-flex">
+                        <div className="play-list-text mr-auto text-wrap text-left my-2 ">
+                          <span>
+                            <strong>{`${index + 1}. ${obj.title}`}</strong>
+                          </span>
+                        </div>
+                        <div className="">
+                          <IconButton
+                            onClick={() =>
+                              deleteVideoFromPlaylist(obj, currentPlaylist.name)
+                            }
+                            aria-label="delete"
+                            style={{ color: "white" }}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </div>
+                      </div>
+                      <div>
+                        <span
+                          style={{ fontSize: 15 }}
+                          className="badge badge-success"
+                        >
+                          {obj.channelTitle}
                         </span>
                       </div>
-                      <div className="">
-                        <IconButton
-                          onClick={() =>
-                            deleteVideoFromPlaylist(obj, currentPlaylist.name)
-                          }
-                          aria-label="delete"
-                          style={{ color: "white" }}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
+                      <div className="w-75">
+                        <span>{obj.description}</span>
                       </div>
-                    </div>
-                    <div>
-                      <span
-                        style={{ fontSize: 15 }}
-                        className="badge badge-success"
-                      >
-                        {obj.channelTitle}
-                      </span>
-                    </div>
-                    <div className="w-75">
-                      <span>{obj.description}</span>
                     </div>
                   </div>
                 </div>
-              </div>
-
-              // <div
-              //   className="video-card position-relative p-0 h-auto mb-3"
-              //   key={obj.videoId}
-              // >
-              //   <div className="video-card-content d-flex position-relative">
-              //     <div
-              //       className="playlist-video-img position-relative col-4 p-0"
-              //       onClick={() => openIframe(obj)}
-              //     >
-              //       <img src={obj.thumbnails} alt="playlist-video-img" className="img-fluid"/>
-              //     </div>
-              //     <div className="delete-button position-absolute mr-3 mt-2">
-              // <IconButton
-              //   onClick={() =>
-              //     deleteVideoFromPlaylist(obj, currentPlaylist.name)
-              //   }
-              //   aria-label="delete"
-              //   style={{ color: "white" }}
-              // >
-              //   <DeleteIcon />
-              // </IconButton>
-              //     </div>
-              //     <div className="p-3 col-8" onClick={() => openIframe(obj)}>
-              //       <div className="row">
-              //         <span className="badge badge-danger text-wrap text-left my-2">
-              //           {`${index + 1}. ${obj.title}`}
-              //         </span>
-              //       </div>
-              //       <div className="row">
-              //         <span
-              //           style={{ fontSize: 15 }}
-              //           className="badge badge-success"
-              //         >
-              //           {obj.channelTitle}
-              //         </span>
-              //       </div>
-              //       <div className="row">
-              //         <span className="badge badge-info text-wrap text-left my-2">
-              //           {obj.description}
-              //         </span>
-              //       </div>
-              //     </div>
-              //   </div>
-              // </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div
+          id="nodata"
+          className="d-flex align-items-center justify-content-between mt-4"
+        >
+          <img className="img-fluid mt-3 mr-3" src={empty} alt="nodata" />
+          <div
+            id="text"
+            style={{ textShadow: textShadow() }}
+            data-text="You doesn't created any playlist yet."
+            className="mt-3 ml-3 position-relative text-white text-center"
+          >
+            You doesn't created any playlist yet.
+          </div>
+        </div>
+      )}
     </div>
   ) : (
     <div className="container-fluid playlists d-flex">
@@ -250,20 +228,41 @@ const Playlist = (props) => {
             searchPlaylists.map((playlist, index) => {
               return (
                 <div
-                  className="flex-fill playlist-card m-3"
+                  className="flex-fill playlist-card m-3 "
                   onClick={(e) => play(e.currentTarget.id)}
                   key={index}
                   id={playlist ? playlist.name : index}
                 >
                   <div className="playlist h-100 w-100">
                     <div className="playlist-img position-relative">
-                      {playlist.list.length !== 0 ? (
+                      {playlist.list.length === 0 ? (
                         <>
                           <img
                             className="img-fluid"
-                            src={playlist.list[0].thumbnails}
+                            src="https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif"
                             alt="playlist-img"
                           />
+                          <div className="playlist-play-icon d-flex align-items-center justify-content-center position-absolute">
+                            <IconButton aria-label="playlist">
+                              <PlayArrowIcon
+                                style={{
+                                  color: "#f55050",
+                                  height: 40,
+                                  width: 40,
+                                }}
+                              />
+                            </IconButton>
+                          </div>
+                        </>
+                      ) : (
+                        <img
+                          className="img-fluid"
+                          src={playlist.list[0].thumbnails}
+                          alt="playlist-img"
+                        />
+                      )}
+                      {playlist.list.length !== 0 ? (
+                        <>
                           <div className="playlist-play-icon d-flex align-items-center justify-content-center position-absolute">
                             <IconButton aria-label="playlist">
                               <PlayArrowIcon
@@ -280,6 +279,7 @@ const Playlist = (props) => {
                         <></>
                       )}
                     </div>
+
                     <div className="playlist-detail d-flex align-items-center justify-content-between mt-2 pt-1 px-4">
                       <h6 className="text-white m-0">{playlist.name}</h6>
                       <p className="m-0 text-white">
@@ -300,3 +300,146 @@ const Playlist = (props) => {
 };
 
 export default Playlist;
+
+/*
+  <div className="page_404">
+                        <div class="container">
+                          <div class="row">
+                            <div class="col-sm-12 col-lg-12 bg-dark">
+                              <div class="col-sm-10 col-lg-12 col-sm-offset-1 text-center">
+                                <div class="four_zero_four_bg">
+                                  <h2 class="text-center ">NO DATA FOUND</h2>
+                                </div>
+
+                                <div class="contant_box_404">
+                                  <h3 class="h2">Look like you're lost</h3>
+
+                                  <p>
+                                    the page you are looking for not avaible!
+                                  </p>
+
+                                  <a href="" class="link_404">
+                                    Go to Home
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+*/
+
+{
+  /* {searchPlaylists.map((fillplay) => {
+          {
+            {console.log(fillplay.list.length)}
+            fillplay.list.length !== 0 ? (
+              <>
+                <div className="col-md-8 col-lg-3  hide-playlist">
+                  <div className="img-container">
+                    <div className="playlist-imgs position-relative">
+                      <img
+                        src="https://i.ytimg.com/vi/fRD_3vJagxk/hqdefault.jpg"
+                        className="img-fluid"
+                      />
+                      <div className="playlist-overlay-img position-absolute text-center d-flex align-items-center justify-content-center p-1">
+                        <i className="fab fa-google-play pr-2"></i>PLAY ALL
+                      </div>
+                    </div>
+                  </div>
+                  <div className="playlist-content mt-2">
+                    <h3 className="play-name mb-2">
+                      {" "}
+                      <strong>Avenger - Age of Ultron</strong>
+                    </h3>
+                    <span className="playlist-avg-view">
+                      33 videos <span> &bull; </span> 7,942 views{" "}
+                      <span> &bull; </span> Last updated on Oct 2, 2020{" "}
+                    </span>
+                    <hr />
+                  </div>
+                </div>
+                <div className="col-md-9">
+                  {currentPlaylist.list.map((obj, index) => {
+                    return (
+                      <div
+                        className="playlist-video-card position-relative p-0 mb-3"
+                        key={obj.videoId}
+                        data-label={obj.channelTitle}
+                      >
+                        <div className="d-flex playchange overlay-playlist">
+                          <div
+                            className="col-md-12 col-lg-4 d-flex align-items-center justify-content-center p-0 playlist-demo-div"
+                            onClick={() => openIframe(obj)}
+                          >
+                            <img
+                              src={obj.thumbnails}
+                              alt="playlist-video-img"
+                              className="img-fluid playlist-video-img-right"
+                            />
+                          </div>
+                          <div
+                            className="col-md-12 col-lg-8 p-2 overlay-playlist"
+                            onClick={() => openIframe(obj)}
+                          >
+                            <div className="d-flex">
+                              <div className="play-list-text mr-auto text-wrap text-left my-2 ">
+                                <span>
+                                  <strong>{`${index + 1}. ${
+                                    obj.title
+                                  }`}</strong>
+                                </span>
+                              </div>
+                              <div className="">
+                                <IconButton
+                                  onClick={() =>
+                                    deleteVideoFromPlaylist(
+                                      obj,
+                                      currentPlaylist.name
+                                    )
+                                  }
+                                  aria-label="delete"
+                                  style={{ color: "white" }}
+                                >
+                                  <DeleteIcon />
+                                </IconButton>
+                              </div>
+                            </div>
+                            <div>
+                              <span
+                                style={{ fontSize: 15 }}
+                                className="badge badge-success"
+                              >
+                                {obj.channelTitle}
+                              </span>
+                            </div>
+                            <div className="w-75">
+                              <span>{obj.description}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              
+              </>
+            ) : (
+              <div
+                id="nodata"
+                className="d-flex align-items-center justify-content-between mt-4"
+              >
+                <img className="img-fluid mt-3 mr-3" src={empty} alt="nodata" />
+                <div
+                  id="text"
+                  style={{ textShadow: textShadow() }}
+                  data-text="You doesn't created any playlist yet."
+                  className="mt-3 ml-3 position-relative text-white text-center"
+                >
+                  You doesn't created any playlist yet.
+                </div>
+              </div>
+            );
+          }
+        })} */
+}
