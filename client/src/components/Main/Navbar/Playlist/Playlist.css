@@ -2,7 +2,7 @@
   height: calc(100vh - 96px) !important;
   overflow-y: scroll;
 }
-.playlist-videos{
+.playlist-videos {
   height: calc(100vh - 128px) !important;
   overflow-y: scroll;
 }
@@ -13,6 +13,7 @@
   border-radius: 34px;
   transition: all 0.3s;
 }
+
 .playlist {
   border-radius: 34px;
   background: #100a0f;
@@ -68,12 +69,13 @@
   background-color: #000;
   background: inherit;
   overflow: hidden;
-  z-index: 1;
+  z-index: 999;
   cursor: pointer;
 }
 .back-to-playlist {
   top: 5%;
   left: 3%;
+  width: fit-content;
   background: #fbf7f34f;
   cursor: pointer;
   border-radius: 5px;
@@ -100,14 +102,14 @@
 .playlist-videos .video-card img {
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
-  transform: translateY(-7%);
-  width: 94%;
-  height: 100%;
+  transform: translateY(-13%);
+  width: 82%;
+  height: auto;
 }
-#nodata{
+#nodata {
   height: 400px;
 }
-#nodata img{
+#nodata img {
   width: 400px;
   height: 400px;
   object-fit: contain;
@@ -128,4 +130,75 @@
   text-shadow: none;
   filter: blur(5px);
   z-index: -1;
+}
+/* CSS */
+.playlist-overlay-img {
+  background-color: rgb(151, 151, 151, 0.4);
+  width:100%;
+  bottom: 0px;
+  height: auto;
+  cursor: pointer;
+}
+.playlist-avg-view {
+  font-size: 16px;
+  color: rgb(185, 185, 185);
+}
+
+.playlist-video-card {
+  transition: all 0.3s;
+  border-radius: 20px;
+  background-color: #000;
+  background: inherit;
+  overflow: hidden !important;
+  z-index: 1 !important;
+  cursor: pointer;
+}
+
+.playlist-video-img-right {
+  height: 180px;
+  width: 320px !important;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+.playlist-video-card::after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  box-shadow: inset 0 0 0 200px rgba(255, 255, 255, 0.05);
+  filter: blur(10px);
+}
+.playlist-video-card:hover {
+  transform: scale(1.03);
+}
+@media (max-width: 768px) {
+  .playchange {
+    display: flex;
+    flex-direction: column;
+  }
+  .auto-flex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
+@media (max-width: 500px) {
+  
+  .video-card-content {
+    display: flex;
+    flex-direction: column;
+  }
+  .overlay-playlist {
+    font-size: 12px !important;
+  }
+}
+.overlay-playlist {
+  z-index: 999 !important;
 }
