@@ -5,7 +5,7 @@ const {
   clearHistory,
   downloadVideo,
 } = require("../controllers/userController");
-const { signup, login } = require("../controllers/loginController");
+const { signup, login, edit } = require("../controllers/loginController");
 const {
   createPlaylist,
   addToPlaylist,
@@ -20,6 +20,7 @@ router.post("/signup", signup);
 router.post("/login", login);
 router.post("/createPlaylist", createPlaylist);
 router.delete("/deletePlaylist", deletePlaylist);
+router.patch("/edit", edit);
 router.patch("/addToPlaylist", addToPlaylist);
 router.patch("/removeFromPlaylist", removeFromPlaylist);
 router.patch("/video/:id/favorite", favorites);
