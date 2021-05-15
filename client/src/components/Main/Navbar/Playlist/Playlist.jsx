@@ -5,7 +5,40 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/DeleteOutlined";
 import empty from "../../../../images/empty.svg";
 import "./Playlist.css";
+import { Button } from "@material-ui/core";
+import Delete from "@material-ui/icons/Delete";
+import { makeStyles } from "@material-ui/core/styles";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Slide from "@material-ui/core/Slide";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 const Playlist = (props) => {
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const useStyles = makeStyles((theme) => ({
+    button: {
+      backgroundColor: "#000",
+      "&:hover": {
+        backgroundColor: "crimson",
+        color: "#fff",
+      },
+      color: "#fff",
+    },
+  }));
+  const classes = useStyles();
   let [toggle, setToggle] = useState(false);
   let [playlists, setPlaylists] = useState(props.playlists);
   let [searchPlaylists, setSearchPlaylists] = useState(props.playlists);
@@ -64,19 +97,73 @@ const Playlist = (props) => {
         props.playlists.find((obj) => obj.name === currentPlaylist.name)
       );
   }, [props.playlists]);
+  const deleteAll = async (e) => {
+    e.preventDefault();
+    const res = await fetch("http://localhost:5000/deletePlaylist", {
+      method: "DELETE",
+      body: JSON.stringify({
+        email: localStorage.getItem("user").trim(),
+        playlistName: currentPlaylist.name,
+      }),
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    if (res.status === 200) {
+      const data = await res.json();
+      props.snackBar("Playlist Deleted Successfully", "success");
+    }
+    setOpen(false);
+  };
   return toggle ? (
     <div className="container-fluid position-relative my-3 d-flex flex-column align-items-center justofy-content-center playlist-videos">
-      <div
-        className="back-to-playlist h-auto w-auto p-2 position-absolute"
-        onClick={() => setToggle(false)}
-      >
-        <KeyboardBackspaceIcon
-          style={{
-            color: "#fff",
-            height: 30,
-            width: 40,
-          }}
-        />
+      <div className="d-flex w-100 mr-auto">
+        <div
+          className="back-to-playlist p-2 position-absolute "
+          onClick={() => setToggle(false)}
+        >
+          <KeyboardBackspaceIcon
+            style={{
+              color: "#fff",
+              height: 30,
+              width: 40,
+            }}
+          />
+        </div>
+      </div>
+      <div className="tot-delete mt-4 position-absolute">
+        <Button
+          className={classes.button}
+          startIcon={<Delete />}
+          onClick={handleClickOpen}
+        >
+          Delete All
+        </Button>
+        <Dialog
+          open={open}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-slide-title"
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle id="alert-dialog-slide-title">
+            {`Are you sure want to delete ${currentPlaylist.name} Playlist`}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              Note : It deletes {currentPlaylist.name} Playlist completely
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              No,doesn't
+            </Button>
+            <Button onClick={deleteAll} color="primary">
+              Yes,I want
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
       {currentPlaylist.list.length !== 0 ? (
         <div
@@ -87,7 +174,7 @@ const Playlist = (props) => {
             <div className="img-container">
               <div className="playlist-imgs position-relative">
                 <img
-                  src="https://i.ytimg.com/vi/fRD_3vJagxk/hqdefault.jpg"
+                  src={currentPlaylist.list[0].thumbnails}
                   className="img-fluid"
                 />
                 <div className="playlist-overlay-img position-absolute text-center d-flex align-items-center justify-content-center p-1">
@@ -95,15 +182,36 @@ const Playlist = (props) => {
                 </div>
               </div>
             </div>
-            <div className="playlist-content mt-2">
-              <h3 className="play-name mb-2">
-                {" "}
-                <strong>{currentPlaylist.name}</strong>
-              </h3>
-              <span className="playlist-avg-view">
-                {currentPlaylist.list.length}
-              </span>
-              <hr />
+            {console.log(currentPlaylist)}
+            <div className="d-flex">
+              <div className="playlist-content d-flex flex-column mt-2 mr-auto">
+                <div className="d-flex">
+                  <div className="play-list-text mr-auto text-wrap text-left my-2 ">
+                    <span>
+                      <strong>{currentPlaylist.list[0].title} &middot; {currentPlaylist.list.length} video </strong>
+                    </span>
+                  </div>
+                </div>
+                <div>
+                  <span
+                    style={{ fontSize: 15 }}
+                    className="badge badge-success"
+                  >
+                    {currentPlaylist.list[0].channelTitle} 
+                  </span>
+                </div>
+                <div className="w-75">
+                  <span>{currentPlaylist.list[0].description}</span>
+                </div>
+                {/* <h3 className="play-name mb-2">
+                  {" "}
+                  <strong>{currentPlaylist.name}</strong>
+                </h3>
+                <span className="playlist-avg-view">
+                  {currentPlaylist.list.length} video
+                </span>
+                <hr /> */}
+              </div>
             </div>
           </div>
           <div className="col-md-9">
@@ -169,12 +277,12 @@ const Playlist = (props) => {
           id="nodata"
           className="d-flex align-items-center justify-content-between mt-4"
         >
-          <img className="img-fluid mt-3 mr-3" src={empty} alt="nodata" />
+          <img className="img-fluid mt-5 mr-3" src={empty} alt="nodata" />
           <div
             id="text"
             style={{ textShadow: textShadow() }}
             data-text="You doesn't created any playlist yet."
-            className="mt-3 ml-3 position-relative text-white text-center"
+            className="mt-5 ml-3 position-relative text-white text-center"
           >
             You doesn't add any videos yet.
           </div>
