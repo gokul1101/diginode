@@ -188,7 +188,10 @@ const Playlist = (props) => {
                 <div className="d-flex">
                   <div className="play-list-text mr-auto text-wrap text-left my-2 ">
                     <span>
-                      <strong>{currentPlaylist.list[0].title} &middot; {currentPlaylist.list.length} video </strong>
+                      <strong>
+                        {currentPlaylist.list[0].title} &middot;{" "}
+                        {currentPlaylist.list.length} video{" "}
+                      </strong>
                     </span>
                   </div>
                 </div>
@@ -197,20 +200,12 @@ const Playlist = (props) => {
                     style={{ fontSize: 15 }}
                     className="badge badge-success"
                   >
-                    {currentPlaylist.list[0].channelTitle} 
+                    {currentPlaylist.list[0].channelTitle}
                   </span>
                 </div>
                 <div className="w-75">
                   <span>{currentPlaylist.list[0].description}</span>
                 </div>
-                {/* <h3 className="play-name mb-2">
-                  {" "}
-                  <strong>{currentPlaylist.name}</strong>
-                </h3>
-                <span className="playlist-avg-view">
-                  {currentPlaylist.list.length} video
-                </span>
-                <hr /> */}
               </div>
             </div>
           </div>
