@@ -24,18 +24,17 @@ const Playlist = (props) => {
   const handleClickOpen = () => {
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
   };
   const useStyles = makeStyles((theme) => ({
     button: {
-      backgroundColor: "#000",
+      backgroundColor: "#fff",
       "&:hover": {
         backgroundColor: "crimson",
         color: "#fff",
       },
-      color: "#fff",
+      color: "#000",
     },
   }));
   const classes = useStyles();
@@ -97,7 +96,7 @@ const Playlist = (props) => {
         props.playlists.find((obj) => obj.name === currentPlaylist.name)
       );
   }, [props.playlists]);
-  const deleteAll = async (e) => {
+  const deletePlaylist = async (e) => {
     e.preventDefault();
     const res = await fetch("http://localhost:5000/deletePlaylist", {
       method: "DELETE",
@@ -110,13 +109,18 @@ const Playlist = (props) => {
       },
     });
     if (res.status === 200) {
-      const data = await res.json();
+      let arr = playlists.filter(
+        (playlist) => playlist.name !== currentPlaylist.name
+      );
+      props.setPlaylists(arr);
       props.snackBar("Playlist Deleted Successfully", "success");
     }
     setOpen(false);
+    setCurrentPlaylist(null);
+    setToggle(false);
   };
   return toggle ? (
-    <div className="container-fluid position-relative my-3 d-flex flex-column align-items-center justofy-content-center playlist-videos">
+    <div className="container-fluid position-relative my-3 d-flex flex-column align-items-center playlist-videos">
       <div className="d-flex w-100 mr-auto">
         <div
           className="back-to-playlist p-2 position-absolute "
@@ -137,7 +141,7 @@ const Playlist = (props) => {
           startIcon={<Delete />}
           onClick={handleClickOpen}
         >
-          Delete All
+          Delete Playlist
         </Button>
         <Dialog
           open={open}
@@ -148,24 +152,28 @@ const Playlist = (props) => {
           aria-describedby="alert-dialog-slide-description"
         >
           <DialogTitle id="alert-dialog-slide-title">
-            {`Are you sure want to delete ${currentPlaylist.name} Playlist`}
+            {`Are you sure want to delete ${
+              currentPlaylist ? currentPlaylist.name : ""
+            } Playlist`}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">
-              Note : It deletes {currentPlaylist.name} Playlist completely
+              {`Note : It deletes ${
+                currentPlaylist ? currentPlaylist.name : ""
+              } Playlist completely`}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="primary">
-              No,doesn't
+              No
             </Button>
-            <Button onClick={deleteAll} color="primary">
-              Yes,I want
+            <Button onClick={deletePlaylist} color="primary">
+              Yes
             </Button>
           </DialogActions>
         </Dialog>
       </div>
-      {currentPlaylist.list.length !== 0 ? (
+      {currentPlaylist && currentPlaylist.list.length !== 0 ? (
         <div
           className="d-flex position-relative auto-flex"
           style={{ top: "100px" }}
@@ -181,8 +189,7 @@ const Playlist = (props) => {
                   <i className="fab fa-google-play pr-2"></i>PLAY ALL
                 </div>
               </div>
-            </div>
-            {console.log(currentPlaylist)}
+            </div>            
             <div className="d-flex">
               <div className="playlist-content d-flex flex-column mt-2 mr-auto">
                 <div className="d-flex">

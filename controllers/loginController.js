@@ -48,7 +48,7 @@ const login = async (req, res) => {
       if (!currentUser) res.status(404).send({ message: "user not found" });
       else if (!match) res.status(401).send({ message: "incorrect password" });
       else res.status(200).send(currentUser);
-    })();
+    })().catch((err) => res.status(502).send("error 2"));
   } catch (e) {
     res.status(502).send({ message: "error" });
   }

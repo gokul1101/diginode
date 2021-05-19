@@ -144,7 +144,7 @@ const clearHistory = async (req, res) => {
     );
     res.status(200).send("success");
   } catch (e) {
-    res.status(502).send({ message: "error" });
+    res.status(502).send(e);
   }
 };
 const downloadVideo = (req, res) => {
