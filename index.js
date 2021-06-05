@@ -4,8 +4,12 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
+var corsOptions = {
+  origin: 'https://diginode.herokuapp.com',
+  optionsSuccessStatus: 200
+}
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 const PORT = process.env.PORT || 5000;
