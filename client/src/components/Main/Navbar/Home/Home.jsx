@@ -9,7 +9,7 @@ const Home = (props) => {
   const deleteVideoHistory = async (video) => {
     try {
       const res = await fetch(
-        `http://localhost:5000/video/${video.videoId}/delete`,
+        `/video/${video.videoId}/delete`,
         {
           method: "PATCH",
           headers: {
@@ -32,7 +32,7 @@ const Home = (props) => {
   };
   const clearHistory = async () => {
     try{
-      let res = await fetch(`http://localhost:5000/video/clearHistory`, {
+      let res = await fetch(`/video/clearHistory`, {
         method: "PATCH",
         headers: {
           "Content-type": "application/json",

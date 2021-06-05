@@ -78,7 +78,7 @@ const Navbar = (props) => {
   };
   const getData = async () => {
     if (Object.keys(props.user).length === 0) {
-      const url = "http://localhost:5000/login";
+      const url = "/login";
       const res = await fetch(url, {
         method: "POST",
         body: JSON.stringify({
@@ -113,7 +113,7 @@ const Navbar = (props) => {
     props.setCurrentVideo(vid);
     props.setToggle(true);
     try{
-      const res = await fetch(`http://localhost:5000/video/${videoId}/history`, {
+      const res = await fetch(`/video/${videoId}/history`, {
         method: "PATCH",
         headers: {
           "Content-type": "application/json",

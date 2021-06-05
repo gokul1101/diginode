@@ -67,7 +67,7 @@ const Playlist = (props) => {
     return shadow;
   };
   const deleteVideoFromPlaylist = async (video, playlistName) => {
-    const res = await fetch(`http://localhost:5000/removeFromPlaylist`, {
+    const res = await fetch(`/removeFromPlaylist`, {
       method: "PATCH",
       headers: {
         "Content-type": "application/json",
@@ -98,7 +98,7 @@ const Playlist = (props) => {
   }, [props.playlists]);
   const deletePlaylist = async (e) => {
     e.preventDefault();
-    const res = await fetch("http://localhost:5000/deletePlaylist", {
+    const res = await fetch("/deletePlaylist", {
       method: "DELETE",
       body: JSON.stringify({
         email: localStorage.getItem("user").trim(),

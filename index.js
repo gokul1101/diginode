@@ -1,7 +1,9 @@
-const app = require("express")();
+const express = require("express");
+const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const path = require("path");
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -22,5 +24,10 @@ mongoose.connect(
 
 const router = require("./router/route");
 app.use(router);
+
+app.use(express.static(path.resolve(__dirname, "./client/build")));
+app.get("*", (request, response) => {
+  response.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+});
 
 app.listen(PORT, () => console.log("Connected to port " + PORT));

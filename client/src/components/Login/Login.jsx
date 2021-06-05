@@ -84,7 +84,7 @@ const Login = (props) => {
         props.snackBar("Password does not match", "error");
         return;
       } else {
-        const url = "http://localhost:5000/signup";
+        const url = "/signup";
         const res = await fetch(url, {
           method: "POST",
           body: JSON.stringify({
@@ -112,7 +112,7 @@ const Login = (props) => {
         else props.snackBar("Password should have atmost 10 characters!", "error")
         return;
       } else {
-        const url = "http://localhost:5000/login";
+        const url = "/login";
         const res = await fetch(url, {
           method: "POST",
           body: JSON.stringify({

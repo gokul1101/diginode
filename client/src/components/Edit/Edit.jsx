@@ -15,7 +15,7 @@ const Edit = (props) => {
         props.snackBar("Password should have atmost 10 characters!", "error");
       return;
     }
-    const res = await fetch("http://localhost:5000/edit", {
+    const res = await fetch("/edit", {
       method: "PATCH",
       body: JSON.stringify({
         email: localStorage.getItem("user").trim(),

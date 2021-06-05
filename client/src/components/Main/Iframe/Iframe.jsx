@@ -39,7 +39,7 @@ const Iframe = (props) => {
   const confirmDownload = () => {
     handleClose();
     props.snackBar("Video downloading...", "info");
-    const url = `http://localhost:5000/video/download/${props.currentVideo.videoId}`;
+    const url = `/video/download/${props.currentVideo.videoId}`;
     fetch(url)
       .then((response) => response.blob())
       .then((blob) => {
@@ -59,7 +59,7 @@ const Iframe = (props) => {
     setOpenDownload(false);
   };
   const handleClick = async (playlistName) => {
-    const url = "http://localhost:5000/addToPlaylist";
+    const url = "/addToPlaylist";
     const res = await fetch(url, {
       method: "PATCH",
       body: JSON.stringify({
@@ -89,7 +89,7 @@ const Iframe = (props) => {
       props.snackBar("Playlist name should not be empty", "error");
       return;
     }
-    const url = "http://localhost:5000/createPlaylist";
+    const url = "/createPlaylist";
     const res = await fetch(url, {
       method: "POST",
       body: JSON.stringify({
@@ -120,7 +120,7 @@ const Iframe = (props) => {
     setCheckFavorite(!checkFavorite);
     try {
       const res = await fetch(
-        `http://localhost:5000/video/${videoId}/favorite`,
+        `/video/${videoId}/favorite`,
         {
           method: "PATCH",
           headers: {
