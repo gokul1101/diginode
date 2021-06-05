@@ -13,7 +13,7 @@ const Navbar = (props) => {
     const [fetchData, setFetchData] = useState([]);
     const [fetchTrendData, setFetchTrendData] = useState([]);
     // const API_KEY = "AIzaSyAXL7M66rqm-LH9Fx8JhZsT55j7htNKsDI"; AIzaSyBsAyZ97pvZLsFrIdwiYhDCR5ag9aXvQuQ
-  const API_KEY = "AIzaSyBsAyZ97pvZLsFrIdwiYhDCR5ag9aXvQuQ"; //AIzaSyCdXjI8f3QWwf6HEWVYAPU4-ZVrn4kPoRw
+  const API_KEY = process.env.REACT_APP_API_KEY; //AIzaSyCdXjI8f3QWwf6HEWVYAPU4-ZVrn4kPoRw
   let color = "#xxxxxx".replace(/x/g, (y) =>
     ((Math.random() * 16) | 0).toString(16)
   );

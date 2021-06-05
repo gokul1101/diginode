@@ -2,7 +2,6 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/DeleteOutlined";
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import Trending from "../Trending/Trending";
 
 import VideoContainer from "../VideoContainer/VideoContainer";
 import "./Home.css";

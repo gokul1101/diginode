@@ -1,11 +1,10 @@
 import { Button } from "@material-ui/core";
-import react, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import space from "../../images/FreeVector-Space-Vector.jpg";
 import "./Edit.css";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
 const Edit = (props) => {
-  // console.log(props.snackBar);
   const [newpassword, setNewpassword] = useState("");
   const [confirmnewpassword, setConfirmNewpassword] = useState("");
   const editSubmit = async () => {
@@ -62,6 +61,7 @@ const Edit = (props) => {
             <div className="d-flex">
               <img
                 src={space}
+                alt="img"
                 className="img-fluid"
                 style={{ height: "100vh" }}
               />
@@ -77,6 +77,7 @@ const Edit = (props) => {
             >
               <img
                 src={space}
+                alt="img"
                 style={{ height: "150px", width: "150px", borderRadius: "50%" }}
               />
               <div className="inpu-container d-flex flex-column edit-input">
