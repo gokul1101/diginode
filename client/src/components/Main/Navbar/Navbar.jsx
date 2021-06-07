@@ -12,8 +12,9 @@ const Navbar = (props) => {
     );
     const [fetchData, setFetchData] = useState([]);
     const [fetchTrendData, setFetchTrendData] = useState([]);
-    // const API_KEY = "AIzaSyAXL7M66rqm-LH9Fx8JhZsT55j7htNKsDI"; AIzaSyBsAyZ97pvZLsFrIdwiYhDCR5ag9aXvQuQ
-  const API_KEY = process.env.REACT_APP_API_KEY; //AIzaSyCdXjI8f3QWwf6HEWVYAPU4-ZVrn4kPoRw
+    // const API_KEY = "AIzaSyAXL7M66rqm-LH9Fx8JhZsT55j7htNKsDI";
+  const API_KEY1 = process.env.REACT_APP_API_KEY1; //AIzaSyCdXjI8f3QWwf6HEWVYAPU4-ZVrn4kPoRw
+  const API_KEY2 = process.env.REACT_APP_API_KEY2;
   let color = "#xxxxxx".replace(/x/g, (y) =>
     ((Math.random() * 16) | 0).toString(16)
   );
@@ -24,9 +25,9 @@ const Navbar = (props) => {
     props.snackBar("Logged out successfully!!!", "success");
   };
   const searchVideos = async () => {
-    let url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${query}&maxResults=1&key=${API_KEY}`;
+    let url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${query}&maxResults=15&key=${API_KEY1}`;
     if (query !== "")
-      url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${query}&type=video&maxResults=1&key=${API_KEY}`;
+      url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${query}&type=video&maxResults=15&key=${API_KEY1}`;
     const res = await fetch(url, {
       method: "GET",
       headers: {
@@ -52,7 +53,7 @@ const Navbar = (props) => {
     setQuery("");
   };
   const trendingVideos = async () => {
-    let trendUrl = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&type=video&maxResults=2&regionCode=IN&chart=mostPopular&key=${API_KEY}`;
+    let trendUrl = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&type=video&maxResults=21&regionCode=IN&chart=mostPopular&key=${API_KEY2}`;
     const res = await fetch(trendUrl, {
       method: "GET",
       headers: {
